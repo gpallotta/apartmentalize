@@ -29,19 +29,20 @@ describe Debt do
 
     context "paid" do
       it { should validate_presence_of(:paid) }
-      it { should_not be_paid }
+      describe "default" do
+        it { should_not be_paid }
+      end
     end
 
     context "description" do
+      it { should_not validate_presence_of(:description) }
       it { should ensure_length_of(:description).is_at_most(200) }
     end
 
     context "amount" do
       it { should validate_presence_of(:amount) }
-      it { should_not allow_value(1.234).for(:amount) }
-      it { should_not allow_value(-1).for(:amount) }
-      it { should_not allow_value(0).for(:amount) }
-      it { should_not allow_value('hello').for(:amount) }
+      it { should allow_value(1.23, 1, 1.1).for(:amount) }
+      it { should_not allow_value(1.234, -1, 0, 'hello').for(:amount) }
     end
 
   end

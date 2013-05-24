@@ -36,13 +36,11 @@ describe User do
 
     context "email" do
       it { should validate_presence_of(:email)}
-
       it "validates uniqueness of email" do
         User.new(name: 'Greg', email: 'greg@greg.com', password: '12345678',
                   password_confirmation: '12345678').save!
         should validate_uniqueness_of(:email)
       end # without creation, null constraint on name is violated
-
       it { should allow_value('greg@greg.com').for(:email) }
       it { should_not allow_value('greg@@greg.cpm').for(:email) }
     end
@@ -52,7 +50,6 @@ describe User do
       it { should validate_confirmation_of(:password) }
       it { should ensure_length_of(:password).is_at_least(8) }
     end
-
 
   end
 

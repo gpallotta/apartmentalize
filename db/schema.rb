@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130524001004) do
+ActiveRecord::Schema.define(:version => 20130524002653) do
+
+  create_table "debts", :force => true do |t|
+    t.string   "title",                                                                        :null => false
+    t.string   "description", :limit => 200
+    t.decimal  "amount",                     :precision => 10, :scale => 2,                    :null => false
+    t.boolean  "paid",                                                      :default => false, :null => false
+    t.datetime "created_at",                                                                   :null => false
+    t.datetime "updated_at",                                                                   :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

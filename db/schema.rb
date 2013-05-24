@@ -11,7 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130524130722) do
+ActiveRecord::Schema.define(:version => 20130524135619) do
+
+  create_table "chores", :force => true do |t|
+    t.string   "title",       :null => false
+    t.string   "description"
+    t.integer  "group_id",    :null => false
+    t.integer  "user_id",     :null => false
+    t.boolean  "completed"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "chores", ["group_id"], :name => "index_chores_on_group_id"
+  add_index "chores", ["user_id"], :name => "index_chores_on_user_id"
 
   create_table "comments", :force => true do |t|
     t.string   "content",    :null => false

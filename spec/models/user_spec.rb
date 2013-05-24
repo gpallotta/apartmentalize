@@ -16,6 +16,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  name                   :string(255)      not null
+#  group_id               :integer          not null
 #
 
 require 'spec_helper'
@@ -23,46 +24,59 @@ require 'spec_helper'
 describe User do
 
   describe "properties" do
-    it { should respond_to(:email) }
-    it { should respond_to(:name) }
-    it { should respond_to(:encrypted_password) }
-    it { should respond_to(:password)}
-    it { should respond_to(:password_confirmation)}
-  end
 
-  describe "validations" do
-
-    context 'name' do
+    context "name" do
+      it { should respond_to(:name) }
       it { should validate_presence_of(:name) }
     end
 
     context "email" do
+
+      it { should respond_to(:email) }
       it { should validate_presence_of(:email)}
+      it { should allow_value('greg@greg.com').for(:email) }
+      it { should_not allow_value('greg@@greg.cpm').for(:email) }
+
       it "validates uniqueness of email" do
         User.new(name: 'Greg', email: 'greg@greg.com', password: '12345678',
                   password_confirmation: '12345678',
                   group: Group.new(identifier: '1')).save!
         should validate_uniqueness_of(:email)
       end # without creation, null constraint on name is violated
-      it { should allow_value('greg@greg.com').for(:email) }
-      it { should_not allow_value('greg@@greg.cpm').for(:email) }
     end
 
-    context 'password' do
+    context "password" do
+      it { should respond_to(:encrypted_password) }
+      it { should respond_to(:password)}
+      it { should respond_to(:password_confirmation)}
+
       it { should validate_presence_of(:password) }
       it { should validate_confirmation_of(:password) }
       it { should ensure_length_of(:password).is_at_least(8) }
     end
 
-    context 'associations' do
+  end
+
+  describe "associations" do
+
+    context "debts" do
       it { should have_many(:debts_owed_to).dependent(:destroy) }
       it { should have_many(:debts_they_owe).dependent(:destroy) }
-      it { should have_many(:comments) }
+    end
+
+    context "chores" do
+      it { should have_many(:chores) }
+    end
+
+    context "group" do
       it { should belong_to(:group) }
       it { should validate_presence_of(:group) }
     end
 
-  end
+    context "comments" do
+      it { should have_many(:comments) }
+    end
 
+  end
 
 end

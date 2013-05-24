@@ -26,6 +26,8 @@ describe User do
     it { should respond_to(:email) }
     it { should respond_to(:name) }
     it { should respond_to(:encrypted_password) }
+    it { should respond_to(:password)}
+    it { should respond_to(:password_confirmation)}
   end
 
   describe "validations" do
@@ -49,6 +51,11 @@ describe User do
       it { should validate_presence_of(:password) }
       it { should validate_confirmation_of(:password) }
       it { should ensure_length_of(:password).is_at_least(8) }
+    end
+
+    context 'associations' do
+      it { should have_many(:debts_owed_to).dependent(:destroy) }
+      it { should have_many(:debts_they_owe).dependent(:destroy) }
     end
 
   end

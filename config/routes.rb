@@ -1,6 +1,11 @@
 ApartmentV2::Application.routes.draw do
   devise_for :users
 
+  resources :groups do
+    post :lookup, :on => :collection
+  end
+
+
   root :to => 'front_page#home'
 
 

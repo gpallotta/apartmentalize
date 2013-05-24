@@ -1,0 +1,40 @@
+<div class="row">
+
+  <div class="span4 offset2">
+    <div class="signup-box">
+      <h4>Join existing group</h4>
+
+      <p>
+        Ask your roommates if they've signed up for the site already. If they have, you'll want to get the group identifier from them and enter it here. This will link you up on the site
+      </p>
+
+      <%= simple_form_for :lookup, :url => lookup_groups_path, :method => 'post' do |f| %>
+        <%= f.input :identifier, label: false, placeholder: 'Group identifier', input_html: {class: form_error(@lookup_error)} %>
+        <p class="lookup-error-text">
+          <% if @lookup_error %>
+            Group not found
+          <% end %>
+        </p>
+        <%= f.button :submit, 'Lookup', class: 'btn btn-large btn-inverse' %>
+      <% end %>
+
+    </div>
+  </div>
+
+  <div class="span4">
+    <div class="signup-box">
+      <h4>Create new group</h4>
+      <div class="filler"></div>
+
+      <p>
+        If you're the first one in your apartment to sign up for this service, click this to create a new group. Make note of the group identifier (shown after you click the button) for later use. The group identifier is what will allow you to link up with your roommates on the site.
+      </p>
+
+      <%= simple_form_for @group do |f| %>
+        <%= f.input :identifier, :required => false, label: 'Enter group name.', placeholder: 'Leave blank to generate name' %>
+        <%= f.button :submit, 'Create New Group', class: 'btn btn-large btn-inverse' %>
+      <% end %>
+    </div>
+  </div>
+
+</div>

@@ -13,9 +13,9 @@ describe "unauthenticated pages" do
     before { click_link 'Forgot your password?'}
 
     describe "then clicking on the sign up link" do
-      before { click_link 'Sign up' }
 
       it "directs you to the new group page" do
+        click_link 'Sign up'
         current_path.should eql(new_group_path)
       end
     end
@@ -27,15 +27,18 @@ describe "unauthenticated pages" do
 
     context "with invalid information" do
       before { click_button 'Sign in' }
+
       it "redirects to new session path" do
         current_path.should == new_user_session_path
       end
 
       describe "then clicking on the sign up link" do
         it "directs you to the new group page" do
-          pending
+          click_link 'Sign up'
+          current_path.should eql(new_group_path)
         end
       end
+
     end
 
     context "with valid information" do
@@ -53,8 +56,11 @@ describe "unauthenticated pages" do
   end
 
   describe "signing up" do
-    before do
-      click_button 'Sign up'
+
+    before { click_link 'Sign up' }
+
+    it "directs to the new group page" do
+      current_path.should eql(new_group_path)
     end
 
     describe "setting up group" do

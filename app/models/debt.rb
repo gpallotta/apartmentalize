@@ -16,6 +16,7 @@
 class Debt < ActiveRecord::Base
   belongs_to :user_owed_to, class_name: 'User', foreign_key: "user_owed_to_id"
   belongs_to :user_who_owes, class_name: 'User', foreign_key: "user_who_owes_id"
+  has_many :comments, dependent: :destroy
 
   validates_presence_of :title
   validates_presence_of :amount

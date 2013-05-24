@@ -55,6 +55,7 @@ describe Debt do
       it { should validate_presence_of(:user_who_owes)}
       it { should belong_to(:user_owed_to) }
       it { should belong_to(:user_who_owes) }
+      it { should have_many(:comments).dependent(:destroy) }
     end
 
   end

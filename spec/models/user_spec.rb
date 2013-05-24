@@ -56,8 +56,10 @@ describe User do
     context 'associations' do
       it { should have_many(:debts_owed_to).dependent(:destroy) }
       it { should have_many(:debts_they_owe).dependent(:destroy) }
+      it { should have_many(:comments) }
     end
 
   end
+
 
 end

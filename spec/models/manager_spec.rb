@@ -16,6 +16,20 @@ require 'spec_helper'
 
 describe Manager do
 
+  describe "associations" do
+
+    let(:group) { FactoryGirl.create(:group) }
+    let(:m1) { FactoryGirl.create(:manager, group: group)}
+
+    context "group" do
+      it { should belong_to(:group) }
+      it { should validate_presence_of(:group) }
+      it "sets the correct group" do
+        expect(m1.group).to eql(group)
+      end
+    end
+  end
+
   describe "properties" do
 
     context "name" do
@@ -43,11 +57,6 @@ describe Manager do
 
   end
 
-  describe "associations" do
-    context "group" do
-      it { should belong_to(:group) }
-      it { should validate_presence_of(:group) }
-    end
-  end
+
 
 end

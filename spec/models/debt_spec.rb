@@ -17,44 +17,72 @@ require 'spec_helper'
 
 describe Debt do
 
+  let(:group) { FactoryGirl.create(:group) }
+  let(:user1) { FactoryGirl.create(:user, group: group) }
+  let(:d1) { FactoryGirl.create(:debt, user_owed_to: user1, user_who_owes: user1) }
+  let!(:d2) { FactoryGirl.create(:debt, user_owed_to: user1, user_who_owes: user1) }
+  let!(:d3) { FactoryGirl.create(:debt, user_owed_to: user1, user_who_owes: user1) }
+
+  describe "associations" do
+
+    context "user_owed_to" do
+      it { should validate_presence_of(:user_owed_to)}
+      it { should belong_to(:user_owed_to) }
+      it "sets the user_owed_to" do
+        expect(d1.user_owed_to).to eql(user1)
+      end
+    end
+
+    context "user_who_owes" do
+      it { should validate_presence_of(:user_who_owes)}
+      it { should belong_to(:user_who_owes) }
+      it "sets the user_who_owes" do
+        expect(d1.user_who_owes).to eql(user1)
+      end
+    end
+
+    context "comments" do
+      let!(:c1) { FactoryGirl.create(:comment, user: user1, debt: d1)}
+      let!(:c2) { FactoryGirl.create(:comment, user: user1, debt: d2)}
+
+      it { should have_many(:comments).dependent(:destroy) }
+      it "returns comments which are its own" do
+        expect(d1.comments).to include(c1)
+        expect(d1.comments).not_to include(c2)
+      end
+
+    end
+
+  end # end for associations
+
   describe "scope" do
 
-    let!(:group) { FactoryGirl.create(:group) }
-    let!(:other_group) { FactoryGirl.create(:group) }
-    let!(:other_user) { FactoryGirl.create(:user, group: other_group) }
-    let!(:user1) { FactoryGirl.create(:user, group: group) }
-    let!(:user2) { FactoryGirl.create(:user, group: group) }
-    let!(:d1) { FactoryGirl.create(:debt, user_owed_to: user1, user_who_owes: user2) }
-    let!(:d2) { FactoryGirl.create(:debt, user_owed_to: user2, user_who_owes: user1) }
-    let!(:d3) { FactoryGirl.create(:debt, user_owed_to: other_user, user_who_owes: other_user) }
-
     context "paid status" do
-
       before { d1.update_attributes(paid: true) }
 
       context ".unpaid" do
         it "returns only unpaid debts" do
-          expect(user1.debts.unpaid).not_to include(d1, d3)
-          expect(user1.debts.unpaid).to include(d2)
+          expect(Debt.unpaid).to include(d2, d3)
+          expect(Debt.unpaid).not_to include(d1)
         end
       end
 
       context ".paid" do
         it "returns only paid debts" do
-          expect(user1.debts.paid).to include(d1)
-          expect(user1.debts.paid).not_to include(d2, d3)
+          expect(Debt.paid).to include(d1)
+          expect(Debt.paid).not_to include(d2, d3)
         end
       end
-    end
+    end # end for paid status
 
     describe ".most_recent_first" do
       it "returns newer debts first" do
-        expect(user1.debts.most_recent_first.first).to eql(d2)
-        expect(user1.debts.most_recent_first.second).to eql(d1)
+        expect(Debt.most_recent_first.first).to eql(d3)
+        expect(Debt.most_recent_first.second).to eql(d2)
       end
     end
-
   end
+
 
   describe "properties" do
 
@@ -79,24 +107,6 @@ describe Debt do
       it { should validate_presence_of(:amount) }
       it { should allow_value(1.23, 1, 1.1).for(:amount) }
       it { should_not allow_value(1.234, -1, 0, 'hello').for(:amount) }
-    end
-
-  end
-
-  describe "associations" do
-
-    context "user_owed_to" do
-      it { should validate_presence_of(:user_owed_to)}
-      it { should belong_to(:user_owed_to) }
-    end
-
-    context "user_who_owes" do
-      it { should validate_presence_of(:user_who_owes)}
-      it { should belong_to(:user_who_owes) }
-    end
-
-    context "comments" do
-      it { should have_many(:comments).dependent(:destroy) }
     end
 
   end

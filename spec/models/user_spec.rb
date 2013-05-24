@@ -23,6 +23,65 @@ require 'spec_helper'
 
 describe User do
 
+  describe "associations" do
+
+    describe "scope" do
+      let!(:group) { FactoryGirl.create(:group) }
+      let!(:other_group) { FactoryGirl.create(:group) }
+      let!(:other_user) { FactoryGirl.create(:user, group: other_group) }
+      let!(:user1) { FactoryGirl.create(:user, group: group) }
+      let!(:user2) { FactoryGirl.create(:user, group: group) }
+      let!(:d1) { FactoryGirl.create(:debt, user_owed_to: user1, user_who_owes: user2) }
+      let!(:d2) { FactoryGirl.create(:debt, user_owed_to: user2, user_who_owes: user1) }
+      let!(:d3) { FactoryGirl.create(:debt, user_owed_to: other_user, user_who_owes: other_user) }
+
+      context ".debts" do
+        it "returns all debts for user" do
+          expect(user1.debts).to include(d1, d2)
+          expect(user1.debts).not_to include(d3)
+        end
+      end
+
+      context '.debts_owed_to' do
+        it "returns debts that are owed to you" do
+          expect(user1.debts_owed_to).to include(d1)
+          expect(user1.debts_owed_to).not_to include(d2, d3)
+        end
+      end
+
+      context ".debts_they_owe" do
+        it "returns debts that you owe to other users" do
+          expect(user1.debts_they_owe).to include(d2)
+          expect(user1.debts_they_owe).not_to include(d1, d3)
+        end
+      end
+
+    end
+
+    context "debts" do
+      it { should have_many(:debts_owed_to).dependent(:destroy) }
+      it { should have_many(:debts_they_owe).dependent(:destroy) }
+    end
+
+    context "chores" do
+      it { should have_many(:chores) }
+    end
+
+    context "group" do
+      it { should belong_to(:group) }
+      it { should validate_presence_of(:group) }
+    end
+
+    context "comments" do
+      it { should have_many(:comments) }
+    end
+
+    describe "scopes" do
+
+    end
+
+  end
+
   describe "properties" do
 
     context "name" do
@@ -57,26 +116,8 @@ describe User do
 
   end
 
-  describe "associations" do
-
-    context "debts" do
-      it { should have_many(:debts_owed_to).dependent(:destroy) }
-      it { should have_many(:debts_they_owe).dependent(:destroy) }
-    end
-
-    context "chores" do
-      it { should have_many(:chores) }
-    end
-
-    context "group" do
-      it { should belong_to(:group) }
-      it { should validate_presence_of(:group) }
-    end
-
-    context "comments" do
-      it { should have_many(:comments) }
-    end
-
+  describe "methods" do
+    it { should respond_to(:debts) }
   end
 
 end

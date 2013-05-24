@@ -20,6 +20,7 @@
 #
 
 class User < ActiveRecord::Base
+
   has_many :debts_owed_to, class_name: "Debt",
       foreign_key: "user_owed_to_id", dependent: :destroy
   has_many :debts_they_owe, class_name: "Debt",
@@ -35,4 +36,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   attr_accessible :email, :password, :name, :password_confirmation, :remember_me, :group
+
+  def debts
+    Debt.where("user_who_owes_id = ? or user_owed_to_id = ?", id, id)
+  end
 end

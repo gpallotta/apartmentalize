@@ -48,13 +48,11 @@ describe Debt do
   describe "associations" do
 
     context "user_owed_to" do
-      it { should respond_to(:user_owed_to) }
       it { should validate_presence_of(:user_owed_to)}
       it { should belong_to(:user_owed_to) }
     end
 
     context "user_who_owes" do
-      it { should respond_to(:user_who_owes) }
       it { should validate_presence_of(:user_who_owes)}
       it { should belong_to(:user_who_owes) }
     end

@@ -6,3 +6,41 @@
   @include height-width-cover;
   @include background-cover;
 }
+
+.front-page-spacer {
+  height: 300px;
+}
+
+.intro-message {
+  color: white;
+  margin-top: 60px;
+  .apartment-title {
+    display: block;
+  }
+  font-size: 17px;
+}
+
+.sign-in-wrapper {
+  box-shadow:inset 0px 0px 85px rgba(0,0,0,.5);
+  background-color: #f2f2f2;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 5px;
+  .signin-button {
+    font-size: 14px;
+    padding: 8px;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+}
+
+.signup-button-wrapper {
+  background-color: #f2f2f2;
+  margin-top: 10px;
+  border-radius: 5px;
+  text-align: center;
+  button {
+    width: 100%;
+    height: 100%;
+  }
+}

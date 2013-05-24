@@ -24,11 +24,13 @@ class User < ActiveRecord::Base
   has_many :debts_they_owe, class_name: "Debt",
       foreign_key: "user_who_owes_id", dependent: :destroy
   has_many :comments
+  belongs_to :group
 
   validates_presence_of :name
+  validates_presence_of :group
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  attr_accessible :email, :password, :name, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :name, :password_confirmation, :remember_me, :group
 end

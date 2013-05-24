@@ -8,6 +8,7 @@ describe Group do
 
   describe "validations" do
     it { should validate_presence_of(:identifier) }
+    it { should have_many(:users).dependent(:destroy)}
   end
 
 end

@@ -40,7 +40,8 @@ describe User do
       it { should validate_presence_of(:email)}
       it "validates uniqueness of email" do
         User.new(name: 'Greg', email: 'greg@greg.com', password: '12345678',
-                  password_confirmation: '12345678').save!
+                  password_confirmation: '12345678',
+                  group: Group.new(identifier: '1')).save!
         should validate_uniqueness_of(:email)
       end # without creation, null constraint on name is violated
       it { should allow_value('greg@greg.com').for(:email) }
@@ -57,6 +58,8 @@ describe User do
       it { should have_many(:debts_owed_to).dependent(:destroy) }
       it { should have_many(:debts_they_owe).dependent(:destroy) }
       it { should have_many(:comments) }
+      it { should belong_to(:group) }
+      it { should validate_presence_of(:group) }
     end
 
   end

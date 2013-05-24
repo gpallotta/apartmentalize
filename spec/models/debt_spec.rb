@@ -17,6 +17,45 @@ require 'spec_helper'
 
 describe Debt do
 
+  describe "scope" do
+
+    let!(:group) { FactoryGirl.create(:group) }
+    let!(:other_group) { FactoryGirl.create(:group) }
+    let!(:other_user) { FactoryGirl.create(:user, group: other_group) }
+    let!(:user1) { FactoryGirl.create(:user, group: group) }
+    let!(:user2) { FactoryGirl.create(:user, group: group) }
+    let!(:d1) { FactoryGirl.create(:debt, user_owed_to: user1, user_who_owes: user2) }
+    let!(:d2) { FactoryGirl.create(:debt, user_owed_to: user2, user_who_owes: user1) }
+    let!(:d3) { FactoryGirl.create(:debt, user_owed_to: other_user, user_who_owes: other_user) }
+
+    context "paid status" do
+
+      before { d1.update_attributes(paid: true) }
+
+      context ".unpaid" do
+        it "returns only unpaid debts" do
+          expect(user1.debts.unpaid).not_to include(d1, d3)
+          expect(user1.debts.unpaid).to include(d2)
+        end
+      end
+
+      context ".paid" do
+        it "returns only paid debts" do
+          expect(user1.debts.paid).to include(d1)
+          expect(user1.debts.paid).not_to include(d2, d3)
+        end
+      end
+    end
+
+    describe ".most_recent_first" do
+      it "returns newer debts first" do
+        expect(user1.debts.most_recent_first.first).to eql(d2)
+        expect(user1.debts.most_recent_first.second).to eql(d1)
+      end
+    end
+
+  end
+
   describe "properties" do
 
     context "title" do
@@ -26,7 +65,6 @@ describe Debt do
 
     context "paid" do
       it { should respond_to(:paid) }
-      it { should validate_presence_of(:paid) }
       it { should_not be_paid }
     end
 

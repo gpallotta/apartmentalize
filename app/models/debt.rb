@@ -14,13 +14,17 @@
 #
 
 class Debt < ActiveRecord::Base
+
+  scope :unpaid, where(:paid => false)
+  scope :paid, where(:paid => true)
+  scope :most_recent_first, order("created_at DESC")
+
   belongs_to :user_owed_to, class_name: 'User', foreign_key: "user_owed_to_id"
   belongs_to :user_who_owes, class_name: 'User', foreign_key: "user_who_owes_id"
   has_many :comments, dependent: :destroy
 
   validates_presence_of :title
   validates_presence_of :amount
-  validates_presence_of :paid
   validates_length_of :description, maximum: 200
   validates_numericality_of :amount, :greater_than => 0
   validates_format_of :amount, with: /^\d+(\.\d{1,2})?$/,

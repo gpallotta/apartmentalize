@@ -21,8 +21,10 @@ FactoryGirl.define do
   end
 
   factory :chore do
+    sequence(:title) { |n| "Title #{n}"}
     sequence(:description) { |n| "Description #{n}"}
     group
+    user
   end
 
   factory :debt do
@@ -35,6 +37,20 @@ FactoryGirl.define do
     factory :paid do
       paid true
     end
+  end
+
+  factory :comment do
+    content "Blarg"
+    user
+    debt
+  end
+
+  factory :manager do
+    name 'Name'
+    title 'Title'
+    phone_number '1234567890'
+    address 'street'
+    group
   end
 
 end

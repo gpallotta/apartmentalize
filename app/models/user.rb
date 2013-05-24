@@ -16,6 +16,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  name                   :string(255)      not null
+#  group_id               :integer          not null
 #
 
 class User < ActiveRecord::Base
@@ -24,6 +25,7 @@ class User < ActiveRecord::Base
   has_many :debts_they_owe, class_name: "Debt",
       foreign_key: "user_who_owes_id", dependent: :destroy
   has_many :comments
+  has_many :chores
   belongs_to :group
 
   validates_presence_of :name

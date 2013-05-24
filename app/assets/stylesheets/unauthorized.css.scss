@@ -1,0 +1,7 @@
+@import 'mixins';
+
+.unauthorized-background {
+  background: image-url("skyline.jpg") no-repeat center center fixed;
+  @include height-width-cover;
+  @include background-cover;
+}

@@ -36,12 +36,10 @@ describe Chore do
 
     context "group" do
       it { should belong_to(:group) }
-      it { should respond_to(:group) }
       it { should validate_presence_of(:group) }
     end
 
     context "user" do
-      it { should respond_to(:user) }
       it { should belong_to(:user) }
       it { should validate_presence_of(:user) }
     end

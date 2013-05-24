@@ -31,6 +31,10 @@ describe Group do
       it { should have_many(:chores).dependent(:destroy) }
     end
 
+    context "managers" do
+      it { should have_many(:managers).dependent(:destroy) }
+    end
+
   end
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130524122035) do
+ActiveRecord::Schema.define(:version => 20130524130157) do
 
   create_table "comments", :force => true do |t|
     t.string   "content",    :null => false
@@ -37,6 +37,14 @@ ActiveRecord::Schema.define(:version => 20130524122035) do
 
   add_index "debts", ["user_owed_to_id"], :name => "index_debts_on_user_owed_to_id"
   add_index "debts", ["user_who_owes_id"], :name => "index_debts_on_user_who_owes_id"
+
+  create_table "groups", :force => true do |t|
+    t.string   "identifier", :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "groups", ["identifier"], :name => "index_groups_on_identifier"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

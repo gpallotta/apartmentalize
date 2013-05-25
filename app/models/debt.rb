@@ -21,17 +21,20 @@ class Debt < ActiveRecord::Base
 
   attr_accessible :amount, :description, :paid, :title
 
+  class << self
 
-  def self.unpaid
-    where(:paid => false)
-  end
+    def unpaid
+      where(:paid => false)
+    end
 
-  def self.paid
-    where(:paid => true)
-  end
+    def paid
+      where(:paid => true)
+    end
 
-  def self.most_recent_first
-    order("created_at DESC")
+    def most_recent_first
+      order("created_at DESC")
+    end
+
   end
 
 end

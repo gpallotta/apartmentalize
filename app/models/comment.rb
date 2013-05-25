@@ -9,8 +9,13 @@ class Comment < ActiveRecord::Base
 
   attr_accessible :content, :debt_id, :user_id
 
-  def self.most_recent_first
-    order("created_at DESC")
+
+  class << self
+
+    def most_recent_first
+      order("created_at DESC")
+    end
+
   end
 
 end

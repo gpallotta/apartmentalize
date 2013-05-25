@@ -7,31 +7,31 @@ describe User do
   let(:other_user) { FactoryGirl.create(:user, group: other_group) }
   let(:user1) { FactoryGirl.create(:user, group: group) }
   let(:user2) { FactoryGirl.create(:user, group: group) }
-  let(:d1) { FactoryGirl.create(:debt, user_owed_to: user1, user_who_owes: user2) }
-  let(:d2) { FactoryGirl.create(:debt, user_owed_to: user2, user_who_owes: user1) }
-  let(:d3) { FactoryGirl.create(:debt, user_owed_to: other_user, user_who_owes: other_user) }
+  let(:c1) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user2) }
+  let(:c2) { FactoryGirl.create(:claim, user_owed_to: user2, user_who_owes: user1) }
+  let(:c3) { FactoryGirl.create(:claim, user_owed_to: other_user, user_who_owes: other_user) }
 
   describe "scope" do
 
-    context ".debts" do
-      it { should respond_to(:debts) }
-      it "returns all debts for user" do
-        expect(user1.debts).to include(d1, d2)
-        expect(user1.debts).not_to include(d3)
+    context ".claims" do
+      it { should respond_to(:claims) }
+      it "returns all claims for user" do
+        expect(user1.claims).to include(c1, c2)
+        expect(user1.claims).not_to include(c3)
       end
     end
 
-    context '.debts_owed_to' do
-      it "returns debts that are owed to you" do
-        expect(user1.debts_owed_to).to include(d1)
-        expect(user1.debts_owed_to).not_to include(d2, d3)
+    context '.claims_to_receive' do
+      it "returns claims that are owed to you" do
+        expect(user1.claims_to_receive).to include(c1)
+        expect(user1.claims_to_receive).not_to include(c2, c3)
       end
     end
 
-    context ".debts_they_owe" do
-      it "returns debts that you owe to other users" do
-        expect(user1.debts_they_owe).to include(d2)
-        expect(user1.debts_they_owe).not_to include(d1, d3)
+    context ".claims_to_pay" do
+      it "returns claims that you owe to other users" do
+        expect(user1.claims_to_pay).to include(c2)
+        expect(user1.claims_to_pay).not_to include(c1, c3)
       end
     end
 
@@ -39,21 +39,21 @@ describe User do
 
   describe "associations" do
 
-    context "debts" do
+    context "claims" do
 
-      context "debts_owed_to" do
-        it { should have_many(:debts_owed_to).dependent(:destroy) }
-        it "returns only debts owed to the user" do
-          expect(user1.debts_owed_to).to include(d1)
-          expect(user1.debts_owed_to).not_to include(d2, d3)
+      context "claims_to_receive" do
+        it { should have_many(:claims_to_receive).dependent(:destroy) }
+        it "returns only claims owed to the user" do
+          expect(user1.claims_to_receive).to include(c1)
+          expect(user1.claims_to_receive).not_to include(c2, c3)
         end
       end
 
-      context "debts_they_owe" do
-        it { should have_many(:debts_they_owe).dependent(:destroy) }
-        it "returns only debts that the user owes" do
-          expect(user1.debts_they_owe).to include(d2)
-          expect(user1.debts_they_owe).not_to include(d1, d3)
+      context "claims_to_pay" do
+        it { should have_many(:claims_to_pay).dependent(:destroy) }
+        it "returns only claims that the user owes" do
+          expect(user1.claims_to_pay).to include(c2)
+          expect(user1.claims_to_pay).not_to include(c1, c3)
         end
       end
 
@@ -78,8 +78,8 @@ describe User do
     end
 
     context "comments" do
-      let(:com1) { FactoryGirl.create(:comment, debt: d1, user: user1) }
-      let(:com2) { FactoryGirl.create(:comment, debt: d1, user: user2) }
+      let(:com1) { FactoryGirl.create(:comment, claim: c1, user: user1) }
+      let(:com2) { FactoryGirl.create(:comment, claim: c1, user: user2) }
       it { should have_many(:comments) }
       it "returns comments which belong to the user" do
         expect(user1.comments).to include(com1)

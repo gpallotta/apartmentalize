@@ -4,10 +4,10 @@ describe Comment do
 
   let(:group) { FactoryGirl.create(:group) }
   let(:user1) { FactoryGirl.create(:user, group: group) }
-  let(:d1) { FactoryGirl.create(:debt, user_owed_to: user1, user_who_owes: user1) }
-  let(:d2) { FactoryGirl.create(:debt, user_owed_to: user1, user_who_owes: user1) }
-  let!(:c1) { FactoryGirl.create(:comment, debt: d1, user: user1) }
-  let!(:c2) { FactoryGirl.create(:comment, debt: d2, user: user1) }
+  let(:cl1) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user1) }
+  let(:cl2) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user1) }
+  let!(:c1) { FactoryGirl.create(:comment, claim: cl1, user: user1) }
+  let!(:c2) { FactoryGirl.create(:comment, claim: cl2, user: user1) }
 
   describe "scope" do
     context ".most_recent_first" do
@@ -20,13 +20,13 @@ describe Comment do
 
   describe "associations" do
 
-    context "debt" do
+    context "claim" do
 
-      it { should respond_to(:debt) }
-      it { should belong_to(:debt) }
-      it { should validate_presence_of(:debt) }
-      it "returns the correct debt" do
-        expect(c1.debt).to eql(d1)
+      it { should respond_to(:claim) }
+      it { should belong_to(:claim) }
+      it { should validate_presence_of(:claim) }
+      it "returns the correct claim" do
+        expect(c1.claim).to eql(cl1)
       end
     end
 

@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe Debt do
+describe Claim do
 
   let(:group) { FactoryGirl.create(:group) }
   let(:user1) { FactoryGirl.create(:user, group: group) }
-  let(:d1) { FactoryGirl.create(:debt, user_owed_to: user1, user_who_owes: user1) }
-  let!(:d2) { FactoryGirl.create(:debt, user_owed_to: user1, user_who_owes: user1) }
-  let!(:d3) { FactoryGirl.create(:debt, user_owed_to: user1, user_who_owes: user1) }
+  let(:cl1) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user1) }
+  let!(:cl2) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user1) }
+  let!(:cl3) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user1) }
 
   describe "associations" do
 
@@ -14,7 +14,7 @@ describe Debt do
       it { should validate_presence_of(:user_owed_to)}
       it { should belong_to(:user_owed_to) }
       it "sets the user_owed_to" do
-        expect(d1.user_owed_to).to eql(user1)
+        expect(cl1.user_owed_to).to eql(user1)
       end
     end
 
@@ -22,18 +22,18 @@ describe Debt do
       it { should validate_presence_of(:user_who_owes)}
       it { should belong_to(:user_who_owes) }
       it "sets the user_who_owes" do
-        expect(d1.user_who_owes).to eql(user1)
+        expect(cl1.user_who_owes).to eql(user1)
       end
     end
 
     context "comments" do
-      let!(:c1) { FactoryGirl.create(:comment, user: user1, debt: d1)}
-      let!(:c2) { FactoryGirl.create(:comment, user: user1, debt: d2)}
+      let!(:c1) { FactoryGirl.create(:comment, user: user1, claim: cl1)}
+      let!(:c2) { FactoryGirl.create(:comment, user: user1, claim: cl2)}
 
       it { should have_many(:comments).dependent(:destroy) }
       it "returns comments which are its own" do
-        expect(d1.comments).to include(c1)
-        expect(d1.comments).not_to include(c2)
+        expect(cl1.comments).to include(c1)
+        expect(cl1.comments).not_to include(c2)
       end
 
     end
@@ -43,27 +43,27 @@ describe Debt do
   describe "scope" do
 
     context "paid status" do
-      before { d1.update_attributes(paid: true) }
+      before { cl1.update_attributes(paid: true) }
 
       context ".unpaid" do
-        it "returns only unpaid debts" do
-          expect(Debt.unpaid).to include(d2, d3)
-          expect(Debt.unpaid).not_to include(d1)
+        it "returns only unpaid claims" do
+          expect(Claim.unpaid).to include(cl2, cl3)
+          expect(Claim.unpaid).not_to include(cl1)
         end
       end
 
       context ".paid" do
-        it "returns only paid debts" do
-          expect(Debt.paid).to include(d1)
-          expect(Debt.paid).not_to include(d2, d3)
+        it "returns only paid claims" do
+          expect(Claim.paid).to include(cl1)
+          expect(Claim.paid).not_to include(cl2, cl3)
         end
       end
     end # end for paid status
 
     describe ".most_recent_first" do
-      it "returns newer debts first" do
-        expect(Debt.most_recent_first.first).to eql(d3)
-        expect(Debt.most_recent_first.second).to eql(d2)
+      it "returns newer claims first" do
+        expect(Claim.most_recent_first.first).to eql(cl3)
+        expect(Claim.most_recent_first.second).to eql(cl2)
       end
     end
   end

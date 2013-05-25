@@ -1,18 +1,3 @@
-# == Schema Information
-#
-# Table name: debts
-#
-#  id               :integer          not null, primary key
-#  title            :string(255)      not null
-#  description      :string(200)
-#  amount           :decimal(10, 2)   not null
-#  paid             :boolean          default(FALSE), not null
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  user_owed_to_id  :integer          not null
-#  user_who_owes_id :integer          not null
-#
-
 require 'spec_helper'
 
 describe Debt do

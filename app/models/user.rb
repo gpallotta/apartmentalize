@@ -1,12 +1,12 @@
 class User < ActiveRecord::Base
 
-  has_many :debts_owed_to,
-            class_name: "Debt",
+  has_many :claims_to_receive,
+            class_name: "Claim",
             foreign_key: "user_owed_to_id",
             dependent: :destroy
 
-  has_many :debts_they_owe,
-            class_name: "Debt",
+  has_many :claims_to_pay,
+            class_name: "Claim",
             foreign_key: "user_who_owes_id",
             dependent: :destroy
 
@@ -22,7 +22,8 @@ class User < ActiveRecord::Base
 
   attr_accessible :email, :password, :name, :password_confirmation, :remember_me, :group
 
-  def debts
-    Debt.where("user_who_owes_id = ? or user_owed_to_id = ?", id, id)
+  def claims
+    Claim.where("user_who_owes_id = ? or user_owed_to_id = ?", id, id)
   end
+
 end

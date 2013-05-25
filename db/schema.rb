@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130524144932) do
+ActiveRecord::Schema.define(:version => 20130525154246) do
 
   create_table "chores", :force => true do |t|
     t.string   "title",       :null => false
@@ -26,18 +26,7 @@ ActiveRecord::Schema.define(:version => 20130524144932) do
   add_index "chores", ["group_id"], :name => "index_chores_on_group_id"
   add_index "chores", ["user_id"], :name => "index_chores_on_user_id"
 
-  create_table "comments", :force => true do |t|
-    t.string   "content",    :null => false
-    t.integer  "user_id",    :null => false
-    t.integer  "debt_id",    :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "comments", ["debt_id"], :name => "index_comments_on_debt_id"
-  add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
-
-  create_table "debts", :force => true do |t|
+  create_table "claims", :force => true do |t|
     t.string   "title",                                                                             :null => false
     t.string   "description",      :limit => 200
     t.decimal  "amount",                          :precision => 10, :scale => 2,                    :null => false
@@ -48,8 +37,19 @@ ActiveRecord::Schema.define(:version => 20130524144932) do
     t.integer  "user_who_owes_id",                                                                  :null => false
   end
 
-  add_index "debts", ["user_owed_to_id"], :name => "index_debts_on_user_owed_to_id"
-  add_index "debts", ["user_who_owes_id"], :name => "index_debts_on_user_who_owes_id"
+  add_index "claims", ["user_owed_to_id"], :name => "index_debts_on_user_owed_to_id"
+  add_index "claims", ["user_who_owes_id"], :name => "index_debts_on_user_who_owes_id"
+
+  create_table "comments", :force => true do |t|
+    t.string   "content",    :null => false
+    t.integer  "user_id",    :null => false
+    t.integer  "claim_id",   :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "comments", ["claim_id"], :name => "index_comments_on_debt_id"
+  add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
   create_table "groups", :force => true do |t|
     t.string   "identifier", :null => false

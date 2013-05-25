@@ -27,8 +27,8 @@ FactoryGirl.define do
     user
   end
 
-  factory :debt do
-    sequence(:title) { |n| "Debt_title #{n}" }
+  factory :claim do
+    sequence(:title) { |n| "Claim_title #{n}" }
     amount 25.00
     paid false
     user_owed_to
@@ -42,7 +42,7 @@ FactoryGirl.define do
   factory :comment do
     content "Blarg"
     user
-    debt
+    claim
   end
 
   factory :manager do

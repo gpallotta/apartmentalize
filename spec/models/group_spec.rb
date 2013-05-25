@@ -2,15 +2,6 @@ require 'spec_helper'
 
 describe Group do
 
-  describe "properties" do
-
-    context "identifier" do
-      it { should respond_to(:identifier) }
-      it { should validate_presence_of(:identifier) }
-    end
-
-  end
-
   describe "associations" do
 
     let(:group) { FactoryGirl.create(:group) }
@@ -47,6 +38,39 @@ describe Group do
       end
     end
 
+  end
+
+
+  describe "properties" do
+
+    context "identifier" do
+      it { should respond_to(:identifier) }
+      it { should validate_uniqueness_of(:identifier) }
+      it { should validate_presence_of(:identifier)}
+    end
+
+  end
+
+
+  describe "callbacks" do
+
+    context ".create_identifier" do
+      let(:group) { Group.new }
+      before { group.save }
+
+      it "saves the group when no identifier is specified" do
+        expect { Group.count }.not_to eql(0)
+      end
+      it "sets the identifier" do
+        expect(group.identifier).not_to be_blank
+      end
+      it "does not overwrite a passed in identifier" do
+        g = Group.new(identifier: 'passed_in')
+        g.save
+        expect(g.identifier).to eql('passed_in')
+      end
+
+    end
   end
 
 end

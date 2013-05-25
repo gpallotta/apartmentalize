@@ -50,7 +50,8 @@ describe "unauthenticated pages" do
       end
 
       it "signs in the user" do
-        pending
+        should have_link('Sign out')
+        expect(current_path).to eql(root_path)
       end
     end
   end
@@ -66,16 +67,69 @@ describe "unauthenticated pages" do
     describe "setting up group" do
 
       context "with existing group" do
-        pending
+
+        context "when the identifier exists" do
+
+          before do
+            FactoryGirl.create(:group, identifier: 'exists')
+            fill_in 'lookup_identifier', with: 'exists'
+            click_button 'Lookup'
+          end
+
+          it "uses the entered identifier for the group" do
+            pending
+          end
+          it "displays the group identifier on the page" do
+            should have_content('exists')
+          end
+
+        end
+
+        context "when the identifier does not exist" do
+
+          before do
+            fill_in 'lookup_identifier', with: 'not here'
+            click_button 'Lookup'
+          end
+
+          it "brings the user back to the new group page" do
+            should have_content("Join existing group")
+          end
+
+          it "renders errors" do
+            should have_content("Group not found")
+          end
+
+        end
+
       end
 
       context "with new group" do
+
         context "providing no identifier and using default" do
-          pending
+
+          it "creates a group" do
+            expect { click_button 'Create New Group' }.to change {Group.count}.by(1)
+          end
+          it "generates a default" do
+            pending
+          end
         end
 
         context "providing an identifier to use" do
-          pending
+
+          context "When the identifier has been taken" do
+            pending
+          end
+
+          context "when the identifier has not been taken" do
+            it "creates a new group" do
+            end
+
+            it "sets the identifier to the provided string" do
+            end
+          end
+
         end
       end
 

@@ -26,6 +26,7 @@ end
 group :test do
   gem 'rspec-rails'
   gem 'capybara'
+  gem 'launchy'
   gem 'shoulda-matchers'
   gem 'factory_girl_rails'
 end

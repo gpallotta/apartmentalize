@@ -1,11 +1,13 @@
 class Debt < ActiveRecord::Base
 
-  scope :unpaid, where(:paid => false)
-  scope :paid, where(:paid => true)
-  scope :most_recent_first, order("created_at DESC")
+  belongs_to :user_owed_to,
+              class_name: 'User',
+              foreign_key: "user_owed_to_id"
 
-  belongs_to :user_owed_to, class_name: 'User', foreign_key: "user_owed_to_id"
-  belongs_to :user_who_owes, class_name: 'User', foreign_key: "user_who_owes_id"
+  belongs_to :user_who_owes,
+              class_name: 'User',
+              foreign_key: "user_who_owes_id"
+
   has_many :comments, dependent: :destroy
 
   validates_presence_of :title
@@ -18,4 +20,18 @@ class Debt < ActiveRecord::Base
   validates_presence_of :user_who_owes
 
   attr_accessible :amount, :description, :paid, :title
+
+
+  def self.unpaid
+    where(:paid => false)
+  end
+
+  def self.paid
+    where(:paid => true)
+  end
+
+  def self.most_recent_first
+    order("created_at DESC")
+  end
+
 end

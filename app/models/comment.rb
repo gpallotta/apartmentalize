@@ -1,5 +1,4 @@
 class Comment < ActiveRecord::Base
-  scope :most_recent_first, order("created_at DESC")
 
   belongs_to :debt
   belongs_to :user
@@ -9,4 +8,9 @@ class Comment < ActiveRecord::Base
   validates_presence_of :user
 
   attr_accessible :content, :debt_id, :user_id
+
+  def self.most_recent_first
+    order("created_at DESC")
+  end
+
 end

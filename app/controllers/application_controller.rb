@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   layout :user_authorized
   protect_from_forgery
+  include SessionsHelper
 
   private
 

@@ -76,11 +76,29 @@ describe "unauthenticated pages" do
             click_button 'Lookup'
           end
 
-          it "uses the entered identifier for the group" do
-            pending
-          end
           it "displays the group identifier on the page" do
             should have_content('exists')
+          end
+
+          context "then creating a user" do
+
+            before do
+              fill_in 'user_name', with: 'Valid name'
+              fill_in 'user_email', with: 'valid@email.com'
+              fill_in 'user_password', with: '12345678'
+              fill_in 'user_password_confirmation', with: '12345678'
+            end
+
+            it "creates the user" do
+              expect { click_button 'Sign up' }.to change { User.count }.by(1)
+            end
+
+            it "sets up the group association" do
+              click_button 'Sign up'
+              expect(User.first.group).not_to be(nil)
+              expect(User.first.group.identifier).to eql('exists')
+            end
+
           end
 
         end
@@ -138,7 +156,19 @@ describe "unauthenticated pages" do
     describe "then creating a user" do
 
       context "with invalid information" do
-        pending
+
+        context "with no name" do
+        end
+
+        context "with no email" do
+        end
+
+        context "when password has been taken" do
+        end
+
+        context "with password not matching confirmation" do
+        end
+
       end
 
       context "with valid information" do

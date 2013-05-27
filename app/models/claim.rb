@@ -1,4 +1,4 @@
-class Debt < ActiveRecord::Base
+class Claim < ActiveRecord::Base
 
   belongs_to :user_owed_to,
               class_name: 'User',

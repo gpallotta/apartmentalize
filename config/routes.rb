@@ -1,5 +1,6 @@
 ApartmentV2::Application.routes.draw do
-  devise_for :users
+
+  devise_for :users, :controllers => {:registrations => "registrations"}
 
   resources :groups do
     post :lookup, :on => :collection

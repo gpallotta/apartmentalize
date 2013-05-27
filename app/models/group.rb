@@ -1,5 +1,5 @@
 class Group < ActiveRecord::Base
-  after_initialize :create_identifier
+  before_validation :create_identifier
 
   has_many :users, dependent: :destroy
   has_many :chores, dependent: :destroy

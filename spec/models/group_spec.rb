@@ -46,7 +46,6 @@ describe Group do
     context "identifier" do
       it { should respond_to(:identifier) }
       it { should validate_uniqueness_of(:identifier) }
-      it { should validate_presence_of(:identifier)}
     end
 
   end

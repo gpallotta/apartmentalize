@@ -23,13 +23,17 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-group :test do
+group :development, :test do
   gem 'rspec-rails'
+end
+
+group :test do
   gem 'valid_attribute'
   gem 'capybara'
   gem 'launchy'
   gem 'shoulda-matchers'
   gem 'factory_girl_rails'
+  gem 'spork'
 end
 
 gem 'jquery-rails'

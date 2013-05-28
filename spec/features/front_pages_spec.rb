@@ -13,7 +13,11 @@ describe "front pages" do
   end
 
   describe "current chore" do
-    pending
+    let!(:chore) { FactoryGirl.create(:chore, user: user)}
+    it "shows chores currently assigned to you" do
+      visit root_path
+      should have_content(chore.title)
+    end
   end
 
   describe "debt links" do

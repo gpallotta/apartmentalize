@@ -2,10 +2,8 @@ class Manager < ActiveRecord::Base
 
   belongs_to :group
 
-  validates_presence_of :title
   validates_presence_of :name
-  validates_presence_of :phone_number
-  validates_presence_of :address
+  validates_presence_of :title
   validates_presence_of :group
 
   validates_length_of :phone_number, is: 10

@@ -41,6 +41,16 @@ describe "header" do
       end
     end
 
+    context 'profile' do
+      it "has a profile link" do
+        should have_link 'Profile', href: user_path(user)
+      end
+      it "takes you to the user profile page" do
+        click_link 'Profile'
+        expect(current_path).to eql(user_path(user))
+      end
+    end
+
   end
 
 end

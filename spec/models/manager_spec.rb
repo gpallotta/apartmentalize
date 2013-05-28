@@ -30,7 +30,6 @@ describe Manager do
 
     context "phone_number" do
       it { should respond_to(:phone_number) }
-      it { should validate_presence_of(:phone_number) }
       it { should ensure_length_of(:phone_number).is_equal_to(10) }
       it { should allow_value('1234567890').for(:phone_number) }
       it { should_not allow_value('a234567890').for(:phone_number) }
@@ -38,7 +37,6 @@ describe Manager do
 
     context "address" do
       it { should respond_to(:address) }
-      it { should validate_presence_of(:address) }
     end
 
   end

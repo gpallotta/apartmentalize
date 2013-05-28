@@ -4,6 +4,10 @@ class ClaimsController < ApplicationController
     @claim = Claim.new
   end
 
+  def show
+    @claim = Claim.find(params[:id])
+  end
+
   def create
     current_user.group.users.each do |other|
       if params[other.name]
@@ -26,7 +30,7 @@ class ClaimsController < ApplicationController
   def update
     @claim = Claim.find(params[:id])
     if @claim.update_attributes(params[:claim])
-      redirect_to claims_path
+      redirect_to claim_path(@claim)
     else
       render 'edit'
     end
@@ -35,6 +39,12 @@ class ClaimsController < ApplicationController
   def destroy
     @claim = Claim.find(params[:id])
     @claim.destroy
+    redirect_to claims_path
+  end
+
+  def mark_as_paid
+    @claim = Claim.find(params[:id])
+    @claim.update_attributes(paid: true)
     redirect_to claims_path
   end
 

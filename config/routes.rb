@@ -7,7 +7,9 @@ ApartmentV2::Application.routes.draw do
   end
 
   resources :chores
-  resources :claims
+  resources :claims do
+    put :mark_as_paid, :on => :member
+  end
   resources :users, :only => [:show]
   resources :managers
 

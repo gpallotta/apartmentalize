@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130525154246) do
+ActiveRecord::Schema.define(:version => 20130528172852) do
 
   create_table "chores", :force => true do |t|
     t.string   "title",       :null => false
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20130525154246) do
     t.integer  "group_id",     :null => false
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+    t.string   "email"
   end
 
   add_index "managers", ["group_id"], :name => "index_managers_on_group_id"

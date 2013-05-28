@@ -48,6 +48,7 @@ FactoryGirl.define do
   factory :manager do
     name 'Greg'
     title 'Landlord'
+    email 'landlord@landlord.com'
     phone_number '1234567890'
     address 'street'
     group

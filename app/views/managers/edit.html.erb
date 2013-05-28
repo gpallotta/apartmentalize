@@ -4,6 +4,7 @@
       <%= simple_form_for(@manager) do |f| %>
         <%= f.input :title, error: false, value: @manager.title %>
         <%= f.input :name, error: false, value: @manager.name %>
+        <%= f.input :email, error: false, value: @manager.email %>
         <%= f.input :address, error: false, value: @manager.address %>
         <%= f.input :phone_number, error: false, value: @manager.phone_number %>
         <%= f.button :submit, 'Save Changes', class: 'btn btn-large btn-primary' %>

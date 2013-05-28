@@ -5,6 +5,7 @@ class ClaimsController < ApplicationController
   end
 
   def show
+    @comment = Comment.new
     @claim = Claim.find(params[:id])
   end
 

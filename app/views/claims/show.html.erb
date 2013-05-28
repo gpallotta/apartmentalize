@@ -3,6 +3,25 @@
   <div class="span6 offset3">
     <h2><%= @claim.title %></h2>
     <%= link_to 'Edit', edit_claim_path(@claim) %>
+
+    <ul>
+      <% @claim.comments.each do |com| %>
+        <%= com.user.name %>
+        <%= com.content %>
+        <%= link_to 'Edit Comment', edit_comment_path(com) %>
+      <% end %>
+    </ul>
+
+    <div>
+      <%= simple_form_for(@comment, :html => {class: 'form-inline'}) do |f| %>
+      <%= f.input :content, label: false, placeholder: 'Comment' %>
+      <%= f.input :claim_id, :as => :hidden, :input_html => { :value => @claim.id } %>
+      <%= f.button :submit, 'Comment' %>
+      <% end %>
+    </div>
+
   </div>
+
+
 
 </div>

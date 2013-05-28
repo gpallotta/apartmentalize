@@ -40,7 +40,7 @@ FactoryGirl.define do
   end
 
   factory :comment do
-    content "Blarg"
+    sequence(:content) { |n| "Blarg#{n}"}
     user
     claim
   end

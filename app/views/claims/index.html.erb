@@ -1,1 +1,30 @@
-Hello
+<div class="row">
+
+  <div class="span2">
+    <%= simple_form_for(@claim, :html => {class: 'form-inline'}) do |f| %>
+      <%= f.input :title, placeholder: 'Title', error: false, label: false %>
+      <%= f.input :description, placeholder: 'Description', error: false, label: false %>
+      <%= f.input :amount, placeholder: 'Amount', error: false, label: false %>
+      <% current_user.group.users.each do |other| %>
+        <% if other.id != current_user.id %>
+          <%= f.label other.name %>
+          <%= check_box_tag(other.name, value = 1, 'active') %>
+        <% end %>
+      <% end %>
+      <%= f.button :submit %>
+    <% end %>
+  </div>
+
+  <div class="span8 offset1">
+    <ul>
+      <% current_user.claims.unpaid.each do |c| %>
+        <li>
+        <%= c.title %>
+        <%= c.amount %>
+        <%= link_to 'Edit', edit_claim_path(c) %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+</div>

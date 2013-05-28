@@ -7,6 +7,7 @@ ApartmentV2::Application.routes.draw do
   end
 
   resources :chores
+  resources :debts
 
   root :to => 'front_page#home'
 

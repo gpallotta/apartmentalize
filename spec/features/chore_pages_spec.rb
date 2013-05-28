@@ -17,9 +17,7 @@ describe "chore pages" do
 
   describe "viewing chores" do
 
-
     it "displays info about each chore" do
-      visit chores_path
       should have_content(ch1.title)
       should have_content(ch1.description)
       should have_content(ch1.user.name)
@@ -28,7 +26,6 @@ describe "chore pages" do
 
   describe "creating chores" do
 
-    before { select(user.name, :from => 'chore_user_id') }
 
     context "with invalid info" do
 
@@ -43,6 +40,7 @@ describe "chore pages" do
       before do
         fill_in 'chore_title', with: 'Test title'
         fill_in 'chore_description', with: 'Test description'
+        select(user.name, :from => 'chore_user_id')
       end
 
       it "creates a chore" do
@@ -56,7 +54,6 @@ describe "chore pages" do
   describe "editing chores" do
 
     before do
-      visit chores_path
       click_link 'Edit'
     end
 
@@ -85,7 +82,6 @@ describe "chore pages" do
   describe "deleting chores" do
 
     before do
-      visit chores_path
       click_link 'Edit'
     end
 

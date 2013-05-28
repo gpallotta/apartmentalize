@@ -1,5 +1,7 @@
 @import 'mixins';
 
+$unauth-box-shadow: inset 0px 0px 85px rgba(0,0,0,.5);
+
 .unauthorized-background {
   min-height: 100%;
   background: image-url("skyline.jpg") no-repeat center center fixed;
@@ -8,7 +10,7 @@
 }
 
 .front-page-spacer {
-  height: 300px;
+  height: 200px;
 }
 
 .intro-message {
@@ -20,8 +22,9 @@
   font-size: 17px;
 }
 
+
 .sign-in-wrapper {
-  box-shadow:inset 0px 0px 85px rgba(0,0,0,.5);
+  box-shadow: $unauth-box-shadow;
   background-color: #f2f2f2;
   margin: 0 auto;
   padding: 20px;

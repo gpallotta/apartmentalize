@@ -8,8 +8,6 @@ describe "unauthenticated pages" do
   before { visit root_path }
   subject { page }
 
-
-
   describe "resetting password" do
 
     before { click_link 'Forgot your password?'}

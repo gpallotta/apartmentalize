@@ -46,8 +46,8 @@ FactoryGirl.define do
   end
 
   factory :manager do
-    name 'Name'
-    title 'Title'
+    name 'Greg'
+    title 'Landlord'
     phone_number '1234567890'
     address 'street'
     group

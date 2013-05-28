@@ -165,6 +165,9 @@ describe "claim pages" do
           expect(page).to have_content(com.user.name)
           expect(page).to have_content(com2.user.name)
         end
+        it "only shows edit links for your comments" do
+          expect(page).not_to have_link("Edit Comment", href: edit_comment_path(com2))
+        end
       end
 
       describe "creating comments" do

@@ -1,27 +1,67 @@
 <div class="row">
-
   <div class="span6 offset3">
-    <h2><%= @claim.title %></h2>
-    <%= link_to 'Edit', edit_claim_path(@claim) %>
+    <div class="well">
 
-    <ul>
-      <% @claim.comments.each do |com| %>
-        <%= com.user.name %>
-        <%= com.content %>
-        <%= link_to 'Edit Comment', edit_comment_path(com) %>
-      <% end %>
-    </ul>
+      <div class="claim-header-wrapper">
+        <div class="title-amount-wrapper">
+          <div class="claim-header-text"><%= @claim.title %> <%= @claim.amount %></div>
+          <div class="claim-description"><%= @claim.description %></div>
+        </div>
+        <div class="user-wrapper">
+          <div class="claim-header-text"><%= @claim.user_owed_to.name %></div>
+          <div class="claim-header-text"><%= @claim.user_who_owes.name %></div>
+        </div>
+      </div>
 
-    <div>
-      <%= simple_form_for(@comment, :html => {class: 'form-inline'}) do |f| %>
-      <%= f.input :content, label: false, placeholder: 'Comment' %>
-      <%= f.input :claim_id, :as => :hidden, :input_html => { :value => @claim.id } %>
-      <%= f.button :submit, 'Comment' %>
-      <% end %>
+      <div class="claim-button-wrapper">
+        <div class="row">
+
+          <div class="span2 offset1">
+            <button class="btn btn-inverse edit-button">
+              <%= link_to 'Edit', edit_claim_path(@claim) %>
+            </button>
+          </div>
+          <div class="span2">
+            <button class="btn btn-inverse">
+              <%= link_to 'Mark as paid', mark_as_paid_claim_path(@claim), method: 'put' %>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="claim-comment-wrapper">
+        <div class="row">
+          <div class="span4 offset1">
+            <div class="comment-form-wrapper">
+              <%= simple_form_for(@comment, :html => {class: 'form-inline'}) do |f| %>
+              <%= f.input :content, :as => :text, label: false, placeholder: 'Comment',
+              :input_html => { :cols => 50, :rows => 3 }
+              %>
+              <%= f.input :claim_id, :as => :hidden, :input_html => { :value => @claim.id } %>
+              <%= f.button :submit, 'Comment' %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+          <ul class="comments-list">
+            <% @claim.comments.each do |com| %>
+              <div class="row">
+                <div class="span3 offset1">
+                  <li>
+                    <div><%= com.user.name %> on <%= com.created_at.strftime("%B %d, %Y") %></div>
+                    <%= com.content %>
+                    <% if com.user.id == current_user.id %>
+                      <p><%= link_to 'Edit Comment', edit_comment_path(com) %></p>
+                    <% end %>
+                  </li>
+                </div>
+              </div>
+            <% end %>
+          </ul>
+      </div>
+
     </div>
-
   </div>
-
-
-
 </div>

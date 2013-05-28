@@ -35,6 +35,7 @@ describe Chore do
 
     context "description" do
       it { should respond_to(:description) }
+      it { should validate_presence_of(:description) }
     end
 
     context "completed" do

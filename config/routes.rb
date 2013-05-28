@@ -6,6 +6,7 @@ ApartmentV2::Application.routes.draw do
     post :lookup, :on => :collection
   end
 
+  resources :chores
 
   root :to => 'front_page#home'
 

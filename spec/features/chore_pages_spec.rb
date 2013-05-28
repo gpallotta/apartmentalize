@@ -81,9 +81,7 @@ describe "chore pages" do
 
   describe "deleting chores" do
 
-    before do
-      click_link 'Edit'
-    end
+    before { click_link 'Edit' }
 
     it "deletes the chore" do
       expect{ click_link 'Delete' }.to change{ Chore.count }.by(-1)

@@ -28,6 +28,10 @@ describe Manager do
       it { should validate_presence_of(:title) }
     end
 
+    context "email" do
+      it { should respond_to(:email) }
+    end
+
     context "phone_number" do
       it { should respond_to(:phone_number) }
       it { should ensure_length_of(:phone_number).is_equal_to(10) }

@@ -32,7 +32,7 @@ describe "group pages" do
       it "displays info about each manager" do
         should have_content(manager.name)
         should have_content(manager.title)
-        # should have_content(manager.email)
+        should have_content(manager.email)
         should have_content(manager.address)
         should have_content(manager.phone_number)
       end

@@ -33,11 +33,11 @@ describe "header" do
 
     context 'debts' do
       it "has a debts link" do
-        should have_link 'Debts', href: debts_path
+        should have_link 'Claims', href: claims_path
       end
       it "takes you to the debts index page" do
-        click_link 'Debts'
-        expect(current_path).to eql(debts_path)
+        click_link 'Claims'
+        expect(current_path).to eql(claims_path)
       end
     end
 

@@ -1,18 +1,18 @@
 require 'spec_helper'
 
-describe "debt pages" do
+describe "claim pages" do
 
   let(:group) { FactoryGirl.create(:group) }
   let(:user) { FactoryGirl.create(:user, group: group) }
 
   before do
     sign_in user
-    visit debts_path
+    visit claims_path
   end
 
   subject { page }
 
-  describe "creating debts" do
+  describe "creating claims" do
     context "with invalid info" do
     end
 
@@ -21,8 +21,8 @@ describe "debt pages" do
     end
   end
 
-  describe "viewing debts" do
-    it "displays all unpaid debts related to you by default" do
+  describe "viewing claims" do
+    it "displays all unpaid claims related to you by default" do
     end
   end
 

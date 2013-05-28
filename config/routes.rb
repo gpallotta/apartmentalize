@@ -7,7 +7,7 @@ ApartmentV2::Application.routes.draw do
   end
 
   resources :chores
-  resources :debts
+  resources :claims
   resources :users, :only => [:show]
   resources :managers
 

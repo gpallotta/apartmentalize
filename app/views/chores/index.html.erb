@@ -25,7 +25,7 @@
       <%= simple_form_for(@chore, :html => {:class => 'form-inline'}) do |f| %>
         <%= f.input :title, label: false, placeholder: 'Title', error: false %>
         <%= f.input :description, label: false, placeholder: 'Description', error: false %>
-        <%= f.association :user %>
+        <%= f.association :user, label: false %>
         <%= f.button :submit %>
       <% end %>
 

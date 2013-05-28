@@ -4,6 +4,11 @@
 
   <div class="span5 offset1">
 
+    <h2><%= current_user.name %></h2>
+    <%= link_to 'Edit', edit_user_registration_path(current_user) %>
+    <p><%= current_user.email %></p>
+    <p><%= current_user.group.identifier %></p>
+
   </div>
 </div>
 

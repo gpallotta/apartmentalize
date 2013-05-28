@@ -8,7 +8,7 @@ ApartmentV2::Application.routes.draw do
 
   resources :chores
   resources :debts
-  resources :users, :only => [:show, :edit]
+  resources :users, :only => [:show]
   resources :managers
 
   root :to => 'front_page#home'

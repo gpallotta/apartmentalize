@@ -21,7 +21,8 @@
         <li>
         <%= c.title %>
         <%= c.amount %>
-        <%= link_to 'Edit', edit_claim_path(c) %>
+        <%= link_to 'View', claim_path(c) %>
+        <%= link_to 'Mark as paid', mark_as_paid_claim_path(c), method: 'put' %>
         </li>
       <% end %>
     </ul>

@@ -5,6 +5,13 @@
   }
 }
 
+.claim-search-form {
+  .amount-search {
+    display: inline-block;
+    width: 50px;
+  }
+}
+
 .claims-table {
   th {
     text-align: center;
@@ -64,3 +71,4 @@
     }
   }
 }
+

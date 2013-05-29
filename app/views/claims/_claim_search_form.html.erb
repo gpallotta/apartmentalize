@@ -1,22 +1,52 @@
 <%= search_form_for @search, :html => {class: 'claim-search-form'} do |f| %>
+
   <div class="field">
     <%= f.text_field :title_or_description_cont,
             placeholder: 'Title or description contains...',
             class: 'title-desc-cont' %>
   </div>
+
+
   <div class="field">
     <%= f.label :amount_gteq, 'Amount between'%>
     <%= f.text_field :amount_gteq, class: 'amount-search' %>
     <%= f.label :amount_lteq, 'and', class: 'amount-between' %>
     <%= f.text_field :amount_lteq, class: 'amount-search' %>
   </div>
-  <div class="paid-checkbox-wrapper">
-    <%= f.label 'Include paid?', class: 'include-paid' %>
-    <%= check_box_tag 'include_paid', true %>
+
+
+  <div class="user-test">
+    <%= f.label 'Owed' %>
+    <%= check_box_tag "q[user_owed_to_id_eq]", current_user.id %>
+    <% other_users.each do |u| %>
+      <%= f.label "#{u.name}" %>
+      <%= check_box_tag "q[user_who_owes_id_eq]", u.id %>
+    <% end %>
   </div>
-  <div class="paid-checkbox-wrapper">
-    <%= f.label 'Only paid?', class: 'include-paid' %>
-    <%= check_box_tag 'only_paid', true %>
+
+
+  <div class="user-test">
+    <%= f.label 'You owe' %>
+    <%= check_box_tag "q[user_who_owes_id_eq]", current_user.id %>
+    <% other_users.each do |u| %>
+      <%= f.label "#{u.name}" %>
+      <%= check_box_tag "q[user_owed_to_id_eq]", u.id %>
+    <% end %>
   </div>
+
+
+  <div class="paid-checkbox-wrapper">
+    <%= f.label 'Paid', class: 'include-paid' %>
+    <%= check_box_tag 'q[paid_eq]', true %>
+  </div>
+
+
+  <div class="paid-checkbox-wrapper">
+    <%= f.label 'Unpaid', class: 'include-paid' %>
+    <%= check_box_tag 'q[paid_eq]', false %>
+  </div>
+
+
   <div class="actions"><%= f.submit "Search" %></div>
+
 <% end %>

@@ -56,9 +56,7 @@ class ClaimsController < ApplicationController
   def set_up_search_results
     @search = Claim.search(params[:q])
     @claims = @search.result
-    if params[:only_paid]
-      @claims = @claims.where(:paid => true)
-    elsif !params[:include_paid]
+    if !params[:q]
       @claims = @claims.where(:paid => false)
     end
   end

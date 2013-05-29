@@ -1,8 +1,8 @@
 <%= simple_form_for(@claim, :html => {class: 'form-inline new-claim-form'}) do |f| %>
-  <%= f.input :title, placeholder: 'Title', error: false, label: false %>
-  <%= f.input :description, :as => :text, placeholder: 'Description',
+  <%= f.input :title, placeholder: 'Title (required)', error: false, label: false %>
+  <%= f.input :description, :as => :text, placeholder: 'Description (optional)',
       error: false, label: false, :input_html => { :cols => 50, :rows => 3 } %>
-  <%= f.input :amount, placeholder: 'Amount', error: false, label: false %>
+  <%= f.input :amount, placeholder: 'Amount (required)', error: false, label: false %>
   <% current_user.group.users.each do |other| %>
     <% if other.id != current_user.id %>
       <%= f.label other.name %>

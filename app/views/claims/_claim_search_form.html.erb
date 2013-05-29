@@ -1,7 +1,13 @@
-<%= search_form_for @search do |f| %>
+<%= search_form_for @search, :html => {class: 'claim-search-form'} do |f| %>
   <div class="field">
     <%= f.label :title_cont, "Title or description contains" %>
     <%= f.text_field :title_or_description_cont %>
+  </div>
+  <div class="field">
+    <%= f.label :amount_gteq, 'Amount between' %>
+    <%= f.text_field :amount_gteq, class: 'amount-search' %>
+    <%= f.label :amount_lteq, 'and', class: 'amount-search' %>
+    <%= f.text_field :amount_lteq, class: 'amount-search' %>
   </div>
   <%= f.label 'Include paid?' %>
   <%= check_box_tag 'include_paid', true %>

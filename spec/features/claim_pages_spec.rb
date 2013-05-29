@@ -63,6 +63,33 @@ describe "claim pages" do
         end
       end
 
+      context "searching by amount" do
+        let!(:cl_amount) { FactoryGirl.create(:claim, user_owed_to: user1,
+                          user_who_owes: user2, amount: 3)}
+
+        context "less than" do
+          before do
+            fill_in 'q_amount_lteq', with: 5
+            click_button 'Search'
+          end
+          it "only returns results which match the amounts" do
+            expect(page).to have_content(cl_amount.title)
+          end
+        end
+
+        context "greater than" do
+          let!(:cl_amount) { FactoryGirl.create(:claim, user_owed_to: user1,
+                          user_who_owes: user2, amount: 45)}
+          before do
+            fill_in 'q_amount_gteq', with: 44
+            click_button 'Search'
+          end
+          it "only returns results which match the amounts" do
+            expect(page).to have_content(cl_amount.title)
+          end
+        end
+      end
+
       context "including paid claims" do
         before do
           check('include_paid')

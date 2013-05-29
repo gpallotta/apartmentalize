@@ -1,6 +1,7 @@
 <div class="row">
 
   <div class="span3">
+
     <%= render 'new_claim_form' %>
     <%= render 'claim_search_form' %>
   </div>
@@ -9,7 +10,7 @@
 
     <table class="claims-table table">
       <thead>
-        <th>Owed to</th>
+        <th><%= sort_link(@search, :user_owed_to_name, "Owed to") %></th>
         <th>Owed by</th>
         <th>Title</th>
         <th>Amount</th>
@@ -27,7 +28,9 @@
             <%= c.amount %>
             <p class="links">
               <%= link_to 'View', claim_path(c) %>
-              <%= link_to 'Mark paid', mark_as_paid_claim_path(c), method: 'put' %>
+              <% if !c.paid? && c.user_owed_to == current_user %>
+                <%= link_to 'Mark paid', mark_as_paid_claim_path(c), method: 'put' %>
+              <% end %>
             </p>
           </td>
           <td class="created-on"><%= c.created_at.strftime("%B %d, %Y") %></td>

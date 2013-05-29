@@ -17,17 +17,31 @@ describe "claim pages" do
 
   describe "claims index page" do
 
+    let!(:cl2) { FactoryGirl.create(:claim, user_owed_to: user2,
+                   user_who_owes: user1, amount: 3)}
+    let!(:cl3) { FactoryGirl.create(:claim, user_owed_to: user1,
+                    user_who_owes: user1, paid: true)}
+
+    describe "viewing totals" do
+
+      it "displays the effective balance" do
+        expect(page).to have_content(cl.amount - cl2.amount)
+      end
+
+      it "displays the total for each user" do
+      end
+
+    end
+
     describe "viewing claims" do
-      let!(:cl2) { FactoryGirl.create(:claim, user_owed_to: user2, user_who_owes: user1)}
-      let!(:cl3) { FactoryGirl.create(:claim, user_owed_to: user1,
-                      user_who_owes: user1, paid: true)}
+
       before { visit claims_path }
 
       context "claims within your group" do
-        it "displays all unpaid claims related to you by default" do
+        it "displays all claims related to you by default" do
           expect(page).to have_content(cl.title)
           expect(page).to have_content(cl2.title)
-          expect(page).not_to have_content(cl3.title)
+          expect(page).to have_content(cl3.title)
         end
         it "displays the title of a claim" do
           expect(page).to have_content(cl.title)
@@ -38,8 +52,11 @@ describe "claim pages" do
         it "has a link to view a single debt" do
           expect(page).to have_link('View', href: claim_path(cl))
         end
-        it "has a link to mark a debt as paid" do
+        it "has a link to mark debts you are owed as paid" do
           expect(page).to have_link('Mark paid', href: mark_as_paid_claim_path(cl))
+        end
+        it "does not have a link to mark debts you owe as paid" do
+          expect(page).not_to have_link('Mark paid', href: mark_as_paid_claim_path(cl2))
         end
       end
 
@@ -113,6 +130,10 @@ describe "claim pages" do
           it "includes only paid claims in the results" do
             expect(page).to have_content(cl3.title)
             expect(page).not_to have_content(cl.title)
+          end
+          it "does not show a mark as paid link for paid claims" do
+            expect(page).not_to have_link('Mark paid',
+                          href: mark_as_paid_claim_path(cl3))
           end
         end
 

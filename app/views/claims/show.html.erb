@@ -3,13 +3,13 @@
     <div class="well">
 
       <div class="claim-header-wrapper">
-        <div class="title-amount-wrapper">
-          <div class="claim-header-text"><%= @claim.title %> <%= @claim.amount %></div>
-          <div class="claim-description"><%= @claim.description %></div>
+        <div class="span2">
+            <div class="claim-header-text"><%= @claim.title %> <%= @claim.amount %></div>
+            <div class="claim-description"><%= @claim.description %></div>
         </div>
-        <div class="user-wrapper">
-          <div class="claim-header-text"><%= @claim.user_owed_to.name %></div>
-          <div class="claim-header-text"><%= @claim.user_who_owes.name %></div>
+        <div class="span2">
+            Owed to<div class="claim-header-text"><%= @claim.user_owed_to.name %></div>
+            Owed by<div class="claim-header-text"><%= @claim.user_who_owes.name %></div>
         </div>
       </div>
 

@@ -20,15 +20,19 @@ describe "claim pages" do
     let!(:cl2) { FactoryGirl.create(:claim, user_owed_to: user2,
                    user_who_owes: user1, amount: 3)}
     let!(:cl3) { FactoryGirl.create(:claim, user_owed_to: user1,
-                    user_who_owes: user1, paid: true)}
+                    user_who_owes: user2, paid: true)}
 
     describe "viewing totals" do
 
+      let(:total) { cl.amount + cl3.amount - cl2.amount }
+      before { visit claims_path }
+
       it "displays the effective balance" do
-        expect(page).to have_content(cl.amount - cl2.amount)
+        expect(page).to have_content(total)
       end
 
       it "displays the total for each user" do
+        expect(page).to have_content("#{user2.name} #{total}")
       end
 
     end

@@ -3,6 +3,7 @@ class ClaimsController < ApplicationController
   def index
     @claim = Claim.new
     set_up_search_results
+    @claim_balance = ClaimBalance.new(current_user, @claims)
   end
 
   def show
@@ -18,6 +19,7 @@ class ClaimsController < ApplicationController
         @claim.user_owed_to = current_user
         if !@claim.save
           set_up_search_results
+          @claim_balance = ClaimBalance.new(current_user, @claims)
           render 'index'
           return
         end
@@ -59,22 +61,6 @@ class ClaimsController < ApplicationController
     # if !params[:q]
     #   @claims = @claims.where(:paid => false)
     # end
-    # @totals = dont_do_this @claims
-    # @totals = ClaimCounter.new(@claims, current_user)
   end
-
-  # def dont_do_this claims
-  #   answer = {}
-  #   answer.default = 0
-  #   claims.each do |c|
-  #     if c.user_owed_to == current_user
-  #       answer[c.user_who_owes.name] += c.amount
-  #     else
-  #       answer[c.user_owed_to.name] -= c.amount
-  #     end
-  #   end
-  #   answer[:total] = answer.values.inject(:+)
-  #   answer
-  # end
 
 end

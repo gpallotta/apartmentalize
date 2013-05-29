@@ -10,9 +10,13 @@
     <%= f.label :amount_lteq, 'and', class: 'amount-between' %>
     <%= f.text_field :amount_lteq, class: 'amount-search' %>
   </div>
-  <%= f.label 'Include paid?', class: 'include-paid' %>
-  <%= check_box_tag 'include_paid', true %>
-  <%= f.label 'Only paid?', class: 'include-paid' %>
-  <%= check_box_tag 'only_paid', true %>
+  <div class="paid-checkbox-wrapper">
+    <%= f.label 'Include paid?', class: 'include-paid' %>
+    <%= check_box_tag 'include_paid', true %>
+  </div>
+  <div class="paid-checkbox-wrapper">
+    <%= f.label 'Only paid?', class: 'include-paid' %>
+    <%= check_box_tag 'only_paid', true %>
+  </div>
   <div class="actions"><%= f.submit "Search" %></div>
 <% end %>

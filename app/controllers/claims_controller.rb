@@ -2,7 +2,7 @@ class ClaimsController < ApplicationController
 
   def index
     @claim = Claim.new
-    set_up_search_results # in application_controller
+    set_up_search_results
   end
 
   def show
@@ -17,7 +17,7 @@ class ClaimsController < ApplicationController
         @claim.user_who_owes = other
         @claim.user_owed_to = current_user
         if !@claim.save
-          set_up_search_results # in application_controller
+          set_up_search_results
           render 'index'
           return
         end
@@ -49,6 +49,14 @@ class ClaimsController < ApplicationController
     @claim = Claim.find(params[:id])
     @claim.update_attributes(paid: true)
     redirect_to claims_path
+  end
+
+  private
+
+  def set_up_search_results
+    @search = Claim.search(params[:q])
+    @claims = @search.result
+    @claims = @claims.where(:paid => false) unless params[:include_paid]
   end
 
 end

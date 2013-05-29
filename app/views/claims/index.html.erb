@@ -1,7 +1,10 @@
 <div class="row">
 
   <div class="span3">
-
+    <h4>Effective balance <%= @claim_balance.total %></h4>
+    <% @claim_balance.user_balances.each do |name, balance| %>
+      <h6>Effective balance for <%= name %> <%= balance %></h6>
+    <% end %>
     <%= render 'new_claim_form' %>
     <%= render 'claim_search_form' %>
   </div>

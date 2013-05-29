@@ -56,9 +56,25 @@ class ClaimsController < ApplicationController
   def set_up_search_results
     @search = current_user.claims.search(params[:q])
     @claims = @search.result
-    if !params[:q]
-      @claims = @claims.where(:paid => false)
-    end
+    # if !params[:q]
+    #   @claims = @claims.where(:paid => false)
+    # end
+    # @totals = dont_do_this @claims
+    # @totals = ClaimCounter.new(@claims, current_user)
   end
+
+  # def dont_do_this claims
+  #   answer = {}
+  #   answer.default = 0
+  #   claims.each do |c|
+  #     if c.user_owed_to == current_user
+  #       answer[c.user_who_owes.name] += c.amount
+  #     else
+  #       answer[c.user_owed_to.name] -= c.amount
+  #     end
+  #   end
+  #   answer[:total] = answer.values.inject(:+)
+  #   answer
+  # end
 
 end

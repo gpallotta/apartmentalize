@@ -12,5 +12,7 @@
   </div>
   <%= f.label 'Include paid?', class: 'include-paid' %>
   <%= check_box_tag 'include_paid', true %>
+  <%= f.label 'Only paid?', class: 'include-paid' %>
+  <%= check_box_tag 'only_paid', true %>
   <div class="actions"><%= f.submit "Search" %></div>
 <% end %>

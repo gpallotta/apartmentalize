@@ -101,6 +101,17 @@ describe "claim pages" do
         end
       end
 
+      context "only paid claims" do
+        before do
+          check('only_paid')
+          click_button 'Search'
+        end
+        it "includes only paid claims in the results" do
+          expect(page).to have_content(cl3.title)
+          expect(page).not_to have_content(cl.title)
+        end
+      end
+
     end # end for searching claims
 
     describe "marking claims as paid" do

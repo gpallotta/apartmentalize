@@ -14,7 +14,7 @@
         <th>Amount</th>
         <th>Created on</th>
       </thead>
-      <% current_user.claims.unpaid.each do |c| %>
+      <% @claims.each do |c| %>
         <tr>
           <td class="owed-to"><%= c.user_owed_to.name %></td>
           <td class="owed-by"><%= c.user_who_owes.name %></td>

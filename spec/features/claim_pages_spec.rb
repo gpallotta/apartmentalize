@@ -6,6 +6,7 @@ describe "claim pages" do
   let(:user1) { FactoryGirl.create(:user, group: group) }
   let!(:user2) { FactoryGirl.create(:user, group: group) }
   let!(:user3) { FactoryGirl.create(:user, group: group) }
+  let!(:cl) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user2)}
 
   before do
     sign_in user1
@@ -17,7 +18,6 @@ describe "claim pages" do
   describe "claims index page" do
 
     describe "viewing claims" do
-      let!(:cl) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user2)}
       let!(:cl2) { FactoryGirl.create(:claim, user_owed_to: user2, user_who_owes: user1)}
       let!(:cl3) { FactoryGirl.create(:claim, user_owed_to: user1,
                       user_who_owes: user1, paid: true)}
@@ -38,16 +38,50 @@ describe "claim pages" do
         expect(page).to have_link('View', href: claim_path(cl))
       end
       it "has a link to mark a debt as paid" do
-        expect(page).to have_link('Mark as paid', href: mark_as_paid_claim_path(cl))
+        expect(page).to have_link('Mark paid', href: mark_as_paid_claim_path(cl))
       end
     end
+
+    describe "searching claims" do
+      let!(:cl3) { FactoryGirl.create(:claim, user_owed_to: user1,
+                    user_who_owes: user1, paid: true)}
+
+      context "searching by title or description" do
+        let!(:cl_title) { FactoryGirl.create(:claim, user_owed_to: user1,
+                          user_who_owes: user2, title: 'match')}
+        let!(:cl_desc) { FactoryGirl.create(:claim, user_who_owes: user1,
+                          user_owed_to: user2, description: 'match')}
+        before do
+          fill_in 'q_title_or_description_cont', with: 'match'
+          click_button 'Search'
+        end
+
+        it "only returns results which match the string" do
+          expect(page).to have_content(cl_title.title)
+          expect(page).to have_content(cl_title.title)
+          expect(page).not_to have_content(cl3.title)
+        end
+      end
+
+      context "including paid claims" do
+        before do
+          check('include_paid')
+          click_button 'Search'
+        end
+        it "includes both paid and unpaid claims in the results" do
+          expect(page).to have_content(cl3.title)
+          expect(page).to have_content(cl.title)
+        end
+      end
+
+    end # end for searching claims
 
     describe "marking claims as paid" do
       let!(:cl) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user2)}
       before { visit claims_path }
 
       it "marks the debt as paid" do
-        click_link 'Mark as paid'
+        click_link 'Mark paid'
         expect(cl.reload.paid).to be_true
       end
     end

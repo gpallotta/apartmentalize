@@ -2,6 +2,7 @@ class ClaimsController < ApplicationController
 
   def index
     @claim = Claim.new
+    set_up_search_results # in application_controller
   end
 
   def show
@@ -16,6 +17,7 @@ class ClaimsController < ApplicationController
         @claim.user_who_owes = other
         @claim.user_owed_to = current_user
         if !@claim.save
+          set_up_search_results # in application_controller
           render 'index'
           return
         end

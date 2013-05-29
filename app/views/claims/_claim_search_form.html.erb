@@ -1,1 +1,9 @@
-Search form goes here
+<%= search_form_for @search do |f| %>
+  <div class="field">
+    <%= f.label :title_cont, "Title or description contains" %>
+    <%= f.text_field :title_or_description_cont %>
+  </div>
+  <%= f.label 'Include paid?' %>
+  <%= check_box_tag 'include_paid', true %>
+  <div class="actions"><%= f.submit "Search" %></div>
+<% end %>

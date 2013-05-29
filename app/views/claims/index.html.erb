@@ -1,31 +1,38 @@
 <div class="row">
 
-  <div class="span2">
-    <%= simple_form_for(@claim, :html => {class: 'form-inline'}) do |f| %>
-      <%= f.input :title, placeholder: 'Title', error: false, label: false %>
-      <%= f.input :description, placeholder: 'Description', error: false, label: false %>
-      <%= f.input :amount, placeholder: 'Amount', error: false, label: false %>
-      <% current_user.group.users.each do |other| %>
-        <% if other.id != current_user.id %>
-          <%= f.label other.name %>
-          <%= check_box_tag(other.name, value = 1, 'active') %>
-        <% end %>
-      <% end %>
-      <%= f.button :submit %>
-    <% end %>
+  <div class="span3">
+    <%= render 'new_claim_form' %>
+    <%= render 'claim_search_form' %>
   </div>
 
-  <div class="span8 offset1">
-    <ul>
+  <div class="span9">
+    <table class="claims-table table">
+      <thead>
+        <th>Owed to</th>
+        <th>Owed by</th>
+        <th>Title</th>
+        <th>Amount</th>
+        <th>Created on</th>
+      </thead>
       <% current_user.claims.unpaid.each do |c| %>
-        <li>
-        <%= c.title %>
-        <%= c.amount %>
-        <%= link_to 'View', claim_path(c) %>
-        <%= link_to 'Mark as paid', mark_as_paid_claim_path(c), method: 'put' %>
-        </li>
+        <tr>
+          <td class="owed-to"><%= c.user_owed_to.name %></td>
+          <td class="owed-by"><%= c.user_who_owes.name %></td>
+          <td class="title">
+            <%= c.title %>
+            <p class="description"><%= c.description %></p>
+          </td>
+          <td class="amount">
+            <%= c.amount %>
+            <p class="links">
+              <%= link_to 'View', claim_path(c) %>
+              <%= link_to 'Mark paid', mark_as_paid_claim_path(c), method: 'put' %>
+            </p>
+          </td>
+          <td class="created-on"><%= c.created_at.strftime("%B %d, %Y") %></td>
+        </tr>
       <% end %>
-    </ul>
+    </table>
   </div>
 
 </div>

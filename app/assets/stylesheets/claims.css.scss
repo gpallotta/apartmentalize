@@ -1,3 +1,28 @@
+.new-claim-form {
+  margin-top: 14px;
+  input {
+    display: inline-block;
+  }
+}
+
+.claims-table {
+  th {
+    text-align: center;
+    font-size: 24px;
+  }
+  td {
+    font-size: 18px;
+    text-align: center;
+  }
+  a {
+    font-size: 12px;
+  }
+  .description {
+    width: 100px;
+    font-size: 12px;
+  }
+}
+
 .claim-header-wrapper {
   border-bottom: 2px solid black;
   .title-amount-wrapper {

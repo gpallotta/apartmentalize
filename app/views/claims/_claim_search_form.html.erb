@@ -34,17 +34,18 @@
     <% end %>
   </div>
 
+  <div class="paid-checkbox-wrapper">
+    <%= f.label 'Unpaid', class: 'include-paid' %>
+    <%= check_box_tag 'q[paid_eq_any][]', false %>
+  </div>
 
   <div class="paid-checkbox-wrapper">
     <%= f.label 'Paid', class: 'include-paid' %>
-    <%= check_box_tag 'q[paid_eq]', true %>
+    <%= check_box_tag 'q[paid_eq_any][]', true %>
   </div>
 
 
-  <div class="paid-checkbox-wrapper">
-    <%= f.label 'Unpaid', class: 'include-paid' %>
-    <%= check_box_tag 'q[paid_eq]', false %>
-  </div>
+
 
 
   <div class="actions"><%= f.submit "Search" %></div>

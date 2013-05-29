@@ -90,27 +90,43 @@ describe "claim pages" do
         end
       end
 
-      context "including paid claims" do
-        before do
-          find(:css, "#q_paid_eq[value='true']").set(true)
-          click_button 'Search'
-        end
-        it "includes only paid claims in the results" do
-          expect(page).to have_content(cl3.title)
-          expect(page).not_to have_content(cl.title)
-        end
-      end
+      context "paid status" do
 
-      context "including unpaid claims" do
-        before do
-          find(:css, "#q_paid_eq[value='false']").set(true)
-          click_button 'Search'
+        context "including paid claims" do
+          before do
+            find(:css, "#q_paid_eq_any_[value='true']").set(true)
+            click_button 'Search'
+          end
+          it "includes only paid claims in the results" do
+            expect(page).to have_content(cl3.title)
+            expect(page).not_to have_content(cl.title)
+          end
         end
-        it "includes only unpaid claims in the results" do
-          expect(page).to have_content(cl.title)
-          expect(page).not_to have_content(cl3.title)
+
+        context "including unpaid claims" do
+          before do
+            find(:css, "#q_paid_eq_any_[value='false']").set(true)
+            click_button 'Search'
+          end
+          it "includes only unpaid claims in the results" do
+            expect(page).to have_content(cl.title)
+            expect(page).not_to have_content(cl3.title)
+          end
         end
-      end
+
+        context "including both" do
+          before do
+            find(:css, "#q_paid_eq_any_[value='true']").set(true)
+            find(:css, "#q_paid_eq_any_[value='false']").set(true)
+            click_button 'Search'
+          end
+          it "includes both paid and unpaid claims in the results" do
+            expect(page).to have_content(cl.title)
+            expect(page).to have_content(cl3.title)
+          end
+        end
+
+      end # end for paid status
 
     end # end for searching claims
 

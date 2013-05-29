@@ -12,14 +12,6 @@ FactoryGirl.define do
     group
   end
 
-  factory :user_who_owes do
-    user
-  end
-
-  factory :user_owed_to do
-    user
-  end
-
   factory :chore do
     sequence(:title) { |n| "Title #{n}"}
     sequence(:description) { |n| "Description #{n}"}
@@ -31,8 +23,8 @@ FactoryGirl.define do
     sequence(:title) { |n| "Claim_title #{n}" }
     amount 25.00
     paid false
-    user_owed_to
-    user_who_owes
+    association :user_owed_to, factory: :user
+    association :user_who_owes, factory: :user
 
     factory :paid do
       paid true

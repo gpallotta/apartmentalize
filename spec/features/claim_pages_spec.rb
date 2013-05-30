@@ -168,6 +168,22 @@ describe "claim pages" do
 
     end # end for searching claims
 
+    describe "sorting claims" do
+      before do
+        visit claims_path
+        click_link 'Owed to'
+      end
+      context "by owed_to" do
+        it "sorts by descending order" do
+          expect(page.body.index(cl2.title)).to be < page.body.index(cl.title)
+        end
+        it "sorts by acesnding if clicked again" do
+          click_link 'Owed to'
+          expect(page.body.index(cl2.title)).to be > page.body.index(cl.title)
+        end
+      end
+    end
+
     describe "marking claims as paid" do
       let!(:cl) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user2)}
       before { visit claims_path }

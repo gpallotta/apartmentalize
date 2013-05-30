@@ -3,11 +3,13 @@
   <%= f.input :description, :as => :text, placeholder: 'Description (optional)',
       error: false, label: false, :input_html => { :cols => 50, :rows => 3 } %>
   <%= f.input :amount, placeholder: 'Amount (required)', error: false, label: false %>
-  <% current_user.group.users.each do |other| %>
-    <% if other.id != current_user.id %>
-      <%= f.label other.name %>
-      <%= check_box_tag(other.name, value = 1, 'active') %>
+  <div>
+    <% current_user.group.users.each do |other| %>
+      <% if other.id != current_user.id %>
+        <%= f.label other.name %>
+        <%= check_box_tag(other.name, value = 1, 'active') %>
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
   <%= f.button :submit %>
 <% end %>

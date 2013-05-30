@@ -14,24 +14,25 @@
     <%= f.text_field :amount_lteq, class: 'amount-search' %>
   </div>
 
+  <div>
+    <div class="user-test">
+      <%= f.label 'To receive' %>
+      <%= check_box_tag "q[user_owed_to_id_eq]", current_user.id %>
+      <% other_users.each do |u| %>
+        <%= f.label "#{u.name}" %>
+        <%= check_box_tag "q[user_who_owes_id_eq]", u.id %>
+      <% end %>
+    </div>
 
-  <div class="user-test">
-    <%= f.label 'Owed' %>
-    <%= check_box_tag "q[user_owed_to_id_eq]", current_user.id %>
-    <% other_users.each do |u| %>
-      <%= f.label "#{u.name}" %>
-      <%= check_box_tag "q[user_who_owes_id_eq]", u.id %>
-    <% end %>
-  </div>
 
-
-  <div class="user-test">
-    <%= f.label 'You owe' %>
-    <%= check_box_tag "q[user_who_owes_id_eq]", current_user.id %>
-    <% other_users.each do |u| %>
-      <%= f.label "#{u.name}" %>
-      <%= check_box_tag "q[user_owed_to_id_eq]", u.id %>
-    <% end %>
+    <div class="user-test">
+      <%= f.label 'To pay' %>
+      <%= check_box_tag "q[user_who_owes_id_eq]", current_user.id %>
+      <% other_users.each do |u| %>
+        <%= f.label "#{u.name}" %>
+        <%= check_box_tag "q[user_owed_to_id_eq]", u.id %>
+      <% end %>
+    </div>
   </div>
 
   <div class="paid-checkbox-wrapper">

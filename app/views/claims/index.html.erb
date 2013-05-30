@@ -14,10 +14,10 @@
     <table class="claims-table table">
       <thead>
         <th><%= sort_link(@search, :user_owed_to_name, "Owed to") %></th>
-        <th>Owed by</th>
-        <th>Title</th>
-        <th>Amount</th>
-        <th>Created on</th>
+        <th><%= sort_link(@search, :user_who_owes_name, "Owed by") %> </th>
+        <th><%= sort_link(@search, :title, "Title") %> </th>
+        <th><%= sort_link(@search, :amount, "Amount") %></th>
+        <th><%= sort_link(@search, :created_at, "Created on") %></th>
       </thead>
       <% @claims.each do |c| %>
         <tr>

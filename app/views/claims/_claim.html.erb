@@ -1,0 +1,18 @@
+  <tr>
+    <td class="owed-to"><%= claim.user_owed_to.name %></td>
+    <td class="owed-by"><%= claim.user_who_owes.name %></td>
+    <td class="title">
+      <%= claim.title %>
+      <p class="description"><%= claim.description %></p>
+    </td>
+    <td class="amount">
+      <%= claim.amount %>
+      <p class="links">
+        <%= link_to 'View', claim_path(claim) %>
+        <% if !claim.paid? && claim.user_owed_to == current_user %>
+          <%= link_to 'Mark paid', mark_as_paid_claim_path(claim), method: 'put' %>
+        <% end %>
+      </p>
+    </td>
+    <td class="created-on"><%= claim.created_at.strftime("%B %d, %Y") %></td>
+  </tr>

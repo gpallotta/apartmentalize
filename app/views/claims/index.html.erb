@@ -2,15 +2,16 @@
 
   <div class="span3">
     <h4>Effective balance <%= @claim_balance.total %></h4>
+
     <% @claim_balance.user_balances.each do |name, balance| %>
       <h6>Effective balance for <%= name %> <%= balance %></h6>
     <% end %>
+
     <%= render 'new_claim_form' %>
     <%= render 'claim_search_form' %>
   </div>
 
   <div class="span9">
-
     <table class="claims-table table">
       <thead>
         <th><%= sort_link(@search, :user_owed_to_name, "Owed to") %></th>
@@ -19,28 +20,10 @@
         <th><%= sort_link(@search, :amount, "Amount") %></th>
         <th><%= sort_link(@search, :created_at, "Created on") %></th>
       </thead>
-      <% @claims.each do |c| %>
-        <tr>
-          <td class="owed-to"><%= c.user_owed_to.name %></td>
-          <td class="owed-by"><%= c.user_who_owes.name %></td>
-          <td class="title">
-            <%= c.title %>
-            <p class="description"><%= c.description %></p>
-          </td>
-          <td class="amount">
-            <%= c.amount %>
-            <p class="links">
-              <%= link_to 'View', claim_path(c) %>
-              <% if !c.paid? && c.user_owed_to == current_user %>
-                <%= link_to 'Mark paid', mark_as_paid_claim_path(c), method: 'put' %>
-              <% end %>
-            </p>
-          </td>
-          <td class="created-on"><%= c.created_at.strftime("%B %d, %Y") %></td>
-        </tr>
-      <% end %>
-    </table>
 
+      <%= render partial: 'claim', collection: @claims %>
+
+    </table>
   </div>
 
 </div>

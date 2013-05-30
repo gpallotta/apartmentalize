@@ -78,7 +78,7 @@ describe "claim pages" do
 
     describe "searching claims" do
       let!(:cl3) { FactoryGirl.create(:claim, user_owed_to: user1,
-                    user_who_owes: user1, paid: true)}
+                    user_who_owes: user2, paid: true)}
 
       context "searching by title or description" do
         let!(:cl_title) { FactoryGirl.create(:claim, user_owed_to: user1,
@@ -128,7 +128,7 @@ describe "claim pages" do
 
         context "including paid claims" do
           before do
-            find(:css, "#q_paid_eq_any_[value='true']").set(true)
+            check('paid-checkbox')
             click_button 'Search'
           end
           it "includes only paid claims in the results" do
@@ -143,7 +143,7 @@ describe "claim pages" do
 
         context "including unpaid claims" do
           before do
-            find(:css, "#q_paid_eq_any_[value='false']").set(true)
+            check('unpaid-checkbox')
             click_button 'Search'
           end
           it "includes only unpaid claims in the results" do
@@ -154,8 +154,8 @@ describe "claim pages" do
 
         context "including both" do
           before do
-            find(:css, "#q_paid_eq_any_[value='true']").set(true)
-            find(:css, "#q_paid_eq_any_[value='false']").set(true)
+            check('paid-checkbox')
+            check('unpaid-checkbox')
             click_button 'Search'
           end
           it "includes both paid and unpaid claims in the results" do
@@ -165,6 +165,110 @@ describe "claim pages" do
         end
 
       end # end for paid status
+
+      context "by user" do
+        let!(:cl4) { FactoryGirl.create(:claim, user_owed_to: user1,
+                      user_who_owes: user3)}
+        before { visit claims_path }
+
+        context "all other users" do
+          context "when all are checked" do
+            before do
+              check("#{user2.name}-checkbox")
+              check("#{user3.name}-checkbox")
+              click_button 'Search'
+            end
+            it "displays claims for all users" do
+              expect(page).to have_content(cl.title)
+              expect(page).to have_content(cl2.title)
+              expect(page).to have_content(cl3.title)
+              expect(page).to have_content(cl4.title)
+            end
+          end
+
+          context "when none are checked" do
+            before do
+              click_button 'Search'
+            end
+            it "displays claims for all users" do
+              expect(page).to have_content(cl.title)
+              expect(page).to have_content(cl2.title)
+              expect(page).to have_content(cl3.title)
+              expect(page).to have_content(cl4.title)
+            end
+          end
+        end
+
+        context "selecting a single user" do
+          before do
+            check("#{user3.name}-checkbox")
+            click_button 'Search'
+          end
+          it "displays only claims for that user" do
+            expect(page).to have_content(cl4.title)
+            expect(page).not_to have_content(cl2.title)
+            expect(page).not_to have_content(cl3.title)
+          end
+        end
+
+      end
+
+      context "by to receive or to pay" do
+        let!(:cl4) { FactoryGirl.create(:claim, user_owed_to: user1,
+                      user_who_owes: user3)}
+        before { visit claims_path }
+        context "claims you are owed" do
+          before do
+            check('To receive')
+          end
+
+          it "displays only claims you are to receive" do
+            click_button 'Search'
+            expect(page).to have_content(cl.title)
+            expect(page).to have_content(cl3.title)
+            expect(page).not_to have_content(cl2.title)
+          end
+        end
+
+        context "claims you owe" do
+          before do
+            check('To pay')
+          end
+          it "displays only claims you are to pay" do
+            click_button 'Search'
+            expect(page).not_to have_content(cl.title)
+            expect(page).not_to have_content(cl3.title)
+            expect(page).to have_content(cl2.title)
+          end
+        end
+
+        context "both claims you owe and are owed" do
+          context "when both are unchecked" do
+            before do
+              check('To pay')
+            end
+            it "displays both claims you owe and are owed" do
+              expect(page).to have_content(cl.title)
+              expect(page).to have_content(cl3.title)
+              expect(page).to have_content(cl2.title)
+            end
+          end
+
+          context "when both are checked" do
+            before do
+              check('To pay')
+              check('To receive')
+            end
+            it "displays both claims you owe and are owed" do
+              expect(page).to have_content(cl.title)
+              expect(page).to have_content(cl3.title)
+              expect(page).to have_content(cl2.title)
+            end
+          end
+        end
+
+
+      end
 
     end # end for searching claims
 
@@ -279,7 +383,7 @@ describe "claim pages" do
         end
 
         context "for only some users" do
-          before { uncheck "#{user2.name}" }
+          before { find(:css, "##{user2.name}").set(false) }
           it "creates the debt for only the checked users" do
             expect { click_button 'Create Claim' }.to change {Claim.count }.by(1)
           end

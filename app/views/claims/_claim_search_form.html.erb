@@ -1,5 +1,32 @@
 <%= search_form_for @search, :html => {class: 'claim-search-form'} do |f| %>
 
+
+  <div>
+
+    <div>
+      <% other_users.each do |u| %>
+        <%= label_tag "#{u.name}-checkbox", "#{u.name}" %>
+        <%= check_box_tag "q[user_who_owes_name_or_user_owed_to_name_eq_any][]", u.name, false,
+                    { :id => "#{u.name}-checkbox"} %>
+      <% end %>
+    </div>
+
+    <div class="user-test">
+      <%= label_tag "to-receive", "To receive"  %>
+      <%= check_box_tag "q[user_owed_to_id_eq]", current_user.id,
+                  false, {id: 'to-receive'} %>
+    </div>
+
+
+    <div class="user-test">
+      <%= label_tag 'to-pay', 'To pay' %>
+      <%= check_box_tag "q[user_who_owes_id_eq]", current_user.id,
+                  false, { :id => "to-pay" } %>
+    </div>
+
+  </div>
+
+
   <div class="field">
     <%= f.text_field :title_or_description_cont,
             placeholder: 'Title or description contains...',
@@ -14,39 +41,18 @@
     <%= f.text_field :amount_lteq, class: 'amount-search' %>
   </div>
 
-  <div>
-    <div class="user-test">
-      <%= f.label 'To receive' %>
-      <%= check_box_tag "q[user_owed_to_id_eq]", current_user.id %>
-      <% other_users.each do |u| %>
-        <%= f.label "#{u.name}" %>
-        <%= check_box_tag "q[user_who_owes_id_eq]", u.id %>
-      <% end %>
-    </div>
 
-
-    <div class="user-test">
-      <%= f.label 'To pay' %>
-      <%= check_box_tag "q[user_who_owes_id_eq]", current_user.id %>
-      <% other_users.each do |u| %>
-        <%= f.label "#{u.name}" %>
-        <%= check_box_tag "q[user_owed_to_id_eq]", u.id %>
-      <% end %>
-    </div>
+  <div class="paid-checkbox-wrapper">
+    <%= label_tag 'unpaid-checkbox', 'Unpaid', class: 'include-paid' %>
+    <%= check_box_tag 'q[paid_eq_any][]', false, false,
+              {:id => "unpaid-checkbox"} %>
   </div>
 
   <div class="paid-checkbox-wrapper">
-    <%= f.label 'Unpaid', class: 'include-paid' %>
-    <%= check_box_tag 'q[paid_eq_any][]', false %>
+    <%= label_tag 'paid-checkbox', 'Paid', class: 'include-paid' %>
+    <%= check_box_tag 'q[paid_eq_any][]', true, false,
+              {:id => "paid-checkbox"} %>
   </div>
-
-  <div class="paid-checkbox-wrapper">
-    <%= f.label 'Paid', class: 'include-paid' %>
-    <%= check_box_tag 'q[paid_eq_any][]', true %>
-  </div>
-
-
-
 
 
   <div class="actions"><%= f.submit "Search" %></div>

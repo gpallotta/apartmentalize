@@ -15,7 +15,7 @@ class ClaimBalance
   def user_balances
     balances = Hash.new(0)
     claims.each do |c|
-      user_to_add = user_to_add c
+      user_to_add = user_to_add_to c
       balances[user_to_add] += amount_sign c
     end
     balances
@@ -23,7 +23,7 @@ class ClaimBalance
 
   private
 
-  def user_to_add c
+  def user_to_add_to c
     if c.user_owed_to == user
       c.user_who_owes.name
     else

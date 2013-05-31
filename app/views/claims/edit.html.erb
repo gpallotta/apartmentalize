@@ -1,7 +1,7 @@
 <div class="row">
-  <div class="span6 offset3">
+  <div class="span4 offset4">
     <div class="well">
-      <%= form_for @claim, :html => {class: 'form-horizontal'} do |f| %>
+      <%= form_for @claim, :html => {class: 'edit-claim-form'} do |f| %>
         <%= f.label :title %>
         <%= f.text_field :title %>
 
@@ -13,7 +13,8 @@
 
         <%= f.submit 'Save changes', class: 'btn btn-large' %>
       <% end %>
-      <%= link_to 'Delete', claim_path(@claim), method: 'delete', confirm: 'Are you sure?' %>
+      <%= link_to 'Delete this claim', claim_path(@claim),
+                  method: :delete, confirm: 'Are you sure?' %>
     </div>
   </div>
 </div>

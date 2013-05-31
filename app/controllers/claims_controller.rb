@@ -59,13 +59,6 @@ class ClaimsController < ApplicationController
   def set_up_search_results
     @search = current_user.claims.search(params[:q])
     @claims = @search.result
-    # if params[:q]
-    #   @search = Claim.search(params[:q])
-    #   @claims = @search.result
-    # else
-    #   @search = current_user.claims.search(params[:q])
-    #   @claims = @search.result
-    # end
   end
 
 end

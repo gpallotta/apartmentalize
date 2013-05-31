@@ -93,36 +93,42 @@ $form-background: #BDC3C7;
 }
 
 .claim-header-wrapper {
-  border-bottom: 2px solid black;
-  width: 100%;
-  margin-left: 0;
-  .claim-header-text {
-    font-size: 30px;
-    margin: 15px;
-    .claim-amount {
-      font-weight: bold;
-    }
+  margin-left: 20px;
+  .leftmost {
+    padding-left: 40px;
   }
-  .claim-description {
-    font-size: 12px;
-    margin-left: 16px;
+  .header-row-wrapper {
+    margin-bottom: 10px;
+    .claim-header-title {
+      font-weight: bold;
+      border-bottom: 1px solid black;
+    }
+    .claim-header-text {
+      font-size: 30px;
+      margin: 15px 0;
+    }
+    .claim-header-small {
+      font-size: 15px;
+      margin-top: 15px;
+    }
   }
 }
 
 .claim-button-wrapper {
   margin-top: 20px;
-  button {
-    width: 100%;
-    margin-left: 60px;
+  .offset1 {
+    margin-left: 123px;
+  }
+  a {
+    width: 40%;
+    color: white;
   }
   button a {
-    color: white;
   }
 }
 
 .claim-comment-wrapper {
   margin-top: 25px;
-
   .comment-form-wrapper {
     margin-left: 25px;
     input {
@@ -151,4 +157,7 @@ $form-background: #BDC3C7;
 }
 
 .edit-claim-form {
+  input {
+    margin-bottom: 15px;
+  }
 }

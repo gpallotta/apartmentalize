@@ -1,43 +1,79 @@
 <div class="row">
-  <div class="span6 offset3">
+  <div class="span8 offset2">
     <div class="well">
 
-      <div class="row claim-header-wrapper">
-          <div class="span2">
-              Title<div class="claim-header-text">
+      <div class="claim-header-wrapper">
+
+
+        <div class="row header-row-wrapper">
+          <div class="span3 offset1">
+            <div class="leftmost">
+              <span class="claim-header-title">Title</span>
+              <div class="claim-header-text">
                 <%= @claim.title %>
               </div>
-              Amount<div class="claim-header-text">
+            </div>
+          </div>
+
+          <div class="span2">
+            <span class="claim-header-title">Owed to</span>
+            <div class="claim-header-text">
+              <%= @claim.user_owed_to.name %>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row header-row-wrapper">
+          <div class="span3 offset1">
+            <div class="leftmost">
+              <span class="claim-header-title">Amount</span>
+              <div class="claim-header-text">
                 <%= @claim.amount %>
               </div>
-              Description
-          </div>
-          <div class="span2 offset1">
-
-              Owed to<div class="claim-header-text"><%= @claim.user_owed_to.name %></div>
-              Owed by<div class="claim-header-text"><%= @claim.user_who_owes.name %></div>
-
-              Paid on<div class="claim-header-text">
-              <%= paid_status_for_show_page @claim %>
-
             </div>
-
           </div>
+
+          <div class="span3">
+            <span class="claim-header-title">Owed by</span>
+            <div class="claim-header-text">
+              <%= @claim.user_who_owes.name %>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row header-row-wrapper">
+          <div class="span3 offset1">
+            <div class="leftmost">
+              <span class="claim-header-title">Description</span>
+              <div class="claim-header-small">
+              <%= @claim.description %>
+              </div>
+            </div>
+          </div>
+
+          <div class="span3">
+            <span class="claim-header-title">Paid on
+            <div class="claim-header-small">
+              <%= paid_status_for_show_page @claim %>
+            </div>
+          </div>
+        </div>
+
 
       </div>
+
 
       <div class="claim-button-wrapper">
         <div class="row">
 
-          <div class="span2 offset">
-            <button class="btn btn-inverse edit-button">
-              <%= link_to 'Edit', edit_claim_path(@claim) %>
-            </button>
-          </div>
-          <div class="span2">
-            <button class="btn btn-inverse">
-              <%= link_to 'Mark as paid', mark_as_paid_claim_path(@claim), method: 'put' %>
-            </button>
+          <div class="span6 offset1">
+              <%= link_to 'Edit', edit_claim_path(@claim),
+                      class: "btn btn-inverse edit-button" %>
+
+              <%= mark_as_paid_link %>
+
           </div>
 
         </div>
@@ -45,7 +81,7 @@
 
       <div class="claim-comment-wrapper">
         <div class="row">
-          <div class="span4 offset1">
+          <div class="span4 offset2">
             <div class="comment-form-wrapper">
                 <%= render 'claims/comment_form' %>
             </div>
@@ -54,7 +90,7 @@
 
         <ul class="comments-list">
           <div class="row">
-            <div class="span3 offset1">
+            <div class="span3 offset2">
               <p><%= @comments.count %> comments</p>
             </div>
           </div>

@@ -4,8 +4,8 @@ describe User do
 
   let(:group) { FactoryGirl.create(:group) }
   let(:other_group) { FactoryGirl.create(:group) }
-  let(:other_user) { FactoryGirl.create(:user, group: other_group) }
-  let(:user1) { FactoryGirl.create(:user, group: group) }
+  let!(:other_user) { FactoryGirl.create(:user, group: other_group, name: 'Steve') }
+  let!(:user1) { FactoryGirl.create(:user, group: group, name: 'Steve') }
   let(:user2) { FactoryGirl.create(:user, group: group) }
   let(:c1) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user2) }
   let(:c2) { FactoryGirl.create(:claim, user_owed_to: user2, user_who_owes: user1) }
@@ -94,6 +94,13 @@ describe User do
     context "name" do
       it { should respond_to(:name) }
       it { should validate_presence_of(:name) }
+      context "uniqueness among group" do
+        let!(:steve) { FactoryGirl.build(:user, group: group, name: 'Steve') }
+        it "validates uniqueness of name amongst a group" do
+          expect(steve).not_to be_valid
+          expect(other_user).to be_valid
+        end
+      end
     end
 
     context "email" do

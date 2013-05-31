@@ -14,5 +14,8 @@
         <% end %>
       </p>
     </td>
-    <td class="created-on"><%= claim.created_at.strftime("%B %d, %Y") %></td>
+    <td class="created-on">
+      <%= claim.created_at.strftime("%B %d, %Y") %>
+      <%= claim.paid? %>
+    </td>
   </tr>

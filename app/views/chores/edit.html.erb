@@ -4,7 +4,7 @@
       <%= simple_form_for(@chore) do |f| %>
         <%= f.input :title, error: false, value: @chore.title %>
         <%= f.input :description, error: false, value: @chore.description %>
-        <%= f.association :user %>
+        <%= f.association :user, collection: current_user.group.users %>
         <%= f.button :submit, 'Save changes', class: 'btn btn-large btn-primary' %>
       <% end %>
 

@@ -22,7 +22,6 @@ describe "unauthenticated pages" do
 
   end
 
-
   describe "signing in" do
 
     context "with invalid information" do
@@ -195,6 +194,24 @@ describe "unauthenticated pages" do
       end
 
       context "with invalid information" do
+
+        context "when the name has been taken" do
+          let!(:named_user) { FactoryGirl.create(:user, group: group,
+                                name: 'taken')}
+          before do
+            visit new_group_path
+            fill_in 'lookup_identifier', with: group.identifier
+            click_button 'Lookup'
+            fill_in 'user_name', with: named_user.name
+          end
+          it "does not create the user" do
+            expect { click_button 'Sign up' }.not_to change { User.count }
+          end
+          it "displays an errors" do
+            click_button 'Sign up'
+            expect(page).to have_content('Name has already been taken')
+          end
+        end
 
         it "does not create a user" do
           expect { click_button 'Sign up' }.not_to change { User.count }

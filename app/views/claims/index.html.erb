@@ -1,18 +1,33 @@
 <div class="row">
 
   <div class="span3">
-    <h4>Effective balance <%= @claim_balance.total %></h4>
+    <table class="table">
+      <thead>
+        <th>Total Sum</th>
+        <th><%= @claim_balance.total %></th>
+      </thead>
 
-    <% @claim_balance.user_balances.each do |name, balance| %>
-      <h6>Effective balance for <%= name %> <%= balance %></h6>
-    <% end %>
+      <% @claim_balance.user_balances.each do |name, balance| %>
+        <tr>
+          <td><%= name %></td>
+          <td><%= balance %></td>
+        </tr>
 
-    <%= render 'new_claim_form' %>
-    <%= render 'claim_search_form' %>
+      <% end %>
+
+    </table>
+
+
+    <div class="hide-button-wrapper">
+      <button class="btn hide-button create-button active">Create</button>
+      <button class="btn hide-button search-button">Search</button>
+    </div>
+      <div class="claim-form-wrapper"><%= render 'new_claim_form' %></div>
+      <div class="search-wrapper hidden"><%= render 'claim_search_form' %></div>
   </div>
 
   <div class="span9">
-    <table class="claims-table table">
+    <table class="claims-table table table-hover">
       <thead>
         <th><%= sort_link(@search, :user_owed_to_name, "Owed to") %></th>
         <th><%= sort_link(@search, :user_who_owes_name, "Owed by") %> </th>

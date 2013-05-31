@@ -6,6 +6,7 @@ class CommentsController < ApplicationController
       redirect_to claim_path(params[:comment][:claim_id])
     else
       @claim = Claim.find(params[:comment][:claim_id])
+      @comments = @claim.comments
       render "claims/show"
     end
   end

@@ -21,6 +21,8 @@ describe "claim pages" do
                    user_who_owes: user1, amount: 3)}
     let!(:cl3) { FactoryGirl.create(:claim, user_owed_to: user1,
                     user_who_owes: user2, paid: true)}
+    let!(:roommate_cl) { FactoryGirl.create(:claim, user_owed_to: user2,
+                    user_who_owes: user3) }
 
     describe "viewing totals" do
 
@@ -46,6 +48,9 @@ describe "claim pages" do
           expect(page).to have_content(cl.title)
           expect(page).to have_content(cl2.title)
           expect(page).to have_content(cl3.title)
+        end
+        it "does not display claims that are between others in your group" do
+          expect(page).not_to have_content(roommate_cl.title)
         end
         it "displays the title of a claim" do
           expect(page).to have_content(cl.title)
@@ -87,13 +92,16 @@ describe "claim pages" do
                           user_owed_to: user2, description: 'match')}
         before do
           fill_in 'q_title_or_description_cont', with: 'match'
-          click_button 'Search'
+          click_button 'Search Claims'
         end
 
         it "only returns results which match the string" do
           expect(page).to have_content(cl_title.title)
           expect(page).to have_content(cl_title.title)
           expect(page).not_to have_content(cl3.title)
+        end
+        it "does not return claims between your other roommates" do
+          expect(page).not_to have_content(roommate_cl.title)
         end
       end
 
@@ -104,10 +112,13 @@ describe "claim pages" do
         context "less than" do
           before do
             fill_in 'q_amount_lteq', with: 5
-            click_button 'Search'
+            click_button 'Search Claims'
           end
           it "only returns results which match the amounts" do
             expect(page).to have_content(cl_amount.title)
+          end
+          it "does not show claims between your other roommates" do
+            expect(page).not_to have_content(roommate_cl.title)
           end
         end
 
@@ -116,10 +127,13 @@ describe "claim pages" do
                           user_who_owes: user2, amount: 45)}
           before do
             fill_in 'q_amount_gteq', with: 44
-            click_button 'Search'
+            click_button 'Search Claims'
           end
           it "only returns results which match the amounts" do
             expect(page).to have_content(cl_amount.title)
+          end
+          it "does not show claims between your other roommates" do
+            expect(page).not_to have_content(roommate_cl.title)
           end
         end
       end
@@ -129,7 +143,7 @@ describe "claim pages" do
         context "including paid claims" do
           before do
             check('paid-checkbox')
-            click_button 'Search'
+            click_button 'Search Claims'
           end
           it "includes only paid claims in the results" do
             expect(page).to have_content(cl3.title)
@@ -139,16 +153,22 @@ describe "claim pages" do
             expect(page).not_to have_link('Mark paid',
                           href: mark_as_paid_claim_path(cl3))
           end
+         it "does not show claims between your other roommates" do
+            expect(page).not_to have_content(roommate_cl.title)
+          end
         end
 
         context "including unpaid claims" do
           before do
             check('unpaid-checkbox')
-            click_button 'Search'
+            click_button 'Search Claims'
           end
           it "includes only unpaid claims in the results" do
             expect(page).to have_content(cl.title)
             expect(page).not_to have_content(cl3.title)
+          end
+          it "does not show claims between your other roommates" do
+            expect(page).not_to have_content(roommate_cl.title)
           end
         end
 
@@ -156,11 +176,14 @@ describe "claim pages" do
           before do
             check('paid-checkbox')
             check('unpaid-checkbox')
-            click_button 'Search'
+            click_button 'Search Claims'
           end
           it "includes both paid and unpaid claims in the results" do
             expect(page).to have_content(cl.title)
             expect(page).to have_content(cl3.title)
+          end
+         it "does not show claims between your other roommates" do
+            expect(page).not_to have_content(roommate_cl.title)
           end
         end
 
@@ -176,25 +199,31 @@ describe "claim pages" do
             before do
               check("#{user2.name}-checkbox")
               check("#{user3.name}-checkbox")
-              click_button 'Search'
+              click_button 'Search Claims'
             end
-            it "displays claims for all users" do
+            it "displays claims for all users and you" do
               expect(page).to have_content(cl.title)
               expect(page).to have_content(cl2.title)
               expect(page).to have_content(cl3.title)
               expect(page).to have_content(cl4.title)
+            end
+            it "does not show claims between your other roommates" do
+              expect(page).not_to have_content(roommate_cl.title)
             end
           end
 
           context "when none are checked" do
             before do
-              click_button 'Search'
+              click_button 'Search Claims'
             end
             it "displays claims for all users" do
               expect(page).to have_content(cl.title)
               expect(page).to have_content(cl2.title)
               expect(page).to have_content(cl3.title)
               expect(page).to have_content(cl4.title)
+            end
+            it "does not show claims between your other roommates" do
+              expect(page).not_to have_content(roommate_cl.title)
             end
           end
         end
@@ -202,12 +231,15 @@ describe "claim pages" do
         context "selecting a single user" do
           before do
             check("#{user3.name}-checkbox")
-            click_button 'Search'
+            click_button 'Search Claims'
           end
           it "displays only claims for that user" do
             expect(page).to have_content(cl4.title)
             expect(page).not_to have_content(cl2.title)
             expect(page).not_to have_content(cl3.title)
+          end
+          it "does not show claims between your other roommates" do
+            expect(page).not_to have_content(roommate_cl.title)
           end
         end
 
@@ -223,10 +255,13 @@ describe "claim pages" do
           end
 
           it "displays only claims you are to receive" do
-            click_button 'Search'
+            click_button 'Search Claims'
             expect(page).to have_content(cl.title)
             expect(page).to have_content(cl3.title)
             expect(page).not_to have_content(cl2.title)
+          end
+          it "does not show claims between your other roommates" do
+            expect(page).not_to have_content(roommate_cl.title)
           end
         end
 
@@ -235,10 +270,13 @@ describe "claim pages" do
             check('To pay')
           end
           it "displays only claims you are to pay" do
-            click_button 'Search'
+            click_button 'Search Claims'
             expect(page).not_to have_content(cl.title)
             expect(page).not_to have_content(cl3.title)
             expect(page).to have_content(cl2.title)
+          end
+          it "does not show claims between your other roommates" do
+            expect(page).not_to have_content(roommate_cl.title)
           end
         end
 
@@ -252,17 +290,25 @@ describe "claim pages" do
               expect(page).to have_content(cl3.title)
               expect(page).to have_content(cl2.title)
             end
+            it "does not show claims between your other roommates" do
+              expect(page).not_to have_content(roommate_cl.title)
+            end
           end
 
           context "when both are checked" do
             before do
               check('To pay')
               check('To receive')
+              click_button 'Search Claims'
             end
             it "displays both claims you owe and are owed" do
               expect(page).to have_content(cl.title)
               expect(page).to have_content(cl3.title)
               expect(page).to have_content(cl2.title)
+              save_and_open_page
+            end
+            it "does not show claims between your other roommates" do
+              expect(page).not_to have_content(roommate_cl.title)
             end
           end
         end

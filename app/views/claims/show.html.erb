@@ -34,32 +34,20 @@
         <div class="row">
           <div class="span4 offset1">
             <div class="comment-form-wrapper">
-              <%= simple_form_for(@comment, :html => {class: 'form-inline'}) do |f| %>
-              <%= f.input :content, :as => :text, label: false, placeholder: 'Comment',
-              :input_html => { :cols => 50, :rows => 3 }
-              %>
-              <%= f.input :claim_id, :as => :hidden, :input_html => { :value => @claim.id } %>
-              <%= f.button :submit, 'Comment' %>
-              <% end %>
+                <%= render 'claims/comment_form' %>
             </div>
           </div>
         </div>
 
-          <ul class="comments-list">
-            <% @claim.comments.each do |com| %>
-              <div class="row">
-                <div class="span3 offset1">
-                  <li>
-                    <div><%= com.user.name %> on <%= com.created_at.strftime("%B %d, %Y") %></div>
-                    <%= com.content %>
-                    <% if com.user.id == current_user.id %>
-                      <p><%= link_to 'Edit Comment', edit_comment_path(com) %></p>
-                    <% end %>
-                  </li>
-                </div>
-              </div>
-            <% end %>
-          </ul>
+        <ul class="comments-list">
+          <div class="row">
+            <div class="span3 offset1">
+              <p><%= @comments.count %> comments (most recent first)</p>
+            </div>
+          </div>
+          <%= render partial: 'claims/comment', collection: @comments %>
+        </ul>
+
       </div>
 
     </div>

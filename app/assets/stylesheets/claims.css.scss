@@ -1,15 +1,60 @@
+$form-background: #BDC3C7;
+
+.hide-button-wrapper {
+  background-color: #95A5A6;
+  padding: 10px 0;
+}
+
+.hide-button {
+  width: 49%;
+}
+
+.btn:active .btn.active {
+  background-color: #E67E22;
+}
+
+.hidden {
+  display: none;
+}
+
+.search-wrapper {
+  background-color: $form-background;
+}
+
 .new-claim-form {
-  margin-top: 14px;
+  padding: 15px 3px;
+  background-color: $form-background;
   input {
     display: inline-block;
+  }
+  .btn {
+    padding: 10px 9px;
+  }
+  .submit-claim-button {
+    width: 100%;
+  }
+  .user-btn-wrapper {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .user-checkbox {
+    display: none;
   }
 }
 
 .claim-search-form {
-  border: 1px solid black;
-  padding: 10px;
+  padding: 15px 3px;
+  .btn {
+    padding: 10px 9px;
+  }
+  .search-button-wrapper {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
   .title-desc-cont {
     width: 185px;
+    margin-left: 10px;
   }
   .amount-between {
     text-align: center;
@@ -20,24 +65,17 @@
     display: inline-block;
     width: 50px;
   }
-  .paid-checkbox-wrapper {
-    display: inline-block;
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
-  .user-test {
-    border: 1px solid black;
-    padding: 5px;
-    width: 40%;
-    margin-bottom: 15px;
-    display: inline-block;
+  .submit-search-button {
+    width: 100%;
   }
 }
 
 .claims-table {
   th {
     text-align: center;
-    font-size: 24px;
+    a {
+      font-size: 24px;
+    }
   }
   td {
     font-size: 18px;
@@ -80,12 +118,23 @@
   margin-top: 25px;
   .comment-form-wrapper {
     margin-left: 25px;
+    input {
+      width: 75%;
+    }
   }
   .comments-list {
     list-style: none;
+    .comment-bold {
+      font-weight: bold;
+    }
+    .comment-content {
+      margin-top: 5px;
+    }
     li {
       border: 1px solid black;
       padding: 5px;
+      width: 88%;
+      margin-bottom: 10px;
     }
     p {
       font-size: 10px;

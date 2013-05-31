@@ -9,6 +9,7 @@ class ClaimsController < ApplicationController
   def show
     @comment = Comment.new
     @claim = Claim.find(params[:id])
+    @comments = @claim.comments
   end
 
   def create
@@ -58,8 +59,12 @@ class ClaimsController < ApplicationController
   def set_up_search_results
     @search = current_user.claims.search(params[:q])
     @claims = @search.result
-    # if !params[:q]
-    #   @claims = @claims.where(:paid => false)
+    # if params[:q]
+    #   @search = Claim.search(params[:q])
+    #   @claims = @search.result
+    # else
+    #   @search = current_user.claims.search(params[:q])
+    #   @claims = @search.result
     # end
   end
 

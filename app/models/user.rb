@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :group
 
+  validates_uniqueness_of :name, :scope => [:group_id]
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 

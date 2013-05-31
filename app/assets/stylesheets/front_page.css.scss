@@ -5,8 +5,8 @@
 @import 'mixins';
 
 .signed-background {
-  padding-top: 40px ;
-  background: image-url("sky2.jpg") no-repeat;
+  padding-top: 80px ;
+  background-color: #ECF0F1;
   @include height-width-cover;
   @include background-cover;
 }

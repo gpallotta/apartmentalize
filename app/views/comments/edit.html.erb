@@ -1,9 +1,11 @@
 <div class="row">
-      <%= simple_form_for(@comment, :html => {class: 'form-inline'}) do |f| %>
-      <%= f.input :content, label: false, placeholder: 'Comment' %>
-      <%= f.button :submit, 'Save changes' %>
-      <% end %>
+  <div class="span4 offset4 well  ">
+    <%= simple_form_for(@comment, :html => {class: 'form-inline'}) do |f| %>
+    <%= f.input :content, label: false, placeholder: 'Comment' %>
+    <%= f.button :submit, 'Save changes' %>
+    <% end %>
+    <%= link_to 'Delete', comment_path(@comment), method: 'delete', confirm: 'Are you sure?' %>
+  </div>
 </div>
 
-<%= link_to 'Delete', comment_path(@comment), method: 'delete', confirm: 'Are you sure?' %>
 

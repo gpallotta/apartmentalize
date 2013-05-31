@@ -3,7 +3,6 @@
 $unauth-box-shadow: inset 0px 0px 85px rgba(0,0,0,.5);
 
 .unauthorized-background {
-  min-height: 100%;
   background: image-url("skyline.jpg") no-repeat center center fixed;
   @include height-width-cover;
   @include background-cover;

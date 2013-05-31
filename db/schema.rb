@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130528172852) do
+ActiveRecord::Schema.define(:version => 20130531123404) do
 
   create_table "chores", :force => true do |t|
     t.string   "title",       :null => false
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20130528172852) do
     t.datetime "updated_at",                                                                        :null => false
     t.integer  "user_owed_to_id",                                                                   :null => false
     t.integer  "user_who_owes_id",                                                                  :null => false
+    t.datetime "paid_on"
   end
 
   add_index "claims", ["user_owed_to_id"], :name => "index_debts_on_user_owed_to_id"

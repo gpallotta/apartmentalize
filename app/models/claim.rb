@@ -1,4 +1,4 @@
-  class Claim < ActiveRecord::Base
+class Claim < ActiveRecord::Base
 
   belongs_to :user_owed_to,
               class_name: 'User',
@@ -19,7 +19,7 @@
   validates_presence_of :user_owed_to
   validates_presence_of :user_who_owes
 
-  attr_accessible :amount, :description, :paid, :title
+  attr_accessible :amount, :description, :paid, :title, :paid_on
 
   class << self
 
@@ -35,6 +35,10 @@
       order("created_at DESC")
     end
 
+  end
+
+  def mark_as_paid
+    update_attributes(paid: true, paid_on: Time.now)
   end
 
 end

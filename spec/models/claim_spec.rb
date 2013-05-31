@@ -94,6 +94,22 @@ describe Claim do
       it { should_not allow_value(1.234, -1, 0, 'hello').for(:amount) }
     end
 
+    context "paid on" do
+      it { should respond_to(:paid_on) }
+    end
+
+  end
+
+  describe "methods" do
+    context ".mark_as_paid" do
+      before { cl1.mark_as_paid }
+      it "marks the debt as paid" do
+        expect(cl1).to be_paid
+      end
+      it "sets the paid_on property to the current time" do
+        expect(cl1.paid_on).to be_a(Time)
+      end
+    end
   end
 
 end

@@ -2,21 +2,34 @@
   <div class="span6 offset3">
     <div class="well">
 
-      <div class="claim-header-wrapper">
-        <div class="span2">
-            <div class="claim-header-text"><%= @claim.title %> <%= @claim.amount %></div>
-            <div class="claim-description"><%= @claim.description %></div>
-        </div>
-        <div class="span2">
-            Owed to<div class="claim-header-text"><%= @claim.user_owed_to.name %></div>
-            Owed by<div class="claim-header-text"><%= @claim.user_who_owes.name %></div>
-        </div>
+      <div class="row claim-header-wrapper">
+          <div class="span2">
+              Title<div class="claim-header-text">
+                <%= @claim.title %>
+              </div>
+              Amount<div class="claim-header-text">
+                <%= @claim.amount %>
+              </div>
+              Description
+          </div>
+          <div class="span2 offset1">
+
+              Owed to<div class="claim-header-text"><%= @claim.user_owed_to.name %></div>
+              Owed by<div class="claim-header-text"><%= @claim.user_who_owes.name %></div>
+
+              Paid on<div class="claim-header-text">
+              <%= paid_status_for_show_page @claim %>
+
+            </div>
+
+          </div>
+
       </div>
 
       <div class="claim-button-wrapper">
         <div class="row">
 
-          <div class="span2 offset1">
+          <div class="span2 offset">
             <button class="btn btn-inverse edit-button">
               <%= link_to 'Edit', edit_claim_path(@claim) %>
             </button>
@@ -42,7 +55,7 @@
         <ul class="comments-list">
           <div class="row">
             <div class="span3 offset1">
-              <p><%= @comments.count %> comments (most recent first)</p>
+              <p><%= @comments.count %> comments</p>
             </div>
           </div>
           <%= render partial: 'claims/comment', collection: @comments %>

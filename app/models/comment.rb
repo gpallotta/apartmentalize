@@ -16,6 +16,10 @@ class Comment < ActiveRecord::Base
       order("created_at DESC")
     end
 
+    def oldest_first
+      order("created_at ASC")
+    end
+
   end
 
 end

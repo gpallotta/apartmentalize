@@ -513,6 +513,9 @@ describe "claim pages" do
           expect(page).to have_content(com.user.name)
           expect(page).to have_content(com2.user.name)
         end
+        it "shows comments with the oldest first" do
+          expect(page.body.index(com.content)).to be < page.body.index(com2.content)
+        end
         it "only shows edit links for your comments" do
           expect(page).not_to have_link("Edit Comment", href: edit_comment_path(com2))
         end

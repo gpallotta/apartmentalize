@@ -9,7 +9,7 @@ class ClaimsController < ApplicationController
   def show
     @comment = Comment.new
     @claim = Claim.find(params[:id])
-    @comments = @claim.comments
+    @comments = @claim.comments.oldest_first
   end
 
   def create
@@ -50,7 +50,7 @@ class ClaimsController < ApplicationController
 
   def mark_as_paid
     @claim = Claim.find(params[:id])
-    @claim.update_attributes(paid: true)
+    @claim.mark_as_paid
     redirect_to claims_path
   end
 

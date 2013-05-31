@@ -16,6 +16,13 @@ describe Comment do
         expect(Comment.most_recent_first.second).to eql(c1)
       end
     end
+
+    context ".oldest_first" do
+      it "Returns oldest comment first" do
+        expect(Comment.oldest_first.first).to eql(c1)
+        expect(Comment.oldest_first.second).to eql(c2)
+      end
+    end
   end
 
   describe "associations" do

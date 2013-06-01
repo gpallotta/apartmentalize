@@ -2,11 +2,10 @@ require 'spec_helper'
 
 describe "creating a new manager" do
 
-  let(:group) { FactoryGirl.create(:group) }
-  let(:user) { FactoryGirl.create(:user, group: group) }
+  extend ManagersHarness
+  create_factories_and_sign_in
 
   before do
-    sign_in user
     visit group_path(group)
     click_link 'Add An Important Person'
   end

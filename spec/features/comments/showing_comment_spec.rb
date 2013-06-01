@@ -2,20 +2,13 @@ require 'spec_helper'
 
 describe "viewing comments" do
 
-  let(:group) { FactoryGirl.create(:group) }
-  let(:user1) { FactoryGirl.create(:user, group: group) }
-  let!(:user2) { FactoryGirl.create(:user, group: group) }
-  let!(:cl) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user2)}
-  let!(:com) { FactoryGirl.create(:comment, claim: cl, user: user1)}
-
-  before do
-    sign_in user1
-    visit claim_path(cl)
-  end
+  extend CommentsHarness
+  create_factories_and_sign_in
 
   let!(:com2) { FactoryGirl.create(:comment, user: user2, claim: cl) }
 
   before { visit claim_path(cl) }
+
   it "shows all comments for the claim" do
     expect(page).to have_content(com.content)
     expect(page).to have_content(com2.content)

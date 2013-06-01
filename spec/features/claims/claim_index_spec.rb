@@ -2,19 +2,13 @@ require 'spec_helper'
 
 describe "index page" do
 
-  let(:group) { FactoryGirl.create(:group) }
-  let(:user1) { FactoryGirl.create(:user, group: group) }
-  let!(:user2) { FactoryGirl.create(:user, group: group) }
-  let!(:user3) { FactoryGirl.create(:user, group: group) }
-  let!(:cl) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user2)}
+  extend ClaimsHarness
+  create_factories_and_sign_in
   let!(:cl2) { FactoryGirl.create(:claim, user_owed_to: user2, user_who_owes: user1)}
   let!(:roommate_cl) { FactoryGirl.create(:claim,
                 user_owed_to: user3, user_who_owes: user2)}
 
-  before do
-    sign_in user1
-    visit claims_path
-  end
+  before { visit claims_path }
 
   context "viewing claims within your group" do
     it "displays all claims related to you by default" do

@@ -2,11 +2,8 @@ require 'spec_helper'
 
 describe "editing claims" do
 
-  let(:group) { FactoryGirl.create(:group) }
-  let(:user1) { FactoryGirl.create(:user, group: group) }
-  let!(:user2) { FactoryGirl.create(:user, group: group) }
-  let!(:user3) { FactoryGirl.create(:user, group: group) }
-  let!(:cl) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user2)}
+  extend ClaimsHarness
+  create_factories_and_sign_in
 
   before do
     visit claim_path(cl)

@@ -2,12 +2,10 @@ require 'spec_helper'
 
 describe "editing a manager" do
 
-  let(:group) { FactoryGirl.create(:group) }
-  let(:user) { FactoryGirl.create(:user, group: group) }
-  let!(:m) { FactoryGirl.create(:manager, group: group) }
+  extend ManagersHarness
+  create_factories_and_sign_in
 
   before do
-    sign_in user
     visit group_path(group)
     click_link 'Edit'
   end
@@ -19,7 +17,7 @@ describe "editing a manager" do
     end
 
     it "does not save the changes" do
-      expect(m.reload.name).not_to eql('')
+      expect(manager.reload.name).not_to eql('')
     end
   end
 

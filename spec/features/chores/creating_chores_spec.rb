@@ -2,13 +2,10 @@ require 'spec_helper'
 
 describe "creating chores" do
 
-  let(:group) { FactoryGirl.create(:group) }
-  let(:user) { FactoryGirl.create(:user, group: group) }
+  extend ChoresHarness
+  create_factories_and_sign_in
 
-  before do
-    sign_in user
-    visit chores_path
-  end
+  before { visit chores_path }
 
   context "with invalid info" do
       it "does not create a chore" do

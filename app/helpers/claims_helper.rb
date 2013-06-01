@@ -18,7 +18,7 @@ module ClaimsHelper
     if @claim.paid?
       content_tag(:a, 'Already paid', class: 'btn disabled')
     else
-      link_to 'Mark as paid', mark_as_paid_claim_path(@claim), method: 'put', class: 'btn btn-large'
+      link_to 'Mark as paid', mark_as_paid_claim_path(@claim), method: 'put', class: 'btn'
     end
   end
 

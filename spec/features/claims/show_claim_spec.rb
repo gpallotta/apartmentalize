@@ -2,17 +2,10 @@ require 'spec_helper'
 
 describe "show page for a claim" do
 
-  let(:group) { FactoryGirl.create(:group) }
-  let(:user1) { FactoryGirl.create(:user, group: group) }
-  let!(:user2) { FactoryGirl.create(:user, group: group) }
-  let!(:user3) { FactoryGirl.create(:user, group: group) }
-  let!(:cl) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user2)}
+  extend ClaimsHarness
+  create_factories_and_sign_in
 
-  before do
-    sign_in user1
-    visit claims_path
-    visit claim_path(cl)
-  end
+  before { visit claim_path(cl) }
 
   describe "viewing paid status" do
 
@@ -31,6 +24,10 @@ describe "show page for a claim" do
     it "has a link to mark as paid if the claim is not paid" do
       expect(page).to have_link('Mark as paid',
                 href: mark_as_paid_claim_path(cl))
+    end
+    it "redirects back to the current page if mark as paid is clicked" do
+      click_link 'Mark as paid'
+      expect(current_path).to eql(claim_path(cl))
     end
     it "does not have the link to mark as paid if the claim is paid" do
       click_link 'Mark as paid'

@@ -51,7 +51,7 @@ class ClaimsController < ApplicationController
   def mark_as_paid
     @claim = Claim.find(params[:id])
     @claim.mark_as_paid
-    redirect_to claims_path
+    redirect_to :back
   end
 
   private

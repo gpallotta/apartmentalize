@@ -2,14 +2,10 @@ require 'spec_helper'
 
 describe "editing chores" do
 
-  let(:group) { FactoryGirl.create(:group) }
-  let(:user) { FactoryGirl.create(:user, group: group) }
-  let!(:ch1) { FactoryGirl.create(:chore,
-                                  group: group,
-                                  user: user)}
+  extend ChoresHarness
+  create_factories_and_sign_in
 
   before do
-    sign_in user
     visit chores_path
     click_link 'Edit'
   end

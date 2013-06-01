@@ -1,6 +1,6 @@
 class Manager < ActiveRecord::Base
 
-  belongs_to :group
+  belongs_to :group, inverse_of: :managers
 
   validates_presence_of :name
   validates_presence_of :title

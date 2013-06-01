@@ -1,6 +1,6 @@
 class Chore < ActiveRecord::Base
-  belongs_to :group
-  belongs_to :user
+  belongs_to :group, inverse_of: :chores
+  belongs_to :user, inverse_of: :chores
 
   validates_presence_of :title
   validates_presence_of :group

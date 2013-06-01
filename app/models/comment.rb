@@ -1,7 +1,7 @@
 class Comment < ActiveRecord::Base
 
-  belongs_to :claim
-  belongs_to :user
+  belongs_to :claim, inverse_of: :comments
+  belongs_to :user, inverse_of: :comments
 
   validates_presence_of :content
   validates_presence_of :claim

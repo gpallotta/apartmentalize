@@ -1,17 +1,35 @@
-class ClaimSearch
-  attr_reader :user, :claims, :params
+class ClaimSearch < ActiveRecord::Base
+  attr_reader :user, :claims, :params, :amount_min, :amount_max,
+              :title_desc, :checked_users, :include_paid, :include_unpaid,
+              :include_to_pay, :include_to_receive
 
   def initialize user, claims, params
     @user = user
     @claims = claims
     @params = params
+    set_search_instance_vars
+  end
+
+  def set_search_instance_vars
+    if params[:z]
+      @amount_min = params[:z][:amount_min]
+      @amount_max = params[:z][:amount_max]
+      @title_desc = params[:z][:title_or_description_cont]
+      @checked_users = params[:z][:user_name]
+      @include_paid = params[:z][:paid_status].include? 'true'
+      @include_unpaid = params[:z][:paid_status].include? 'false'
+      @include_to_receive = params[:z][:to_receive]
+      @include_to_pay = params[:z][:to_pay]
+    end
   end
 
   def results
-    owed_user_index
-    title_or_description_contains
-    amount_between
-    paid_or_unpaid
+    if params[:z]
+      owed_user_index
+      title_or_description_contains
+      amount_between
+      paid_or_unpaid
+    end
     @claims
   end
 

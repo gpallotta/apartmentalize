@@ -22,4 +22,10 @@ module ClaimsHelper
     end
   end
 
+  def user_checkbox_checked? name
+    if @search.checked_users && @search.checked_users.include?(name)
+      true
+    end
+  end
+
 end

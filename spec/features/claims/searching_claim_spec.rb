@@ -12,6 +12,31 @@ describe "searching claims" do
   let!(:unrelated_cl) { FactoryGirl.create(:claim, user_owed_to: user2,
                   user_who_owes: user3) }
 
+  describe "persisting searches between requests" do
+    before do
+      fill_in 'z_title_or_description_cont', with: 'match'
+      fill_in 'z_amount_min', with: 1
+      fill_in 'z_amount_max', with: 2
+      check("#{user3.name}-checkbox")
+      check("paid-checkbox")
+      check("unpaid-checkbox")
+      check("To receive")
+      check("To pay")
+      click_button 'Search Claims'
+      click_button 'Search Claims'
+    end
+    it "maintains form selections after search is performed" do
+      expect( find_field('z_title_or_description_cont').value).to eql 'match'
+      expect( find_field('z_amount_min').value).to eql '1'
+      expect( find_field('z_amount_max').value).to eql '2'
+      expect( find("##{user3.name}-checkbox") ).to be_checked
+      expect( find("#paid-checkbox") ).to be_checked
+      expect( find("#unpaid-checkbox") ).to be_checked
+      expect( find("#to-receive") ).to be_checked
+      expect( find("#to-pay") ).to be_checked
+    end
+  end
+
   context "searching by title or description" do
     let!(:cl_title) { FactoryGirl.create(:claim, user_owed_to: user1,
                       user_who_owes: user2, title: 'match')}
@@ -274,8 +299,8 @@ describe "searching claims" do
         expect(page).to have_content(you_owe_user2.title, you_owe_user3.title, cl2.title)
         expect(page).not_to have_content(cl3.title, cl.title)
       end
-
     end
+
   end
 
 end

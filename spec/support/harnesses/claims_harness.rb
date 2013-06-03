@@ -8,6 +8,7 @@ module ClaimsHarness
     let!(:user2) { FactoryGirl.create(:user, group: group) }
     let!(:user3) { FactoryGirl.create(:user, group: group) }
     let!(:cl) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user2)}
+    let!(:cl2) { FactoryGirl.create(:claim, user_owed_to: user2, user_who_owes: user1)}
     before { sign_in user1 }
   end
 

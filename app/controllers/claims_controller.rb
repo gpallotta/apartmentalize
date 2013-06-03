@@ -3,6 +3,9 @@ class ClaimsController < ApplicationController
   def index
     @claim = Claim.new
     @claims = current_user.claims
+    if params[:z]
+      @search = ClaimSearch.new(current_user, @claims, params).results
+    end
     @claim_balance = ClaimBalance.new(current_user, @claims)
   end
 

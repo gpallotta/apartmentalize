@@ -7,6 +7,8 @@ describe "index page" do
   let!(:cl2) { FactoryGirl.create(:claim, user_owed_to: user2, user_who_owes: user1)}
   let!(:roommate_cl) { FactoryGirl.create(:claim,
                 user_owed_to: user3, user_who_owes: user2)}
+  let!(:paid_cl) {  FactoryGirl.create(:claim, user_owed_to: user2,
+                user_who_owes: user1, paid: true) }
 
   before { visit claims_path }
 
@@ -29,6 +31,9 @@ describe "index page" do
     end
     it "has a link to mark debts you are owed as paid" do
       expect(page).to have_link('Mark paid', href: mark_as_paid_claim_path(cl))
+    end
+    it "does not have a link to mark paid debts as paid" do
+      expect(page).not_to have_link('Mark paid', href: mark_as_paid_claim_path(paid_cl))
     end
     it "does not have a link to mark debts you owe as paid" do
       expect(page).not_to have_link('Mark paid', href: mark_as_paid_claim_path(cl2))

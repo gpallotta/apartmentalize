@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
 
   has_many :comments, inverse_of: :user
   has_many :chores, inverse_of: :user
-  belongs_to :group, inverse_of: :user
+  belongs_to :group, inverse_of: :users
 
   validates_presence_of :name
   validates_presence_of :group

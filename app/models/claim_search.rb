@@ -5,8 +5,8 @@ class ClaimSearch < ActiveRecord::Base
 
   def initialize user, claims, params
     @user = user
-    @claims = claims
     @params = params
+    @claims = sort(claims)
     set_search_instance_vars
   end
 
@@ -16,8 +16,10 @@ class ClaimSearch < ActiveRecord::Base
       @amount_max = params[:z][:amount_max]
       @title_desc = params[:z][:title_or_description_cont]
       @checked_users = params[:z][:user_name]
-      @include_paid = params[:z][:paid_status].include? 'true'
-      @include_unpaid = params[:z][:paid_status].include? 'false'
+      if params[:z][:paid_status]
+        @include_paid = params[:z][:paid_status].include? 'true'
+        @include_unpaid = params[:z][:paid_status].include? 'false'
+      end
       @include_to_receive = params[:z][:to_receive]
       @include_to_pay = params[:z][:to_pay]
     end
@@ -31,6 +33,18 @@ class ClaimSearch < ActiveRecord::Base
       paid_or_unpaid
     end
     @claims
+  end
+
+  def sort claims
+    if params[:sort] == "owed_by"
+      claims.find(:all, :joins => "left join users on claims.user_who_owes_id = users.id",
+        :order => "users.name #{params[:direction]}")
+    elsif params[:sort] == "owed_to"
+      claims.find(:all, :joins => "left join users on claims.user_owed_to_id = users.id",
+        :order => "users.name #{params[:direction]}")
+    else
+      claims.order("#{sort_column} #{sort_direction}")
+    end
   end
 
   def owed_user_index
@@ -109,6 +123,14 @@ class ClaimSearch < ActiveRecord::Base
     else
       str
     end
+  end
+
+  def sort_column
+    params[:sort] || "created_at"
+  end
+
+  def sort_direction
+    params[:direction] || "desc"
   end
 
 end

@@ -29,11 +29,11 @@
   <div class="span9">
     <table class="claims-table table table-hover">
       <thead>
-        <th><%= link_to "Owed to", :sort => "user_owed_to.name" %></th>
-        <th><%= link_to "Owed by", :sort => "user_owed_to.name" %></th>
-        <th><%= link_to "Title", :sort => "title" %></th>
-        <th><%= link_to "Amount", :sort => "amount" %></th>
-        <th><%= link_to "Created on", :sort => "created_at" %></th>
+        <th><%= sortable "owed_to", "Owed to" %></th>
+        <th><%= sortable "owed_by", "Owed by" %></th>
+        <th><%= sortable "title" %></th>
+        <th><%= sortable "amount" %></th>
+        <th><%= sortable "created_at", "Created on" %></th>
       </thead>
 
       <%= render partial: 'claim', collection: @claims %>

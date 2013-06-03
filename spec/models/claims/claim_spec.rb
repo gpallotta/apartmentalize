@@ -60,12 +60,6 @@ describe Claim do
       end
     end # end for paid status
 
-    describe ".most_recent_first" do
-      it "returns newer claims first" do
-        expect(Claim.most_recent_first.first).to eql(cl3)
-        expect(Claim.most_recent_first.second).to eql(cl2)
-      end
-    end
   end
 
 

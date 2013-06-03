@@ -2,10 +2,12 @@ class ClaimsController < ApplicationController
 
   def index
     @claim = Claim.new
-    @claims = current_user.claims
+    @claims = current_user.claims.order(params[:sort])
     if params[:z]
-      @search = ClaimSearch.new(current_user, @claims, params).results
+      @search = ClaimSearch.new(current_user, @claims, params)
+      @claims = @search.results
     end
+    # @claims = @claims.order(params[:sort])
     @claim_balance = ClaimBalance.new(current_user, @claims)
   end
 

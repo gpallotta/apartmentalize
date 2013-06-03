@@ -18,16 +18,10 @@ class ClaimSearch
   def owed_user_index
     to_receive_present, to_pay_present = params[:z][:to_receive], params[:z][:to_pay]
     if (to_receive_present && to_pay_present) || (!to_receive_present && !to_pay_present)
-      # if no names passed in, do nothing
-      # else return where z[user_name] include user_owed_to.name or user_who_owes.name
       to_receive_and_pay
     elsif to_receive_present
-      # if no names passed in, return where user_owed_to is current_user
-      # else return where user_owed_to is curret_user and z[user_name] include user_who_owes
       to_receive
     else
-      # if no names are passed in, return where user_who_owes is current_user
-      # else return where user_who_owes is current_user and z[user_name] include user_owed_to
       to_pay
     end
   end

@@ -5,22 +5,22 @@ FactoryGirl.define do
   end
 
   factory :user do
-    sequence(:name) { |n| "Person#{n}" }
-    sequence(:email) { |n| "Person_#{n}@example.com" }
+    sequence(:name) { |n| "person#{n}" }
+    sequence(:email) { |n| "person_#{n}@example.com" }
     password "password"
     password_confirmation "password"
     group
   end
 
   factory :chore do
-    sequence(:title) { |n| "Title #{n}"}
+    sequence(:title) { |n| "title #{n}"}
     sequence(:description) { |n| "Description #{n}"}
     group
     user
   end
 
   factory :claim do
-    sequence(:title) { |n| "Claim_title #{n}" }
+    sequence(:title) { |n| "claim_title #{n}" }
     amount 25.00
     paid false
     association :user_owed_to, factory: :user
@@ -32,7 +32,7 @@ FactoryGirl.define do
   end
 
   factory :comment do
-    sequence(:content) { |n| "Blarg#{n}"}
+    sequence(:content) { |n| "blarg#{n}"}
     user
     claim
   end

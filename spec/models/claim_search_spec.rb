@@ -17,7 +17,7 @@ describe ClaimSearch do
   end
 
   describe "instance vars" do
-    let!(:cs) { ClaimSearch.new(user1, Claim.all, {}) }
+    let!(:cs) { ClaimSearch.new(user1, Claim.scoped, {}) }
     it "has a user" do
       expect(cs.user).to be_a(User)
     end
@@ -29,6 +29,42 @@ describe ClaimSearch do
     it "has a list of params" do
       expect(cs.params).to be_a Hash
     end
+  end
+
+  describe ".sort" do
+
+    before { params[:direction] = "asc" }
+
+    context "when sorting by owed_by name" do
+      before { params[:sort] = "owed_by" }
+      it "sorts by the name of the user owed to" do
+        owed_by_sort = ClaimSearch.new(user1, user1.claims, params)
+        expect(owed_by_sort.claims.first).to eql(cl2)
+      end
+    end
+
+    context "when sorting by owed_to name" do
+      before do
+        params[:sort] = "owed_to"
+        params[:direction] = "desc"
+      end
+      it "sorts by the name of the user owed to" do
+        owed_to_sort = ClaimSearch.new(user1, user1.claims, params)
+        expect(owed_to_sort.claims.first).to eql(cl2)
+      end
+    end
+
+    context "when sorting by anything else" do
+      let!(:low_amount_cl) { FactoryGirl.create(:claim, user_owed_to: user2,
+               user_who_owes: user1, amount: 2) }
+      before { params[:sort] = "amount" }
+
+      it "sorts by the passed in params" do
+        amount_sort = ClaimSearch.new(user1, user1.claims, params)
+        expect(amount_sort.claims.first).to eql(low_amount_cl)
+      end
+    end
+
   end
 
   describe ".owed_user_index" do

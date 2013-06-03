@@ -10,12 +10,6 @@ describe Comment do
   let!(:c2) { FactoryGirl.create(:comment, claim: cl2, user: user1) }
 
   describe "scope" do
-    context ".most_recent_first" do
-      it "returns newest comment first" do
-        expect(Comment.most_recent_first.first).to eql(c2)
-        expect(Comment.most_recent_first.second).to eql(c1)
-      end
-    end
 
     context ".oldest_first" do
       it "Returns oldest comment first" do

@@ -12,10 +12,6 @@ class Comment < ActiveRecord::Base
 
   class << self
 
-    def most_recent_first
-      order("created_at DESC")
-    end
-
     def oldest_first
       order("created_at ASC")
     end

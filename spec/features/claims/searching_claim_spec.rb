@@ -37,6 +37,26 @@ describe "searching claims" do
     end
   end
 
+  describe "persisting search when sorting is changed" do
+    let!(:search_cl_1) { FactoryGirl.create(:claim, user_owed_to: user1,
+                  user_who_owes: user2, amount: 2) }
+    let!(:search_cl_2) { FactoryGirl.create(:claim, user_owed_to: user1,
+                  user_who_owes: user2, amount: 1) }
+    before do
+      visit claims_path
+      fill_in 'z_amount_max', with: 3
+      click_button 'Search Claims'
+    end
+
+    it "does not reset the search when a sort link is clicked" do
+      click_link 'Amount'
+      expect(page).not_to have_content(cl.title)
+      expect(page).not_to have_content(cl2.title)
+      expect(page.body.index(search_cl_2.title)).to be < page.body.index(search_cl_1.title)
+    end
+
+  end
+
   context "searching by title or description" do
     let!(:cl_title) { FactoryGirl.create(:claim, user_owed_to: user1,
                       user_who_owes: user2, title: 'match')}

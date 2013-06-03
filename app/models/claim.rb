@@ -33,10 +33,6 @@ class Claim < ActiveRecord::Base
       where(:paid => true)
     end
 
-    def most_recent_first
-      order("created_at DESC")
-    end
-
   end
 
   def mark_as_paid

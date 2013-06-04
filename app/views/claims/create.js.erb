@@ -1,4 +1,4 @@
-<% @created_claims.each do |c| %>
+<% @claim_creator.created_claims.each do |c| %>
   $('.claims-table').append('<%= j render c %>');
 <% end %>
 

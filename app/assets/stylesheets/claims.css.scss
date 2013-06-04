@@ -132,8 +132,8 @@ th a.desc {
 
 .claim-button-wrapper {
   margin-top: 20px;
-  .offset1 {
-    margin-left: 123px;
+  .span6 {
+    margin-left: 100px;
   }
   a {
     width: 40%;
@@ -143,34 +143,7 @@ th a.desc {
   }
 }
 
-.claim-comment-wrapper {
-  margin-top: 25px;
-  .comment-form-wrapper {
-    margin-left: 25px;
-    input {
-      width: 75%;
-    }
-  }
-  .comments-list {
-    list-style: none;
-    .comment-bold {
-      font-weight: bold;
-    }
-    .comment-content {
-      margin-top: 5px;
-    }
-    li {
-      border: 1px solid black;
-      padding: 5px;
-      width: 88%;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 10px;
-      margin-top: 5px;
-    }
-  }
-}
+
 
 .edit-claim-form {
   input {

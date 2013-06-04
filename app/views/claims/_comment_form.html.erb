@@ -1,7 +1,12 @@
-<%= simple_form_for(@comment, :html => {class: 'form-inline'}) do |f| %>
+<%= simple_form_for(@comment, :html => {class: 'form-inline'}, remote: true) do |f| %>
+
   <%= f.input :content, :as => :text, label: false, placeholder: 'Comment',
-  :input_html => { :cols => 50, :rows => 3 }
-  %>
+          :input_html => { :cols => 50, :rows => 3 } %>
+
   <%= f.input :claim_id, :as => :hidden, :input_html => { :value => @claim.id } %>
+
+  <div id="comment-form-errors"></div>
+
   <%= f.button :submit, 'Comment' %>
+
 <% end %>

@@ -24,5 +24,11 @@ describe ClaimsHelper do
     end
   end
 
+  describe ".mark_as_paid_link_id" do
+    it "returns a link containing the id of the specified claim" do
+      expect(helper.mark_as_paid_link_id(cl)).to eql("#{cl.id}-mark-paid-link")
+    end
+  end
+
 
 end

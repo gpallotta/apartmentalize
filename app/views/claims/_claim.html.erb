@@ -10,7 +10,10 @@
       <p class="links">
         <%= link_to 'View', claim_path(claim) %>
         <% if !claim.paid? && claim.user_owed_to == current_user %>
-          <%= link_to 'Mark paid', mark_as_paid_claim_path(claim), method: 'put' %>
+          <span id="<%= mark_as_paid_link_id(claim) %>">
+            <%= link_to 'Mark paid', mark_as_paid_claim_path(claim), method: 'put',
+                  remote: true %>
+          </span>
         <% end %>
       </p>
     </td>

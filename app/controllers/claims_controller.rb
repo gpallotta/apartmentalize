@@ -51,8 +51,14 @@ class ClaimsController < ApplicationController
   def mark_as_paid
     @claim = Claim.find(params[:id])
     @claim.mark_as_paid
-    redirect_to :back
+    respond_to do |format|
+      format.js { render 'index' }
+      format.html { redirect_to :back }
+    end
   end
+
+
+  private
 
   def set_up_search_results
     @unfiltered_claims = current_user.claims

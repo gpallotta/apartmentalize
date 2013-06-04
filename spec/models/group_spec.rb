@@ -50,6 +50,18 @@ describe Group do
 
   end
 
+  describe "class methods" do
+    context ".delete_empty" do
+      let!(:empty_group) { FactoryGirl.create(:group)}
+      it "deletes groups that have no users" do
+        before_count = Group.count
+        Group.delete_empty
+        expect(Group.count).to eql(before_count-1)
+      end
+    end
+
+  end
+
 
   describe "callbacks" do
 

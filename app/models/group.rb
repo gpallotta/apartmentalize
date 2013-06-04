@@ -18,4 +18,12 @@ class Group < ActiveRecord::Base
     end
   end
 
+  def self.delete_empty
+    Group.all.each do |g|
+      if g.users.count == 0
+        g.destroy
+      end
+    end
+  end
+
 end

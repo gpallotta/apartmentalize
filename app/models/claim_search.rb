@@ -126,11 +126,11 @@ class ClaimSearch < ActiveRecord::Base
   end
 
   def sort_column
-    params[:sort] || "created_at"
+    Claim.column_names.include?(params[:sort]) ? params[:sort] : "created_at"
   end
 
   def sort_direction
-    params[:direction] || "desc"
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
   end
 
 end

@@ -70,6 +70,22 @@ $form-background: #BDC3C7;
   }
 }
 
+th a.current {
+  padding-right: 12px;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+th a.asc {
+  background-image: url(image_path('up_arrow.gif'));
+
+}
+
+th a.desc {
+  background-image: url(image_path('down_arrow.gif'));
+}
+
+
 .claims-table {
   th {
     text-align: center;

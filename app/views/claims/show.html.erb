@@ -55,27 +55,21 @@
 
           <div class="span3">
             <span class="claim-header-title">Paid on
-            <div class="claim-header-small">
+            <div class="claim-header-small show-page-paid-status">
               <%= paid_status_for_show_page @claim %>
             </div>
           </div>
         </div>
-
-
       </div>
-
 
       <div class="claim-button-wrapper">
         <div class="row">
-
           <div class="span6">
               <%= link_to 'Edit', edit_claim_path(@claim),
                       class: "btn btn-inverse edit-button" %>
 
-              <%= mark_as_paid_link %>
-
+              <span id="mark-as-paid-link"><%= mark_as_paid_link %></span>
           </div>
-
         </div>
       </div>
 

@@ -10,9 +10,10 @@ module ClaimsHelper
 
   def mark_as_paid_link
     if @claim.paid?
-      content_tag(:a, 'Already paid', class: 'btn disabled')
+      content_tag(:a, 'Already paid', class: 'btn disabled', remote: true)
     else
-      link_to 'Mark as paid', mark_as_paid_claim_path(@claim), method: 'put', class: 'btn'
+      link_to 'Mark as paid', mark_as_paid_claim_path(@claim), method: 'put',
+            class: 'btn', remote: true
     end
   end
 
@@ -20,6 +21,10 @@ module ClaimsHelper
     if @search.checked_users && @search.checked_users.include?(name)
       true
     end
+  end
+
+  def mark_as_paid_link_id claim
+    "#{claim.id}-mark-paid-link"
   end
 
 end

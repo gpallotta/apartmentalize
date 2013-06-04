@@ -6,13 +6,14 @@ ApartmentV2::Application.routes.draw do
     post :lookup, :on => :collection
   end
 
-  resources :chores
+  resources :chores, :except => [:new, :show]
+
   resources :claims do
     put :mark_as_paid, :on => :member
   end
   resources :users, :only => [:show]
-  resources :managers
-  resources :comments
+  resources :managers, :except => [:index, :show]
+  resources :comments, :only => [:create, :edit, :update, :destroy]
 
   root :to => 'front_page#home'
 

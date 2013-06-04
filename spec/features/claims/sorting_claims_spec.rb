@@ -84,12 +84,19 @@ describe "sorting claims" do
 
     before { visit claims_path }
 
-    it "sorts by ascending order - newest first" do
+    it "sorts by descending order - newest first" do
       expect(page.body.index(cl.title)).to be < page.body.index(old_claim.title)
     end
-    it "sorts by descending if clicked again" do
+    it "sorts by ascending if clicked again" do
       click_link 'Created on'
       expect(page.body.index(old_claim.title)).to be < page.body.index(cl.title)
+    end
+  end
+
+  describe "default when attempting to enter non-valid sort and direction" do
+    it "defaults to created_at descending" do
+      visit '/claims?direction=crap&sort=morecrap'
+      expect(page.body.index(cl2.title)).to be < page.body.index(cl.title)
     end
   end
 end

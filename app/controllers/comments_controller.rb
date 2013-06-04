@@ -6,16 +6,16 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         format.js
-        format.html {
+        format.html do
           redirect_to claim_path(params[:comment][:claim_id])
-        }
+        end
       else
         format.js
-        format.html {
+        format.html do
           @claim = Claim.find(params[:comment][:claim_id])
           @comments = @claim.comments
           render "claims/show"
-        }
+        end
       end
     end
   end

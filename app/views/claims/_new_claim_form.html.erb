@@ -1,4 +1,5 @@
-<%= simple_form_for(@claim, :html => {class: 'form-inline new-claim-form'}) do |f| %>
+<%= simple_form_for(@claim, :html => {class: 'form-inline new-claim-form'},
+          remote: true) do |f| %>
   <%= f.input :title, placeholder: 'Title (required)', error: false, label: false %>
   <%= f.input :description, :as => :text, placeholder: 'Description (optional)',
       error: false, label: false, :input_html => { :cols => 50, :rows => 3 } %>
@@ -10,4 +11,5 @@
     <% end %>
   </div>
   <%= f.button :submit, class: 'btn submit-claim-button'%>
+  <div id="claim-form-errors"></div>
 <% end %>

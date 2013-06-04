@@ -13,20 +13,36 @@ class ClaimsController < ApplicationController
   end
 
   def create
+    @created_claims = []
+    all_valid = true
+
     current_user.group.users.each do |other|
       if params[other.name]
         @claim = Claim.new(params[:claim])
         @claim.user_who_owes = other
         @claim.user_owed_to = current_user
         if !@claim.save
-          set_up_search_results
-          @claim_balance = ClaimBalance.new(current_user, @claims)
-          render 'index'
-          return
+          all_valid = false
+        else
+          @created_claims << @claim
         end
       end
     end
-    redirect_to claims_path
+
+    respond_to do |format|
+      if all_valid
+        format.js
+        format.html { redirect_to claims_path }
+      else
+        format.html do
+          set_up_search_results
+          @claim_balance = ClaimBalance.new(current_user, @claims)
+          render 'index'
+        end
+        format.js { render 'claim_errors' }
+      end
+    end
+
   end
 
   def edit

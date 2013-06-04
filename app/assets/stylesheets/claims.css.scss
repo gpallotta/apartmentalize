@@ -40,6 +40,11 @@ $form-background: #BDC3C7;
   .user-checkbox {
     display: none;
   }
+  #claim-form-errors {
+    color: red;
+    text-align: center;
+    margin-top: 5px;
+  }
 }
 
 .claim-search-form {

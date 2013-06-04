@@ -8,12 +8,6 @@ module ClaimsHelper
     end
   end
 
-  def is_disabled?
-    if @claim.paid?
-      'disabled'
-    end
-  end
-
   def mark_as_paid_link
     if @claim.paid?
       content_tag(:a, 'Already paid', class: 'btn disabled')

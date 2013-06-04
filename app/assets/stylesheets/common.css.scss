@@ -1,10 +1,8 @@
+@import 'mixins';
+
 html, body {
   height: 100%;
   width: 100%;
-}
-
-body {
-  // margin-top: 40px;
 }
 
 a {
@@ -14,4 +12,11 @@ a {
 
 .btn.active {
   background-color: #4e6d8d;
+}
+
+.authorized-background {
+  padding-top: 80px ;
+  background-color: #ECF0F1;
+  @include height-width-cover;
+  @include background-cover;
 }

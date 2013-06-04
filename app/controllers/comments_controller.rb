@@ -2,12 +2,21 @@ class CommentsController < ApplicationController
 
   def create
     @comment = current_user.comments.new(params[:comment])
-    if @comment.save
-      redirect_to claim_path(params[:comment][:claim_id])
-    else
-      @claim = Claim.find(params[:comment][:claim_id])
-      @comments = @claim.comments
-      render "claims/show"
+    @claim = @comment.claim
+    respond_to do |format|
+      if @comment.save
+        format.js
+        format.html {
+          redirect_to claim_path(params[:comment][:claim_id])
+        }
+      else
+        format.js
+        format.html {
+          @claim = Claim.find(params[:comment][:claim_id])
+          @comments = @claim.comments
+          render "claims/show"
+        }
+      end
     end
   end
 

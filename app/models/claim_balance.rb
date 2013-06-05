@@ -36,7 +36,6 @@ class ClaimBalance
     others = []
     user.group.users.each do |u|
       if u.id != user.id
-        puts u.name
         others << u
       end
     end

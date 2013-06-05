@@ -13,7 +13,7 @@ class ClaimBalance
   end
 
   def user_balances
-    balances = Hash.new(0)
+    balances = initialize_hash
     claims.each do |c|
       user_to_add = user_to_add_to c
       balances[user_to_add] += amount_sign c
@@ -21,7 +21,27 @@ class ClaimBalance
     balances
   end
 
+  def initialize_hash
+    balances = Hash.new(0)
+    other_users.each do |u|
+      balances[u.name] = 0
+    end
+    balances
+  end
+
+
   private
+
+  def other_users
+    others = []
+    user.group.users.each do |u|
+      if u.id != user.id
+        puts u.name
+        others << u
+      end
+    end
+    others
+  end
 
   def user_to_add_to c
     if c.user_owed_to == user

@@ -6,7 +6,8 @@
   <%= f.input :amount, placeholder: 'Amount (required)', error: false, label: false %>
   <div class="user-btn-wrapper">
     <% other_users.each do |other| %>
-      <%= label_tag other.name, other.name, class: 'btn active' %>
+      <%= label_tag other.name, other.name,
+                class: 'btn active user-checkbox-label' %>
       <%= check_box_tag other.name, value=1, true, { :class => 'user-checkbox' } %>
     <% end %>
   </div>

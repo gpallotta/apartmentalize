@@ -1,6 +1,14 @@
 $(document).ready(function() {
-  $(".btn").click(function() {
-    $(this).toggleClass("active");
+  // $(".btn").click(function() {
+  //   $(this).toggleClass("active");
+  // });
+
+  $('.user-label, .include-paid, .user-checkbox-label').click(function() {
+    $(this).toggleClass('active');
+  });
+
+  $('input:checked').each(function() {
+    $(this).prev().addClass('active');
   });
 
   $(".search-button").click(function() {

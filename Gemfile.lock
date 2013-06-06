@@ -70,6 +70,7 @@ GEM
     faker (1.1.2)
       i18n (~> 0.5)
     ffi (1.8.1)
+    fivemat (1.2.1)
     flatui-rails (0.0.2)
       railties (~> 3.1)
       sass-rails (~> 3.2.0)
@@ -113,6 +114,8 @@ GEM
     mime-types (1.23)
     multi_json (1.7.3)
     nokogiri (1.5.9)
+    nyan-cat-formatter (0.5.0)
+      rspec (>= 2.13)
     orm_adapter (0.4.0)
     pg (0.15.1)
     polyglot (0.3.3)
@@ -150,6 +153,10 @@ GEM
       ffi (>= 0.5.0)
     rdoc (3.12.2)
       json (~> 1.4)
+    rspec (2.13.0)
+      rspec-core (~> 2.13.0)
+      rspec-expectations (~> 2.13.0)
+      rspec-mocks (~> 2.13.0)
     rspec-core (2.13.1)
     rspec-expectations (2.13.0)
       diff-lcs (>= 1.1.3, < 2.0)
@@ -206,11 +213,13 @@ DEPENDENCIES
   devise
   factory_girl_rails
   faker
+  fivemat
   flatui-rails
   guard-livereload
   jquery-rails
   jquery-ui-sass-rails
   launchy
+  nyan-cat-formatter
   pg
   pry
   rails (= 3.2.13)

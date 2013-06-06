@@ -22,7 +22,6 @@ describe Comment do
   describe "associations" do
 
     context "claim" do
-
       it { should respond_to(:claim) }
       it { should belong_to(:claim) }
       it { should validate_presence_of(:claim) }

@@ -1,5 +1,7 @@
 class ClaimsController < ApplicationController
 
+  before_filter :authenticate_user!
+
   def index
     @claim = Claim.new
     set_up_search_results
@@ -16,8 +18,10 @@ class ClaimsController < ApplicationController
     @claim_creator = ClaimCreator.new(current_user, params)
     @claim_creator.create_claims
 
+
     respond_to do |format|
       if @claim_creator.all_valid
+        track_activity_for_claim_creation
         format.js
         format.html { redirect_to claims_path }
       else
@@ -40,6 +44,7 @@ class ClaimsController < ApplicationController
   def update
     @claim = Claim.find(params[:id])
     if @claim.update_attributes(params[:claim])
+      track_activity( @claim, recipient_for_activity(@claim) )
       redirect_to claim_path(@claim)
     else
       render 'edit'
@@ -55,6 +60,7 @@ class ClaimsController < ApplicationController
   def mark_as_paid
     @claim = Claim.find(params[:id])
     @claim.mark_as_paid
+    track_activity @claim, recipient_for_activity(@claim)
     respond_to do |format|
       format.js { render 'index' }
       format.html { redirect_to :back }
@@ -63,6 +69,12 @@ class ClaimsController < ApplicationController
 
 
   private
+
+  def track_activity_for_claim_creation
+    @claim_creator.created_claims.each do |c|
+      track_activity( c, recipient_for_activity(c) )
+    end
+  end
 
   def set_up_search_results
     @unfiltered_claims = current_user.claims

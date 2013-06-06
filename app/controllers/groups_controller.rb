@@ -1,10 +1,17 @@
 class GroupsController < ApplicationController
 
+  before_filter :redirect_if_authenticated, only: [:new, :lookup, :create]
+  before_filter :authenticate_user!, only: [:show]
+
   def show
   end
 
   def new
-    @group = Group.new
+    if user_signed_in?
+      redirect_to home_page_path
+    else
+      @group = Group.new
+    end
   end
 
   def lookup

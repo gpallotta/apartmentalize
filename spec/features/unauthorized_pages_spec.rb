@@ -5,7 +5,7 @@ describe "unauthenticated pages" do
   let(:group) { FactoryGirl.create(:group) }
   let(:user) { FactoryGirl.create(:user, group: group) }
 
-  before { visit root_path }
+  before { visit welcome_page_path }
   subject { page }
 
   describe "resetting password" do
@@ -50,7 +50,7 @@ describe "unauthenticated pages" do
 
       it "signs in the user" do
         should have_link('Sign out')
-        expect(current_path).to eql(root_path)
+        expect(current_path).to eql(home_page_path)
       end
     end
   end

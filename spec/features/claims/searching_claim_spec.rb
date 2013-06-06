@@ -73,9 +73,7 @@ describe "searching claims" do
       expect(page).to have_content(cl_title.title)
       expect(page).to have_content(cl_desc.title)
       expect(page).not_to have_content(cl3.title)
-    end
-    it "does not return claims between your other roommates" do
-      expect(page).not_to have_content(unrelated_cl.title)
+      expect_unrelated_claims_to_not_be_shown
     end
   end
 
@@ -91,9 +89,7 @@ describe "searching claims" do
       it "only returns results which match the amounts" do
         expect(page).to have_content(cl_amount.title)
         expect(page).not_to have_content(cl.title)
-      end
-      it "does not show claims between your other roommates" do
-        expect(page).not_to have_content(unrelated_cl.title)
+        expect_unrelated_claims_to_not_be_shown
       end
     end
 
@@ -107,9 +103,7 @@ describe "searching claims" do
       it "only returns results which match the amounts" do
         expect(page).to have_content(cl_amount.title)
         expect(page).not_to have_content(cl.title)
-      end
-      it "does not show claims between your other roommates" do
-        expect(page).not_to have_content(unrelated_cl.title)
+        expect_unrelated_claims_to_not_be_shown
       end
     end
   end
@@ -124,9 +118,7 @@ describe "searching claims" do
       it "includes only paid claims in the results" do
         expect(page).to have_content(cl3.title)
         expect(page).not_to have_content(cl.title)
-      end
-     it "does not show claims between your other roommates" do
-        expect(page).not_to have_content(unrelated_cl.title)
+        expect_unrelated_claims_to_not_be_shown
       end
     end
 
@@ -138,9 +130,7 @@ describe "searching claims" do
       it "includes only unpaid claims in the results" do
         expect(page).to have_content(cl.title)
         expect(page).not_to have_content(cl3.title)
-      end
-      it "does not show claims between your other roommates" do
-        expect(page).not_to have_content(unrelated_cl.title)
+        expect_unrelated_claims_to_not_be_shown
       end
     end
 
@@ -153,9 +143,7 @@ describe "searching claims" do
       it "includes both paid and unpaid claims in the results" do
         expect(page).to have_content(cl.title)
         expect(page).to have_content(cl3.title)
-      end
-     it "does not show claims between your other roommates" do
-        expect(page).not_to have_content(unrelated_cl.title)
+        expect_unrelated_claims_to_not_be_shown
       end
     end
 
@@ -178,9 +166,7 @@ describe "searching claims" do
           expect(page).to have_content(cl2.title)
           expect(page).to have_content(cl3.title)
           expect(page).to have_content(cl4.title)
-        end
-        it "does not show claims between your other roommates" do
-          expect(page).not_to have_content(unrelated_cl.title)
+          expect_unrelated_claims_to_not_be_shown
         end
       end
 
@@ -193,9 +179,7 @@ describe "searching claims" do
           expect(page).to have_content(cl2.title)
           expect(page).to have_content(cl3.title)
           expect(page).to have_content(cl4.title)
-        end
-        it "does not show claims between your other roommates" do
-          expect(page).not_to have_content(unrelated_cl.title)
+          expect_unrelated_claims_to_not_be_shown
         end
       end
     end
@@ -209,9 +193,7 @@ describe "searching claims" do
         expect(page).to have_content(cl4.title)
         expect(page).not_to have_content(cl2.title)
         expect(page).not_to have_content(cl3.title)
-      end
-      it "does not show claims between your other roommates" do
-        expect(page).not_to have_content(unrelated_cl.title)
+        expect_unrelated_claims_to_not_be_shown
       end
     end
 
@@ -231,9 +213,7 @@ describe "searching claims" do
         expect(page).to have_content(cl.title)
         expect(page).to have_content(cl3.title)
         expect(page).not_to have_content(cl2.title)
-      end
-      it "does not show claims between your other roommates" do
-        expect(page).not_to have_content(unrelated_cl.title)
+        expect_unrelated_claims_to_not_be_shown
       end
     end
 
@@ -246,9 +226,7 @@ describe "searching claims" do
         expect(page).not_to have_content(cl.title)
         expect(page).not_to have_content(cl3.title)
         expect(page).to have_content(cl2.title)
-      end
-      it "does not show claims between your other roommates" do
-        expect(page).not_to have_content(unrelated_cl.title)
+        expect_unrelated_claims_to_not_be_shown
       end
     end
 
@@ -261,9 +239,7 @@ describe "searching claims" do
           expect(page).to have_content(cl.title)
           expect(page).to have_content(cl3.title)
           expect(page).to have_content(cl2.title)
-        end
-        it "does not show claims between your other roommates" do
-          expect(page).not_to have_content(unrelated_cl.title)
+          expect_unrelated_claims_to_not_be_shown
         end
       end
 
@@ -277,9 +253,7 @@ describe "searching claims" do
           expect(page).to have_content(cl.title)
           expect(page).to have_content(cl3.title)
           expect(page).to have_content(cl2.title)
-        end
-        it "does not show claims between your other roommates" do
-          expect(page).not_to have_content(unrelated_cl.title)
+          expect_unrelated_claims_to_not_be_shown
         end
       end
     end
@@ -321,6 +295,10 @@ describe "searching claims" do
       end
     end
 
+  end
+
+  def expect_unrelated_claims_to_not_be_shown
+    expect(page).not_to have_content(unrelated_cl.title)
   end
 
 end

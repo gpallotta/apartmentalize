@@ -1,13 +1,45 @@
 <div class="row">
-  <div class="span5"></div>
-  <div class="span5 offset1">
-    <% current_user.chores.each do |c| %>
-      <%= c.title %>
-      <%= c.description %>
-    <% end %>
-  </div>
-</div>
 
-<% @activities.each do |activity| %>
-  <%= ActivityPresenter.new(activity, self).render_activity %>
-<% end %>
+  <div class="span5">
+    <ul class="activity-feed">
+      <h4>Recent activity</h4>
+      <% @activities.each do |activity| %>
+      <li>
+        <%= ActivityPresenter.new(activity, self).render_activity %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="span5 offset1 current-chore">
+    <ul>
+      <li class="well">
+        <h3>Your chores for the week are: </h3>
+        <table class="table">
+          <thead>
+            <th>Title</th>
+            <th>Description</th>
+          </thead>
+
+          <% current_user.chores.each do |c| %>
+          <tr>
+            <td><%= c.title %></td>
+            <td><%= c.description %></td>
+          </tr>
+          <% end %>
+        </table>
+      </li>
+
+
+        <% other_users.each do |u| %>
+      <li class="well">
+        <h6>Balance for <%= u.name %></h6>
+        <p><%= @balances[u.name] %></p>
+      </li>
+        <% end %>
+    </ul>
+  </div>
+
+
+
+</div>

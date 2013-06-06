@@ -14,11 +14,37 @@ describe ActivityPresenter do
     end
   end
 
-  describe ".partial_path" do
-    it "returns the correct path to the partial for the activity type" do
+  describe "methods" do
+
+    let!(:group) { FactoryGirl.create(:group)}
+    let!(:user1) { FactoryGirl.create(:user) }
+    let!(:user2) { FactoryGirl.create(:user) }
+    let!(:claim) { FactoryGirl.create(:claim, user_owed_to: user1,
+            user_who_owes: user2) }
+
+    let!(:activity) do
+      a = Activity.new(trackable: claim, action: 'create')
+      a.trackable_type = 'Claim'
+      a.owner = user1
+      a.recipient = user2
+      a.save
+      a
     end
+
+    let!(:presenter) { ActivityPresenter.new(activity, view) }
+
+    describe ".partial_path" do
+      it "returns the correct path to the partial for the activity type" do
+        expect(presenter.partial_path).to eql('activities/claim/create')
+      end
+    end
+
+    describe ".render_partial" do
+      it "returns the correct html for the page" do
+        expect(presenter.render_partial).to include('created a new claim for')
+      end
+    end
+
   end
-
-
 
 end

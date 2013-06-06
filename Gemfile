@@ -42,6 +42,8 @@ group :test do
   gem 'shoulda-matchers'
   gem 'factory_girl_rails'
   gem 'spork'
+  gem 'fivemat'
+  gem 'nyan-cat-formatter'
 end
 
 gem 'jquery-rails'

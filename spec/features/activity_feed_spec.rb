@@ -117,7 +117,17 @@ describe "activity feed" do
         expect(page).not_to have_content("#{user1.name} created a new claim for #{Claim.last.title}")
       end
       it "shows the 10 most recent items" do
-        # create 10 comments, then create 11th and expect the first not to be shown
+        sign_out user1
+        sign_in user2
+        visit claims_path
+        11.times do |i|
+          fill_in 'claim_title', with: "Title #{i}"
+          fill_in 'claim_amount', with: 5
+          click_button 'Create Claim'
+        end
+        sign_out user2
+        sign_in user1
+        expect(page).not_to have_content('Title 0')
       end
     end
   end

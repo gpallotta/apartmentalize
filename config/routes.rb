@@ -1,5 +1,7 @@
 ApartmentV2::Application.routes.draw do
 
+  resources :activities
+
   devise_for :users, :controllers => {:registrations => "registrations"}
 
   resources :groups do
@@ -15,7 +17,8 @@ ApartmentV2::Application.routes.draw do
   resources :managers, :except => [:index, :show]
   resources :comments, :only => [:create, :edit, :update, :destroy]
 
-  root :to => 'front_page#home'
+  root :to => 'front_page#home', :as => 'home_page'
+  match "/welcome" => 'front_page#welcome', :as => 'welcome_page'
 
 
   # The priority is based upon order of creation:

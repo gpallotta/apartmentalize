@@ -12,6 +12,16 @@ class User < ActiveRecord::Base
             dependent: :destroy,
             inverse_of: :user_who_owes
 
+  has_many :activities_as_owner,
+            class_name: 'Activity',
+            foreign_key: 'owner_id',
+            inverse_of: :owner
+
+  has_many :activities_as_recipient,
+            class_name: 'Activity',
+            foreign_key: 'recipient_id',
+            inverse_of: :recipient
+
   has_many :comments, inverse_of: :user
   has_many :chores, inverse_of: :user
   belongs_to :group, inverse_of: :users

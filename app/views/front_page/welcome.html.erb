@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="span7">
+    <div class="intro-message">
+      <h2 class="apartment-title">Apartment</h2>
+      An app you can use to keep track of money <br /> your roommates owe you.
+    </div>
+  </div>
+
+
+  <div class="span4">
+    <div class="sign-in-wrapper">
+        <%= form_for("user", :url => new_user_session_path) do |f| %>
+          <%= f.text_field :email, placeholder: 'Email',
+                    class: 'text-field' %>
+          <%= f.password_field :password, placeholder: 'Password',
+                    class: 'text-field' %>
+          <%= f.check_box :remember_me, class: 'remember-me-box' %>
+          <%= f.label :remember_me, class: "remember-me" %>
+          <%= f.submit 'Sign in', class: 'sign-in btn' %>
+          <%= link_to "Forgot your password?", new_password_path('user') %>
+        <% end %>
+    </div>
+
+    <div class="signup-button-wrapper">
+      <button class="btn btn-large"><%= link_to 'Sign up', new_group_path %></button>
+    </div>
+
+  </div>
+</div>

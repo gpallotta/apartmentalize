@@ -34,6 +34,22 @@ $unauth-box-shadow: inset 0px 0px 85px rgba(0,0,0,.5);
     display: inline-block;
     margin-bottom: 12px;
   }
+  .text-field {
+    display: block;
+  }
+  .remember-me-box {
+    margin-bottom: 6px;
+    margin-right: 5px;
+  }
+  .remember-me {
+    display: inline;
+  }
+  .sign-in {
+    width: 205px;
+    padding: 10px;
+    margin: 5px 0;
+    display: block;
+  }
 }
 
 .signup-button-wrapper {

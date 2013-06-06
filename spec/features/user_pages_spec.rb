@@ -78,7 +78,7 @@ describe "user pages" do
     end
     it "returns the user to the front page" do
       click_button 'Cancel my account'
-      expect(current_path).to eql(root_path)
+      expect(current_path).to eql(welcome_page_path)
       should have_button 'Sign in'
     end
   end

@@ -1,0 +1,10 @@
+<h1>Activities</h1>
+
+<% @activities.each do |activity| %>
+  <%= div_for activity do %>
+    <p>
+      <%= activity.owner.name %> is the owner and
+      <%= activity.recipient.name %> is the recipient
+    </p>
+  <% end %>
+<% end %>

@@ -3,8 +3,10 @@ class CommentsController < ApplicationController
   def create
     @comment = current_user.comments.new(params[:comment])
     @claim = @comment.claim
+
     respond_to do |format|
       if @comment.save
+        track_activity @comment, recipient_for_activity(@claim)
         format.js
         format.html do
           redirect_to claim_path(params[:comment][:claim_id])
@@ -18,6 +20,7 @@ class CommentsController < ApplicationController
         end
       end
     end
+
   end
 
   def edit

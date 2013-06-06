@@ -20,25 +20,105 @@ describe "activity feed" do
   let!(:user1) { FactoryGirl.create(:user, group: group) }
   let!(:user2) { FactoryGirl.create(:user, group: group) }
   let!(:user3) { FactoryGirl.create(:user, group: group) }
+  let!(:cl1) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user2) }
+  let!(:cl2) { FactoryGirl.create(:claim, user_owed_to: user2, user_who_owes: user3) }
 
-  before { sign_in user1 }
+  describe "activity not related to me" do
+    before do
+      sign_in user2
+      visit claim_path(cl2)
+      fill_in 'comment_content', with: 'Not related'
+      click_button 'Comment'
+      sign_out user2
+    end
 
-
-  context "activity not related to me" do
     it "is not shown" do
+      sign_in user1
+      expect(page).not_to have_content("#{user2.name} commented on #{cl2.title}")
     end
   end
 
-  context "activity related to me" do
-    it "shows when a new claim is posted" do
+  describe "activity related to me" do
+    before do
+      sign_in user2
       visit claims_path
-      fill_in
+      fill_in 'claim_title', with: 'Cable'
+      fill_in 'claim_amount', with: 20
+      click_button 'Create Claim'
+      c = Claim.find_by_title('Cable')
+      visit claim_path(c)
+      fill_in 'comment_content', with: 'Turtles'
+      click_button 'Comment'
+      sign_out user2
+      sign_in user1
     end
-    it "shows when a claim I owe is marked as paid" do
+
+    let!(:c) { Claim.find_by_title("Cable") }
+
+    context "claims" do
+      context "create" do
+        it "shows when a new claim is posted" do
+          expect(page).to have_content("#{user2.name} created a new claim for")
+        end
+        it "links to the claim" do
+          expect(page).to have_link( "#{c.title}", href: claim_path(c) )
+        end
+      end
+
+      context "mark_as_paid" do
+        it "shows when a claim I owe is marked as paid" do
+          sign_out user1
+          sign_in user2
+          visit claim_path(c)
+          click_link 'Mark as paid'
+          sign_out user2
+          sign_in user1
+          expect(page).to have_content("#{user2.name} marked #{c.title} as paid")
+        end
+        it "links to the claim" do
+          expect(page).to have_link( "#{c.title}", href: claim_path(c) )
+        end
+      end
+
+      context "update" do
+        before do
+          sign_out user1
+          sign_in user2
+          visit edit_claim_path(c)
+          fill_in 'claim_amount', with: 11
+          click_button 'Save changes'
+          sign_out user2
+          sign_in user1
+        end
+
+        it "shows when a claim i owe is edited" do
+          expect(page).to have_content("#{user2.name} edited #{c.title}")
+        end
+        it "links to the claim" do
+          expect(page).to have_link(c.title, href: claim_path(c))
+        end
+      end
+
     end
-    it "shows when a comment is psoted on anything I owe" do
+
+    context "comments" do
+      it "shows when a comment is posted on anything I owe/am owed" do
+        expect(page).to have_content("#{user2.name} commented on")
+      end
     end
-    it "does not show my own activity" do
+
+    context "my own activity" do
+      it "is not shown" do
+        visit claims_path
+        fill_in 'claim_title', with: 'Mine'
+        fill_in 'claim_amount', with: 3
+        click_button 'Create Claim'
+        visit home_page_path
+        expect(page).not_to have_content("#{user1.name} created a new claim for #{Claim.last.title}")
+      end
+      it "shows the 10 most recent items" do
+        # create 10 comments, then create 11th and expect the first not to be shown
+      end
     end
   end
 

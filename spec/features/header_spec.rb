@@ -16,7 +16,7 @@ describe "header" do
       end
       it "signs out the user" do
         click_link 'Sign out'
-        expect(current_path).to eql(root_path)
+        expect(current_path).to eql(welcome_page_path)
         should have_button('Sign in')
       end
     end

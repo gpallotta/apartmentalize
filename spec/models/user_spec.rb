@@ -40,7 +40,6 @@ describe User do
   describe "associations" do
 
     context "claims" do
-
       context "claims_to_receive" do
         it { should have_many(:claims_to_receive).dependent(:destroy) }
         it "returns only claims owed to the user" do
@@ -56,7 +55,16 @@ describe User do
           expect(user1.claims_to_pay).not_to include(c1, c3)
         end
       end
+    end
 
+    context "activity" do
+      context "activities_as_owner" do
+        it { should have_many(:activities_as_owner) }
+      end
+
+      context "activities_as_recipient" do
+        it { should have_many(:activities_as_recipient)}
+      end
     end
 
     context "chores" do

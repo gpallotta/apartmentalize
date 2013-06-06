@@ -1,3 +1,10 @@
-<%= activity.owner.name %> created a new claim for
-<%= link_to claim.title, claim_path(claim) %>
-in the amount of <%= claim.amount %>
+<div class="activity-icon">
+  <span class="fui-plus-24"></span>
+  <%= activity.updated_at.strftime("%B %d, %Y") %>
+</div>
+
+<div class="activity-content">
+  <%= activity.owner.name %> created a new claim for
+  <%= link_to claim.title, claim_path(claim) %>
+  in the amount of <%= claim.amount %>
+</div>

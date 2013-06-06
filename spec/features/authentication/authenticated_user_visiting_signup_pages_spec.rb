@@ -22,10 +22,7 @@ describe "an authenticated user visiting the signup pages" do
 
     it "does not show the new group page" do
       expect(page).not_to have_content('Join existing group')
-    end
-
-    it "redirects back to the home page" do
-      expect(current_path).to eql(home_page_path)
+      expect_redirect_to_home_path
     end
   end
 
@@ -34,10 +31,7 @@ describe "an authenticated user visiting the signup pages" do
 
     it "does not display the password page content" do
       expect(page).not_to have_content('Forgot your password?')
-    end
-
-    it "redirects back to the home page" do
-      expect(current_path).to eql(home_page_path)
+      expect_redirect_to_home_path
     end
   end
 
@@ -46,24 +40,28 @@ describe "an authenticated user visiting the signup pages" do
 
     it "does not display the sign in page content" do
       expect(page).not_to have_content('Sign in')
+      expect_redirect_to_home_path
     end
-
-    it "redirects back to the home page" do
-      expect(current_path).to eql(home_page_path)
-    end
-
   end
 
   context "new_user_registration_path" do
     before { visit new_user_registration_path }
     it "does not display the user signup form" do
       expect(page).not_to have_content('Sign up')
+      expect_redirect_to_home_path
     end
+  end
 
-    it "redirects back to the home page" do
-      expect(current_path).to eql(home_page_path)
-    end
+  context "welcome_page_path" do
+    before { visit welcome_page_path }
+      it "does not take the user to the welcome page" do
+        expect(page).not_to have_content('An app you can use to')
+        expect_redirect_to_home_path
+      end
+   end
 
+  def expect_redirect_to_home_path
+    expect(current_path).to eql(home_page_path)
   end
 
 end

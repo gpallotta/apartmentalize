@@ -1,4 +1,5 @@
-# ---------------
+###############
+
 # As a user
 # I want to see a feed of recent activity on the site
 # so I know what has been going on
@@ -9,7 +10,9 @@
 # I do not see my activity on the news feed
 # Items which are older are not displayed
 # I do not see items not related to me listed in the feed
-# ---------------
+
+###############
+
 
 require 'spec_helper'
 

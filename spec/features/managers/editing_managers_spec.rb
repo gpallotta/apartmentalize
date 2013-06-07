@@ -1,3 +1,16 @@
+###############
+
+# As a user
+# I want to edit manager information
+# so I can update it if it changes
+
+# AC:
+# I can edit the information for a manager
+# The new information is reflected in the app
+
+###############
+
+
 require 'spec_helper'
 
 describe "editing a manager" do

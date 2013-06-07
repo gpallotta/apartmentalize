@@ -1,3 +1,15 @@
+###############
+
+# As a user
+# I want to see a list of others in the group
+# so I know who is using the site
+
+# AC:
+# I can see a list of users in my group
+# I can see their contact information
+
+###############
+
 require 'spec_helper'
 
 describe "group index page" do

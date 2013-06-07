@@ -10,17 +10,6 @@ describe "header" do
 
   describe "links" do
 
-    context "sign out" do
-      it "has a sign out link" do
-        should have_link('Sign out', href: destroy_user_session_path)
-      end
-      it "signs out the user" do
-        click_link 'Sign out'
-        expect(current_path).to eql(welcome_page_path)
-        should have_button('Sign in')
-      end
-    end
-
     context "chores" do
       it "has a chores link" do
         should have_link('Chores', href: chores_path)

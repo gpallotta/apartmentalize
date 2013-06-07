@@ -1,6 +1,6 @@
 <div class="activity-icon">
   <span class="fui-checkmark-24"></span>
-  <%= activity.updated_at.strftime("%B %d, %Y") %>
+  <%= parse_time(activity.updated_at) %>
 </div>
 
 <div class="activity-content">

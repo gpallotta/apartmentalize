@@ -74,8 +74,6 @@ describe "activity feed" do
           sign_out user2
           sign_in user1
           expect(page).to have_content("#{user2.name} marked #{c.title} as paid")
-        end
-        it "links to the claim" do
           expect(page).to have_link( "#{c.title}", href: claim_path(c) )
         end
       end
@@ -91,31 +89,18 @@ describe "activity feed" do
           sign_in user1
         end
 
-        it "shows when a claim i owe is edited" do
+        it "shows when a claim I owe is edited" do
           expect(page).to have_content("#{user2.name} edited #{c.title}")
-        end
-        it "links to the claim" do
           expect(page).to have_link(c.title, href: claim_path(c))
         end
       end
 
-    end
-
-    context "comments" do
-      it "shows when a comment is posted on anything I owe/am owed" do
-        expect(page).to have_content("#{user2.name} commented on")
+      context "comments" do
+        it "shows when a comment is posted on anything I owe/am owed" do
+          expect(page).to have_content("#{user2.name} commented on")
+        end
       end
-    end
 
-    context "my own activity" do
-      it "is not shown" do
-        visit claims_path
-        fill_in 'claim_title', with: 'Mine'
-        fill_in 'claim_amount', with: 3
-        click_button 'Create Claim'
-        visit home_page_path
-        expect(page).not_to have_content("#{user1.name} created a new claim for #{Claim.last.title}")
-      end
       it "shows the 10 most recent items" do
         sign_out user1
         sign_in user2
@@ -128,6 +113,19 @@ describe "activity feed" do
         sign_out user2
         sign_in user1
         expect(page).not_to have_content('Title 0')
+      end
+
+    end
+
+
+    context "my own activity" do
+      it "is not shown" do
+        visit claims_path
+        fill_in 'claim_title', with: 'Mine'
+        fill_in 'claim_amount', with: 3
+        click_button 'Create Claim'
+        visit home_page_path
+        expect(page).not_to have_content("#{user1.name} created a new claim for #{Claim.last.title}")
       end
     end
   end

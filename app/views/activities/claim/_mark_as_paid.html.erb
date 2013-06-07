@@ -1,3 +1,9 @@
-<span class="fui-checkmark-24"></span>
-<%= activity.owner.name %> marked <%= link_to claim.title, claim_path(claim) %>
-as paid
+<div class="activity-icon">
+  <span class="fui-checkmark-24"></span>
+  <%= activity.updated_at.strftime("%B %d, %Y") %>
+</div>
+
+<div class="activity-content">
+  <%= activity.owner.name %> marked <%= link_to claim.title, claim_path(claim) %>
+  as paid
+</div>

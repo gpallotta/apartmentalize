@@ -30,8 +30,7 @@
         </table>
       </li>
 
-
-        <% other_users.each do |u| %>
+        <% other_users(current_user).each do |u| %>
       <li class="well">
         <h6>Balance for <%= u.name %></h6>
         <p><%= @balances[u.name] %></p>

@@ -1,1 +1,8 @@
-<%= activity.owner.name %> edited <%= link_to claim.title, claim_path(claim) %>
+<div class="activity-icon">
+  <span class="fui-new-24"></span>
+  <%= activity.updated_at.strftime("%B %d, %Y") %>
+</div>
+
+<div class="activity-content">
+  <%= activity.owner.name %> edited <%= link_to claim.title, claim_path(claim) %>
+</div>

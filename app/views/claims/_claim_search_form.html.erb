@@ -15,7 +15,7 @@
 
 
   <div class="search-button-wrapper">
-    <% other_users.each do |u| %>
+    <% other_users(current_user).each do |u| %>
         <%= label_tag "#{u.name}-checkbox", "#{u.name}", class: 'user-label btn' %>
         <%= check_box_tag "z[user_name][]", u.name, user_checkbox_checked?(u.name), { :id => "#{u.name}-checkbox", :hidden => true } %>
     <% end %>

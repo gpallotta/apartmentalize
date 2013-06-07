@@ -9,7 +9,7 @@
       </p>
 
       <%= simple_form_for :lookup, :url => lookup_groups_path, :method => 'post' do |f| %>
-        <%= f.input :identifier, label: false, placeholder: 'Group identifier', input_html: {class: form_error(@lookup_error)} %>
+        <%= f.input :identifier, label: false, placeholder: 'Group identifier' %>
         <p class="lookup-error-text">
           <% if @lookup_error %>
             Group not found

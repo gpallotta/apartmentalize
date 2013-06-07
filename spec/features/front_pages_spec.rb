@@ -1,40 +1,43 @@
+###############
+
+# As a user
+# I want to see a list of important info on the front page
+# so that I can quickly get information
+
+# AC:
+# I see my current chore on the front page
+# I see balances between my roommates and I
+
+###############
+
+
 require 'spec_helper'
 
 describe "front pages" do
 
-  let!(:group) { FactoryGirl.create(:group) }
-  let!(:user1) { FactoryGirl.create(:user, group: group) }
-  let!(:user2) { FactoryGirl.create(:user, group: group) }
-  let!(:user3) { FactoryGirl.create(:user, group: group) }
+  extend ClaimsHarness
+  create_factories_and_sign_in
 
+  let!(:chore) { FactoryGirl.create(:chore, user: user1)}
+  let!(:cl3) { FactoryGirl.create(:claim, user_owed_to: user1,
+                user_who_owes: user3, amount: 5.5) }
 
-  before do
-    sign_in user1
-    visit claims_path
-    fill_in 'claim_title', with: 'Random stuff'
-    fill_in 'claim_amount', with: 5
-    click_button 'Create Claim'
-    visit claim_path(Claim.first)
-    fill_in 'comment_content', with: 'Some comment'
-    click_button 'Comment'
-    visit claims_path
-    find(:xpath, "//a[@href='/claims/#{Claim.first.id}/mark_as_paid']").click
-  end
+  before { visit home_page_path }
 
   describe "current chore" do
-    let!(:chore) { FactoryGirl.create(:chore, user: user1)}
     it "shows chores currently assigned to you" do
-      visit home_page_path
       expect(page).to have_content(chore.title)
     end
   end
 
   describe "claim balances" do
-
+    it "shows all effective balances between my and each roommate" do
+      expect(page).to have_content("Balance for #{user2.name}")
+      expect(page).to have_content("Balance for #{user3.name}")
+      expect(page).to have_content(cl.amount - cl2.amount)
+      expect(page).to have_content(cl3.amount)
+    end
   end
-
-
-
 
 
 end

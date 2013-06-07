@@ -1,3 +1,14 @@
+###############
+
+# As a user
+# I want to view information about the managers I add to the group
+# so that I can see the info I need to contact them
+
+# AC:
+# I can see the information entered for a manager on the groups page
+
+###############
+
 require 'spec_helper'
 
 describe "viewing manager info" do

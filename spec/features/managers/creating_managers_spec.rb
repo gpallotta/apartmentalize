@@ -1,3 +1,14 @@
+###############
+
+# As a user
+# I want to be able to store information about the landlord/property manager
+# so we have a centralized place to find that information
+
+# AC:
+# I can attach a person of interest to the group
+
+###############
+
 require 'spec_helper'
 
 describe "creating a new manager" do

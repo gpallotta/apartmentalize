@@ -1,4 +1,4 @@
-####################
+###############
 
 # As a user
 # I want to be redirected back to the front page if I visit signup pages when logged in
@@ -8,7 +8,7 @@
 # I cannot visit the group or user signup pages when authenticated
 # I am redirected back to the home page when I attempt to visit the above pages
 
-####################
+###############
 
 require 'spec_helper'
 

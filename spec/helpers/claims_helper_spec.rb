@@ -32,5 +32,35 @@ describe ClaimsHelper do
     end
   end
 
+  describe ".user_checkbox_checked" do
+
+    let!(:params) do
+      params = {}
+      params[:z] = {}
+      params[:z][:user_name] = [user1.name]
+      params
+    end
+    let!(:search) { ClaimSearch.new(user1, user1.claims, params) }
+
+    it "returns true if checked_users includes the passed in user" do
+      expect( helper.user_checkbox_checked?(user1.name, search) ).to be_true
+    end
+    it "returns false if checked_users does not include the passed in user" do
+      expect( helper.user_checkbox_checked?(user2.name, search) ).to be_false
+    end
+  end
+
+  describe "mark_as_paid_link" do
+    let!(:unpaid_cl) { FactoryGirl.create(:claim) }
+    let!(:paid_cl) { FactoryGirl.create(:claim, paid: true) }
+    it "returns a link with text 'already paid' if the claim is paid" do
+      expect(helper.mark_as_paid_link(paid_cl)).to include('Already paid')
+    end
+    it "returns a link with text 'mark as paid' if the claim is unpaid" do
+      link = "/claims/#{unpaid_cl.id}/mark_as_paid"
+      expect(helper.mark_as_paid_link(unpaid_cl)).to include(link)
+    end
+  end
+
 
 end

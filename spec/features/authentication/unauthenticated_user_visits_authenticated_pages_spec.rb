@@ -3,7 +3,7 @@
 # As a user
 # I want to be redirected to the sign in page when I visit pages which require me to be authenticated
 # so that I don't see things I'm not supposed to or cause errors
-#
+
 # Acceptance Criteria
 # I cannot visit the claim, home, comment, or user/group info pages if I am not authenticated
 # I am redirected back to the welcome page

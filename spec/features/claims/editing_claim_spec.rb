@@ -1,3 +1,16 @@
+###############
+
+# As a user
+# I want to edit debts
+# so I can correct erroneous information
+
+# AC:
+# I can edit a debt
+# The new amount and title are reflected on the view pages
+
+###############
+
+
 require 'spec_helper'
 
 describe "editing claims" do

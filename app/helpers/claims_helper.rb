@@ -35,4 +35,12 @@ module ClaimsHelper
     "#{claim.id}-mark-paid-link"
   end
 
+  def edit_claim_link claim, user
+    if claim.user_who_owes.id == user.id
+      content_tag(:a, 'Cannot edit', class: 'btn disabled', remote: true)
+    else
+      link_to 'Edit', edit_claim_path(claim)
+    end
+  end
+
 end

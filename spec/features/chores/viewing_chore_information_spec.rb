@@ -1,6 +1,18 @@
+###############
+
+# As a user
+# I want to see information about each chore
+# so I know what I need to do
+
+# AC:
+# I can see the name and description of chores
+# I can see who all chores are assigned to
+
+###############
+
 require 'spec_helper'
 
-describe "chore pages" do
+describe "viewing chore information" do
 
   extend ChoresHarness
   create_factories_and_sign_in

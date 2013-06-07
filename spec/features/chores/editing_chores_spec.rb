@@ -1,3 +1,15 @@
+###############
+
+# As a user
+# I want to edit chores
+# so I can amend erroneous information
+
+# AC:
+# I can edit the description and user of a chore
+# I am notified when a chore is changed by a different user
+
+###############
+
 require 'spec_helper'
 
 describe "editing chores" do

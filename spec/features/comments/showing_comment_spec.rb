@@ -1,3 +1,16 @@
+###############
+
+# As a user
+# I want to be able to view information about a comment
+# so I can see who posted it when
+
+# AC:
+# I can see all comments for a particular claim
+# I can see who wrote the comment
+# I can see when the comment was posted
+###############
+
+
 require 'spec_helper'
 
 describe "viewing comments" do
@@ -19,9 +32,6 @@ describe "viewing comments" do
   end
   it "shows comments with the oldest first" do
     expect(page.body.index(com.content)).to be < page.body.index(com2.content)
-  end
-  it "only shows edit links for your comments" do
-    expect(page).not_to have_link("Edit Comment", href: edit_comment_path(com2))
   end
 
 end

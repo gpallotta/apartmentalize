@@ -1,3 +1,33 @@
+###############
+
+# As a user
+# I want to create new debts
+# so I can keep track of items I am owed for
+
+# AC:
+# I can create a debt
+# I am notified when a debt is not created due to erroneous entry
+# I can create the same debt for all roommates at once
+# I can create a debt for only certain roommates at the same time
+
+###############
+
+
+###############
+
+# As a user
+# I want to assign certain information to a debt
+# so I can keep track of what I want
+
+# AC:
+# I can set who owes the debt
+# I can give the debt a title
+# I can give the debt a description
+# I can give the debt an amount
+
+###############
+
+
 require 'spec_helper'
 
 describe "claim pages" do

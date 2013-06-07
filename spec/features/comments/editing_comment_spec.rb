@@ -1,3 +1,19 @@
+###############
+
+# As a user
+# I want to be able to edit my comments on claims
+# so that I can correct any erroneous entries
+
+# AC:
+# I can edit a comment
+# the new information is reflected in the show page
+# I can delete comments
+# I can only edit my own comments
+
+
+###############
+
+
 require 'spec_helper'
 
 describe "editing comments" do
@@ -46,6 +62,14 @@ describe "editing comments" do
     end
     it "returns to the claim page" do
       expect(current_path).to eql(claim_path(cl))
+    end
+  end
+
+  describe "comments that you did not create" do
+  let!(:com2) { FactoryGirl.create(:comment, user: user2, claim: cl) }
+
+    it "only shows edit links for your comments" do
+      expect(page).not_to have_link("Edit Comment", href: edit_comment_path(com2))
     end
   end
 

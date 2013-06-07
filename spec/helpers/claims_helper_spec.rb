@@ -74,5 +74,16 @@ describe ClaimsHelper do
     end
   end
 
+  describe ".edit_claim_link" do
+    let!(:cl2) { FactoryGirl.create(:claim,
+                  user_owed_to: user2, user_who_owes: user1) }
+    it "returns text 'cannot edit' if the claim is not theirs" do
+      expect(helper.edit_claim_link(cl2, user1)).to include('Cannot edit')
+    end
+    it "returns a link to the edit action if the claim is theirs" do
+      expect(helper.edit_claim_link(cl, user1)).to include('Edit')
+    end
+  end
+
 
 end

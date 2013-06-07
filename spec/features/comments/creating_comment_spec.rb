@@ -1,3 +1,16 @@
+###############
+
+# As a user
+# I want to be able to comment on a debt
+# so I can ask questions about it
+
+# AC:
+# I can write a comment on a debt
+# I can see my roommates comments
+# I am notified when someone comments on my debt or a debt I have commented on
+
+###############
+
 require 'spec_helper'
 
 

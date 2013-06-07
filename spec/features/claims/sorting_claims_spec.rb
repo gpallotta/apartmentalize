@@ -1,3 +1,16 @@
+###############
+
+# As a user
+# I want to sort the display of debts
+# so I can view the information how I want
+
+# AC:
+# I can sort the display of debts by amount
+# I can sort the display of debts by date created
+# I can sort the display of debts by title
+
+###############
+
 require 'spec_helper'
 
 describe "sorting claims" do

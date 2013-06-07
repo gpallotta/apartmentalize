@@ -85,5 +85,17 @@ describe ClaimsHelper do
     end
   end
 
+  describe ".edit_link_for_paid_status" do
+    let!(:paid_cl) { FactoryGirl.create(:claim, paid: true) }
+
+    it "returns a link to the edit page if the claim is unpaid" do
+      expect(helper.edit_link_for_paid_status(cl)).to include('Edit')
+    end
+
+    it "returns text 'cannot edit paid claims' if the claim is paid" do
+      expect(helper.edit_link_for_paid_status(paid_cl)).to include('Cannot edit paid claims')
+    end
+  end
+
 
 end

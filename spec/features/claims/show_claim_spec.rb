@@ -37,6 +37,12 @@ describe "show page for a claim" do
                 href: mark_as_paid_claim_path(cl))
     end
 
+    it "does not have a link to mark the claim as paid if I owe the claim" do
+      c = FactoryGirl.create(:claim, user_who_owes: user1, user_owed_to: user2)
+      visit claim_path(c)
+      expect(page).not_to have_link('Mark as paid', href: mark_as_paid_claim_path(c))
+    end
+
   end
 
 end

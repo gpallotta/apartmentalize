@@ -8,7 +8,15 @@ module ClaimsHelper
     end
   end
 
-  def mark_as_paid_link claim
+  def mark_paid_link_user_parse claim, user
+    if claim.user_owed_to.id != user.id
+      content_tag(:a, 'Not applicable', class: 'btn disabled', remote: true)
+    else
+      link_for_claim claim
+    end
+  end
+
+  def link_for_claim claim
     if claim.paid?
       content_tag(:a, 'Already paid', class: 'btn disabled', remote: true)
     else

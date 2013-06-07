@@ -16,4 +16,5 @@ describe "marking claims as paid" do
   it "redirects back to the claims page" do
     expect(current_path).to eql(claims_path)
   end
+
 end

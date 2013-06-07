@@ -65,10 +65,11 @@
       <div class="claim-button-wrapper">
         <div class="row">
           <div class="span6">
-              <%= link_to 'Edit', edit_claim_path(@claim),
+              <%= link_to 'Edit', edit_claim_path(@claim, current_user),
                       class: "btn btn-inverse edit-button" %>
-
-              <span id="mark-as-paid-link"><%= mark_as_paid_link(@claim) %></span>
+              <span id="mark-as-paid-link">
+                <%= mark_paid_link_user_parse(@claim, current_user) %>
+              </span>
           </div>
         </div>
       </div>

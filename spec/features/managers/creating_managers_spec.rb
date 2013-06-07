@@ -27,10 +27,6 @@ describe "creating a new manager" do
 
     it "creates a manager" do
       expect { click_button 'Create' }.to change { Manager.count }.by(1)
-    end
-
-    it "displays the newly created manager" do
-      click_button 'Create'
       expect(page).to have_content('Awesome Dude')
     end
 

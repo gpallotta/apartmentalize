@@ -18,10 +18,10 @@ describe ClaimsHelper do
     context "when the claim is paid" do
       before { cl.mark_as_paid }
       let!(:today) do
-        Time.now.in_time_zone('Eastern Time (US & Canada)')
+        Time.now.utc
       end
       it "returns a formatted string of the day the claim was paid" do
-        expect(helper.paid_status_for_show_page(cl)).to eql( Time.now.in_time_zone('Eastern Time (US & Canada)').strftime("%B %d, %Y") )
+        expect(helper.paid_status_for_show_page(cl)).to eql( Time.now.utc.strftime("%B %d, %Y") )
       end
     end
   end

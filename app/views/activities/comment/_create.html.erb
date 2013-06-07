@@ -1,2 +1,8 @@
-<span class="fui-bubble-24"></span>
-<%= activity.owner.name %> commented on <%= link_to comment.claim.title, claim_path(comment.claim) %>
+<div class="activity-icon">
+  <span class="fui-bubble-24"></span>
+  <%= activity.updated_at.strftime("%B %d, %Y") %>
+</div>
+
+<div class="activity-content">
+  <%= activity.owner.name %> commented on <%= link_to comment.claim.title, claim_path(comment.claim) %>
+</div>

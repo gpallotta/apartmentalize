@@ -12,9 +12,6 @@ describe "creating comments" do
   context "with invalid info" do
     it "does not create a comment" do
       expect { click_button 'Comment' }.not_to change { Comment.count }
-    end
-    it "renders errors" do
-      click_button 'Comment'
       expect(page).to have_content("can't be blank")
     end
   end
@@ -25,9 +22,6 @@ describe "creating comments" do
       before_count = Comment.count
       click_button 'Comment'
       expect(before_count).to eql(Comment.count-1)
-    end
-    it "displays the comment" do
-      click_button 'Comment'
       expect(page).to have_content('hello_from_comment')
     end
   end

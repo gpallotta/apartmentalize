@@ -1,9 +1,9 @@
 module ApplicationHelper
 
-  def other_users
+  def other_users user
     users = []
-    current_user.group.users.each do |u|
-      users << u unless u.id == current_user.id
+    user.group.users.each do |u|
+      users << u unless u.id == user.id
     end
     users
   end

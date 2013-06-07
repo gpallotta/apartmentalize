@@ -20,9 +20,8 @@ describe Activity do
   end
 
   describe "properties" do
-    context "action" do
-      it { should respond_to(:action) }
-    end
+    it { should respond_to(:action) }
+    it { should respond_to(:trackable_type) }
   end
 
 end

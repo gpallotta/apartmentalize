@@ -1,3 +1,19 @@
+######################
+
+# As a user
+# I want to be able to search through debts
+# so I can look for specific information
+
+# AC:
+# I can search on debt title
+# I can search on debt amount
+# I can search on debt paid status
+# I can search on roommates
+# I can combine search filters
+
+######################
+
+
 require 'spec_helper'
 
 describe "searching claims" do

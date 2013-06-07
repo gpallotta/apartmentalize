@@ -1,3 +1,16 @@
+###############
+
+# As a user
+# I want to be able to delete claims that I created
+# so I can remove erroneous entries
+
+# AC:
+# I can delete claims I owe
+# the claims no longer appear anywhere in the application
+
+###############
+
+
 require 'spec_helper'
 
 describe "deleting claims" do
@@ -13,12 +26,7 @@ describe "deleting claims" do
 
   it "deletes the claim" do
     expect(Claim.find_by_id(cl.id)).to be_nil
-  end
-  it "redirects to the claims index page" do
     expect(current_path).to eql(claims_path)
-  end
-  it "no longer displays info about the claim" do
     expect(page).not_to have_content(cl.title)
   end
-
 end

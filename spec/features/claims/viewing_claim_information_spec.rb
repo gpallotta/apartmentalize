@@ -1,9 +1,27 @@
+###############
+
+# As a user
+# I want to see the information about a claim
+# so I can tell what each claim is for
+
+# AC:
+# I can see the name of a claim
+# I can see the title
+# I can see the description
+# I can see the amount
+# I can see who owes it
+# I cannot see claims between my roommates
+# I cannot see claims from other groups
+
+###############
+
 require 'spec_helper'
 
-describe "index page" do
+describe "viewing claim information" do
 
   extend ClaimsHarness
   create_factories_and_sign_in
+
   let!(:roommate_cl) { FactoryGirl.create(:claim,
                 user_owed_to: user3, user_who_owes: user2)}
   let!(:paid_cl) {  FactoryGirl.create(:claim, user_owed_to: user2,
@@ -39,23 +57,7 @@ describe "index page" do
     end
   end
 
-  describe "viewing sums" do
-    context "total sum" do
-      it "displays the total sum you owe (or are owed) for all displayed debts" do
-        expect(page).to have_content(cl.amount + paid_cl.amount - cl2.amount)
-      end
-      it "displays the sum between you and each roommate" do
-        cl3 = FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user3,
-                amount: 7)
-        cl4 = FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user3,
-                amount: 9.34)
-        visit claims_path
-        expect(page).to have_content(cl3.amount + cl4.amount)
-        expect(page).to have_content(cl.amount - cl2.amount + paid_cl.amount)
-      end
-    end
 
-  end
 
   describe "viewing claims from other groups" do
     let(:other_group) { FactoryGirl.create(:group) }
@@ -67,4 +69,5 @@ describe "index page" do
       expect(page).not_to have_content(other_claim.title)
     end
   end
+
 end

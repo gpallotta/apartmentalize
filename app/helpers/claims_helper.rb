@@ -39,7 +39,15 @@ module ClaimsHelper
     if claim.user_who_owes.id == user.id
       content_tag(:a, 'Cannot edit', class: 'btn disabled', remote: true)
     else
-      link_to 'Edit', edit_claim_path(claim)
+      edit_link_for_paid_status claim
+    end
+  end
+
+  def edit_link_for_paid_status claim
+    if claim.paid?
+      content_tag(:a, 'Cannot edit paid claims', class: 'btn disabled', remote: true)
+    else
+      link_to 'Edit', edit_claim_path(claim), class: 'btn'
     end
   end
 

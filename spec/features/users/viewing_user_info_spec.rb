@@ -9,8 +9,8 @@
 
 ###############
 
-require 'spec_helper'
 
+require 'spec_helper'
 
 describe "viewing user information" do
   let!(:user) { FactoryGirl.create(:user) }

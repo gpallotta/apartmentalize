@@ -11,13 +11,16 @@ class ClaimsController < ApplicationController
   def show
     @comment = Comment.new
     @claim = Claim.find(params[:id])
-    @comments = @claim.comments.oldest_first
+    if user_related_to_claim?(@claim)
+      @comments = @claim.comments.oldest_first
+    else
+      redirect_to claims_path
+    end
   end
 
   def create
     @claim_creator = ClaimCreator.new(current_user, params)
     @claim_creator.create_claims
-
 
     respond_to do |format|
       if @claim_creator.all_valid
@@ -34,7 +37,6 @@ class ClaimsController < ApplicationController
         end
       end
     end
-
   end
 
   def edit
@@ -80,6 +82,14 @@ class ClaimsController < ApplicationController
     @unfiltered_claims = current_user.claims
     @search = ClaimSearch.new(current_user, @unfiltered_claims, params)
     @claims = @search.results
+  end
+
+  def user_related_to_claim? claim
+    if claim.user_who_owes == current_user || claim.user_owed_to == current_user
+      true
+    else
+      false
+    end
   end
 
 end

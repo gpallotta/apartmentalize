@@ -11,7 +11,7 @@ describe "index page" do
 
   before { visit claims_path }
 
-  context "viewing claims within your group" do
+  describe "viewing claims within your group" do
     it "displays all claims related to you by default" do
       expect(page).to have_content(cl.title)
       expect(page).to have_content(cl2.title)
@@ -39,7 +39,25 @@ describe "index page" do
     end
   end
 
-  context "viewing claims from other groups" do
+  describe "viewing sums" do
+    context "total sum" do
+      it "displays the total sum you owe (or are owed) for all displayed debts" do
+        expect(page).to have_content(cl.amount + paid_cl.amount - cl2.amount)
+      end
+      it "displays the sum between you and each roommate" do
+        cl3 = FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user3,
+                amount: 7)
+        cl4 = FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user3,
+                amount: 9.34)
+        visit claims_path
+        expect(page).to have_content(cl3.amount + cl4.amount)
+        expect(page).to have_content(cl.amount - cl2.amount + paid_cl.amount)
+      end
+    end
+
+  end
+
+  describe "viewing claims from other groups" do
     let(:other_group) { FactoryGirl.create(:group) }
     let(:other_user) { FactoryGirl.create(:user, group: group) }
     let!(:other_claim) { FactoryGirl.create(:claim, user_owed_to: other_user,

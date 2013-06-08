@@ -57,6 +57,36 @@ describe "viewing claim information" do
     end
   end
 
+  describe "pagination" do
+
+    before do
+      cl.update_attributes(title: 'paginated')
+      25.times do
+        FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user2)
+      end
+      visit claims_path
+    end
+
+    it "displays 25 claims per page" do
+      visit claims_path
+      expect(page).not_to have_content(cl.title)
+    end
+
+    context "with sorting" do
+      it "keeps sort order across pages" do
+        cl.update_attributes(amount: 1)
+        cl2.update_attributes(amount: 3)
+        paid_cl.update_attributes(amount: 35)
+        Claim.last.update_attributes(amount: 30)
+        last_claim = Claim.last
+        click_link 'Amount'
+        expect(page.body.index(cl.title)).to be < page.body.index(cl2.title)
+        click_link '2'
+        expect(page.body.index(last_claim.title)).to be < page.body.index(paid_cl.title)
+      end
+    end
+
+  end
 
 
   describe "viewing claims from other groups" do

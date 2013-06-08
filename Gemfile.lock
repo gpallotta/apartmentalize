@@ -100,6 +100,9 @@ GEM
       jquery-ui-rails (= 4.0.2)
       railties (>= 3.1.0)
     json (1.8.0)
+    kaminari (0.14.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     launchy (2.3.0)
       addressable (~> 2.3)
     listen (1.1.6)
@@ -218,6 +221,7 @@ DEPENDENCIES
   guard-livereload
   jquery-rails
   jquery-ui-sass-rails
+  kaminari
   launchy
   nyan-cat-formatter
   pg

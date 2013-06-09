@@ -9,14 +9,18 @@ class ClaimCreator
   end
 
   def create_claims
+    split_amount_evenly if params[:split_evenly]
     other_users.each do |u|
-      if params[u.name]
-        create_single_claim u
-      end
+      create_single_claim u
     end
   end
 
+
   private
+
+  def split_amount_evenly
+    params[:claim][:amount] = (params[:claim][:amount].to_f / other_users.count).to_s
+  end
 
   def create_single_claim user_who_owes
     claim = Claim.new(params[:claim])
@@ -36,9 +40,7 @@ class ClaimCreator
   def other_users
     other_users_arr = []
     user.group.users.each do |u|
-      if u.id != user.id
-        other_users_arr << u
-      end
+      other_users_arr << u if params[u.name]
     end
     other_users_arr
   end

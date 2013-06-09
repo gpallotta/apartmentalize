@@ -15,7 +15,7 @@ describe ApplicationHelper do
 
   describe ".format_time" do
     it "returns a string formatted in the proper format" do
-      expect(helper.parse_time(user1.created_at)).to eql(Time.now.strftime("%B %d, %Y"))
+      expect(helper.parse_time(user1.created_at.utc)).to eql(Time.now.utc.strftime("%B %d, %Y"))
     end
   end
 

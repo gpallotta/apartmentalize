@@ -13,6 +13,7 @@ gem 'faker'
 gem 'whenever', require: false
 gem 'kaminari'
 
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -42,7 +43,6 @@ group :test do
   gem 'launchy'
   gem 'shoulda-matchers'
   gem 'factory_girl_rails'
-  gem 'spork'
   gem 'fivemat'
   gem 'nyan-cat-formatter'
 end

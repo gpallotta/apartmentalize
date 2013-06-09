@@ -138,4 +138,14 @@ describe User do
 
   end
 
+  context "callbacks" do
+    describe ".send_welcome_email" do
+      it "sends the user an email after creation" do
+        user = FactoryGirl.create(:user)
+        expect(last_email.to).to include(user.email)
+      end
+    end
+
+  end
+
 end

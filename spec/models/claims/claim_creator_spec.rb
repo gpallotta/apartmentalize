@@ -6,15 +6,15 @@ describe ClaimCreator do
   let!(:user2) { FactoryGirl.create(:user, group: group) }
   let!(:user3) { FactoryGirl.create(:user, group: group) }
   let!(:params) do
-      params = {}
-      params[:claim] = {}
-      params[:claim][:amount] = 5
-      params[:claim][:title] = "valid"
-      params[:claim][:description] = ""
-      params[user2.name] = true
-      params[user3.name] = true
-      params
-    end
+    params = {}
+    params[:claim] = {}
+    params[:claim][:amount] = 5
+    params[:claim][:title] = "valid"
+    params[:claim][:description] = ""
+    params[user2.name] = true
+    params[user3.name] = true
+    params
+  end
 
   describe "values taken in" do
     let!(:creator) { ClaimCreator.new(user1, params)}
@@ -63,12 +63,6 @@ describe ClaimCreator do
         expect(creator_with_failed_save.created_claims.length).to eql(0)
       end
     end
-
-  end
-
-  describe "all_valid" do
-
-    let!(:creator) { ClaimCreator.new(user1, params)}
 
   end
 

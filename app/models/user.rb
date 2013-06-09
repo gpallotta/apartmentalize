@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
 
+  after_create :send_welcome_email
+
   has_many :claims_to_receive,
             class_name: "Claim",
             foreign_key: "user_owed_to_id",
@@ -38,6 +40,10 @@ class User < ActiveRecord::Base
 
   def claims
     Claim.where("user_who_owes_id = ? or user_owed_to_id = ?", id, id)
+  end
+
+  def send_welcome_email
+    UserMailer.signup_welcome(self).deliver
   end
 
 end

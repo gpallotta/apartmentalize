@@ -41,9 +41,7 @@ $(document).ready(function() {
                   '</div><p>' + result.comment.edit_link + '</p></li></div></div>';
         $('.comments-list').append(str);
         $('#comment-form-errors').hide();
-        $("#new_comment").each(function() {
-          this.reset();
-        });
+        $('#new_comment')[0].reset();
       },
       error: function() {
         $('#comment-form-errors').show();

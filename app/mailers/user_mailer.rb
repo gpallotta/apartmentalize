@@ -7,8 +7,8 @@ class UserMailer < ActionMailer::Base
   #   en.user_mailer.signup_welcome.subject
   #
   def signup_welcome(user)
-    @greeting = "Welcome to the app"
+    @greeting = "Welcome to Apartment"
 
-    mail to: user.email
+    mail to: user.email, subject: 'Welcome to Apartment'
   end
 end

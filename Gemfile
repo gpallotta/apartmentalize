@@ -12,6 +12,7 @@ gem 'simple_form'
 gem 'faker'
 gem 'whenever', require: false
 gem 'kaminari'
+gem 'active_model_serializers'
 
 
 # Gems used only for assets and not required

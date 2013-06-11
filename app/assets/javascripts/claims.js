@@ -1,7 +1,4 @@
 $(document).ready(function() {
-  // $(".btn").click(function() {
-  //   $(this).toggleClass("active");
-  // });
 
   $('.user-label, .include-paid, .user-checkbox-label').click(function() {
     $(this).toggleClass('active');
@@ -23,6 +20,35 @@ $(document).ready(function() {
     $('.claim-form-wrapper').removeClass("hidden");
     $('.create-button').addClass('active');
     $('.search-button').removeClass('active');
+  });
+
+  $('#new_comment').submit(function(e) {
+    e.preventDefault();
+    var form = $(this);
+    $.ajax({
+      url: form.attr('action') + '.json',
+      type: "POST",
+      data: form.serialize(),
+      cache: false,
+      dataType: "JSON",
+      success: function(result) {
+        var str = '<div class="row"><div class="span3 offset2"><li><div>' +
+                  '<span class="comment-bold">' + result.comment.user.name +
+                  '</span> on <span class="comment-bold">' +
+                  result.comment.parsed_time +
+                  '</span></div><div class="comment-content">' +
+                  result.comment.content +
+                  '</div><p>' + result.comment.edit_link + '</p></li></div></div>';
+        $('.comments-list').append(str);
+        $('#comment-form-errors').hide();
+        $("#new_comment").each(function() {
+          this.reset();
+        });
+      },
+      error: function() {
+        $('#comment-form-errors').show();
+      }
+    });
   });
 
 });

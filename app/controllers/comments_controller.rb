@@ -1,24 +1,20 @@
 class CommentsController < ApplicationController
 
+  respond_to :json
+
   def create
     @comment = current_user.comments.new(params[:comment])
     @claim = @comment.claim
 
-    respond_to do |format|
-      if @comment.save
-        track_activity @comment, recipient_for_activity(@claim)
-        format.js
-        format.html do
-          redirect_to claim_path(params[:comment][:claim_id])
-        end
-      else
-        format.js
-        format.html do
-          @claim = Claim.find(params[:comment][:claim_id])
-          @comments = @claim.comments
-          render "claims/show"
-        end
-      end
+    if @comment.save
+      track_activity @comment, recipient_for_activity(@claim)
+      # format.json { render :json => @comment.to_json }
+      # format.html { render @comment }
+      respond_with( @comment )
+    else
+      # format.json {
+      #   :content => 'error'
+      # }
     end
 
   end

@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe UserMailer do
   describe "signup_welcome" do
-    let!(:user) { FactoryGirl.create(:user, email: 'gregpallotta@gmail.com')}
+    let!(:user) { FactoryGirl.create(:user, email: 'to@example.org')}
     let(:mail) { UserMailer.signup_welcome(user) }
 
     it "renders the headers" do
@@ -12,8 +12,7 @@ describe UserMailer do
     end
 
     it "renders the body" do
-      # mail.body.encoded.should match("Hi")
-      pending
+      mail.body.encoded.should match("Welcome to Apartment")
     end
   end
 

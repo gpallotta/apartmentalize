@@ -32,12 +32,21 @@ $(document).ready(function() {
       cache: false,
       dataType: "JSON",
       success: function(result) {
-        var display = '<div class="row"> <div class="span3 offset2"> <li> <div> <span class="comment-bold"> <%= comment.user.name %> </span> on <span class="comment-bold"> <%= parse_time(comment.created_at) %> </span> </div> <div class="comment-content"><%= comment.content %></div> <% if comment.user.id == current_user.id %> <p><%= link_to "Edit Comment", edit_comment_path(comment) %></p> <% end %> </li> </div> </div>';
-
-        $('.comments-list').append(display);
+        var str = '<div class="row"><div class="span3 offset2"><li><div>' +
+                  '<span class="comment-bold">' + result.comment.user.name +
+                  '</span> on <span class="comment-bold">' +
+                  result.comment.parsed_time +
+                  '</span></div><div class="comment-content">' +
+                  result.comment.content +
+                  '</div><p>' + result.comment.edit_link + '</p></li></div></div>';
+        $('.comments-list').append(str);
+        $('#comment-form-errors').hide();
+        $("#new_comment").each(function() {
+          this.reset();
+        });
       },
       error: function() {
-        alert('oh no');
+        $('#comment-form-errors').show();
       }
     });
   });

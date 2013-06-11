@@ -1,7 +1,4 @@
 $(document).ready(function() {
-  // $(".btn").click(function() {
-  //   $(this).toggleClass("active");
-  // });
 
   $('.user-label, .include-paid, .user-checkbox-label').click(function() {
     $(this).toggleClass('active');
@@ -23,6 +20,26 @@ $(document).ready(function() {
     $('.claim-form-wrapper').removeClass("hidden");
     $('.create-button').addClass('active');
     $('.search-button').removeClass('active');
+  });
+
+  $('#new_comment').submit(function(e) {
+    e.preventDefault();
+    var form = $(this);
+    $.ajax({
+      url: form.attr('action') + '.json',
+      type: "POST",
+      data: form.serialize(),
+      cache: false,
+      dataType: "JSON",
+      success: function(result) {
+        var display = '<div class="row"> <div class="span3 offset2"> <li> <div> <span class="comment-bold"> <%= comment.user.name %> </span> on <span class="comment-bold"> <%= parse_time(comment.created_at) %> </span> </div> <div class="comment-content"><%= comment.content %></div> <% if comment.user.id == current_user.id %> <p><%= link_to "Edit Comment", edit_comment_path(comment) %></p> <% end %> </li> </div> </div>';
+
+        $('.comments-list').append(display);
+      },
+      error: function() {
+        alert('oh no');
+      }
+    });
   });
 
 });

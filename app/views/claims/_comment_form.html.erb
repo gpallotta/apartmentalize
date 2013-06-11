@@ -1,4 +1,4 @@
-<%= simple_form_for(@comment, :html => {class: 'form-inline'}, remote: true) do |f| %>
+<%= simple_form_for(@comment, :html => {class: 'form-inline'}) do |f| %>
 
   <%= f.input :content, :as => :text, label: false, placeholder: 'Comment',
           :input_html => { :cols => 50, :rows => 3 } %>

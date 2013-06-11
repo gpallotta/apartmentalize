@@ -46,7 +46,7 @@ ApartmentV2::Application.configure do
     domain: "greg.com",
     authentication: "plain",
     enable_starttls_auto: true,
-    user_name: 'gregpallotta',
-    password: 'ZktUS2kb'
+    user_name: '',
+    password: ''
   }
 end

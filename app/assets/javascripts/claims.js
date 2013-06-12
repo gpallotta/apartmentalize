@@ -27,24 +27,7 @@ $(document).ready(function() {
 
   $('#new_comment').submit(function(e) {
     e.preventDefault();
-    var form = $(this);
-    $.ajax({
-      url: form.attr('action') + '.json',
-      type: "POST",
-      data: form.serialize(),
-      cache: false,
-      dataType: "JSON",
-      success: function(result) {
-        var html = template(result);
-        $('.comments-list').append(html);
-        $('#comment-form-errors').hide();
-        $('#new_comment')[0].reset();
-        increaseCommentCount();
-      },
-      error: function() {
-        $('#comment-form-errors').show();
-      }
-    });
+    submitCommentForm(this, template);
   });
 
 });
@@ -53,4 +36,25 @@ function increaseCommentCount() {
   var num = $('#comment-number').html();
   num = parseInt(num, 10);
   $('#comment-number').html(num+1);
+}
+
+function submitCommentForm(form, template) {
+  var form = $(form);
+  $.ajax({
+    url: form.attr('action') + '.json',
+    type: "POST",
+    data: form.serialize(),
+    cache: false,
+    dataType: "JSON",
+    success: function(result) {
+      var html = template(result);
+      $('.comments-list').append(html);
+      $('#comment-form-errors').hide();
+      $('#new_comment')[0].reset();
+      increaseCommentCount();
+    },
+    error: function() {
+      $('#comment-form-errors').show();
+    }
+  });
 }

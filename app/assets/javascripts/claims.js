@@ -39,6 +39,7 @@ $(document).ready(function() {
         $('.comments-list').append(html);
         $('#comment-form-errors').hide();
         $('#new_comment')[0].reset();
+        increaseCommentCount();
       },
       error: function() {
         $('#comment-form-errors').show();
@@ -47,3 +48,9 @@ $(document).ready(function() {
   });
 
 });
+
+function increaseCommentCount() {
+  var num = $('#comment-number').html();
+  num = parseInt(num, 10);
+  $('#comment-number').html(num+1);
+}

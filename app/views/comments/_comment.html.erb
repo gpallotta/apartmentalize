@@ -17,25 +17,3 @@
     </li>
   </div>
 </div>
-
-<script id="comment-template" type="text/x-handlebars-template">
-  <div class="row">
-    <div class="span3 offset2">
-      <li>
-        <div>
-          <span class="comment-bold">
-            {{ comment.user.name }}
-          </span>
-          on
-          <span class="comment-bold">
-            {{ comment.parsed_time }}
-          </span>
-        </div>
-        <div class="comment-content">{{ comment.content }}</div>
-          <p>
-            <a href="/comments/{{ comment.id }}/edit">Edit Comment</a>
-          </p>
-      </li>
-    </div>
-  </div>
-</script>

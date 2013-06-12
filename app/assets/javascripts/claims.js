@@ -22,6 +22,9 @@ $(document).ready(function() {
     $('.search-button').removeClass('active');
   });
 
+  var comment_source = $('#comment-template').html();
+  var template = Handlebars.compile(comment_source);
+
   $('#new_comment').submit(function(e) {
     e.preventDefault();
     var form = $(this);
@@ -32,14 +35,8 @@ $(document).ready(function() {
       cache: false,
       dataType: "JSON",
       success: function(result) {
-        var str = '<div class="row"><div class="span3 offset2"><li><div>' +
-                  '<span class="comment-bold">' + result.comment.user.name +
-                  '</span> on <span class="comment-bold">' +
-                  result.comment.parsed_time +
-                  '</span></div><div class="comment-content">' +
-                  result.comment.content +
-                  '</div><p>' + result.comment.edit_link + '</p></li></div></div>';
-        $('.comments-list').append(str);
+        var html = template(result);
+        $('.comments-list').append(html);
         $('#comment-form-errors').hide();
         $('#new_comment')[0].reset();
       },

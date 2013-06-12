@@ -11,10 +11,4 @@ describe CommentSerializer do
     end
   end
 
-  describe ".edit_link" do
-    it "returns an edit link to the comment" do
-      expect(cs.edit_link).to include("/edit", "Edit Comment", "</a>")
-    end
-  end
-
 end

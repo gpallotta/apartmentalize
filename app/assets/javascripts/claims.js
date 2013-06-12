@@ -38,8 +38,8 @@ function increaseCommentCount() {
   $('#comment-number').html(num+1);
 }
 
-function submitCommentForm(form, template) {
-  var form = $(form);
+function submitCommentForm(form_submitted, template) {
+  var form = $(form_submitted);
   $.ajax({
     url: form.attr('action') + '.json',
     type: "POST",

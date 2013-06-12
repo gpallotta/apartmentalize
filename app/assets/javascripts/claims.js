@@ -9,17 +9,11 @@ $(document).ready(function() {
   });
 
   $(".search-button").click(function() {
-    $('.search-wrapper').removeClass("hidden");
-    $('.claim-form-wrapper').addClass("hidden");
-    $('.create-button').removeClass("active");
-    $('.search-button').addClass("active");
+    showSearchForm();
   });
 
   $(".create-button").click(function() {
-    $('.search-wrapper').addClass("hidden");
-    $('.claim-form-wrapper').removeClass("hidden");
-    $('.create-button').addClass('active');
-    $('.search-button').removeClass('active');
+    showClaimForm();
   });
 
   var comment_source = $('#comment-template').html();
@@ -57,4 +51,18 @@ function submitCommentForm(form_submitted, template) {
       $('#comment-form-errors').show();
     }
   });
+}
+
+function showSearchForm() {
+  $('.search-wrapper').removeClass("hidden");
+  $('.claim-form-wrapper').addClass("hidden");
+  $('.create-button').removeClass("active");
+  $('.search-button').addClass("active");
+}
+
+function showClaimForm() {
+  $('.search-wrapper').addClass("hidden");
+  $('.claim-form-wrapper').removeClass("hidden");
+  $('.create-button').addClass('active');
+  $('.search-button').removeClass('active');
 }

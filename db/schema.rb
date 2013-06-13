@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130612194031) do
+ActiveRecord::Schema.define(:version => 20130613213959) do
 
   create_table "activities", :force => true do |t|
     t.integer  "owner_id",       :null => false
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(:version => 20130612194031) do
     t.string   "name",                                      :null => false
     t.integer  "group_id",                                  :null => false
     t.boolean  "receives_weekly_email",  :default => false
+    t.boolean  "receives_daily_email",   :default => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

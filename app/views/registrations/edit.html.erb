@@ -30,6 +30,12 @@
           <%= f.check_box :receives_weekly_email %>
         </div>
 
+        <div>
+          <%= f.label :receives_daily_email,
+                'Receive daily email summary?' %>
+          <%= f.check_box :receives_daily_email %>
+        </div>
+
         <div><%= f.submit "Update", class: 'btn btn-large' %></div>
       <% end %>
 

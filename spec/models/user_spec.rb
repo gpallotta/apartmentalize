@@ -131,7 +131,14 @@ describe User do
       context "receives_weekly_email?" do
         it { should respond_to(:receives_weekly_email?) }
         it "is false by default" do
-          expect(User.new.receives_weekly_email?).to be_false
+          expect(User.new.receives_weekly_email).to be_false
+        end
+      end
+
+      context "receives_daily_email" do
+        it { should respond_to(:receives_daily_email) }
+        it "is false by default" do
+          expect(User.new.receives_daily_email).to be_false
         end
       end
     end
@@ -155,17 +162,6 @@ describe User do
         expect(last_email.to).to include(user.email)
       end
     end
-
-    # describe ".send_weekly_summary" do
-    #   it "sends emails to users who are set to receive the weekly summary" do
-    #     receive_user = FactoryGirl.create(:user, receives_weekly_email: true)
-    #     User.send_weekly_summary
-    #     expect(last_email).to deliver_to(receive_user.email)
-    #     not_receive_user = FactoryGirl.create(:user, receives_weekly_email: false)
-    #     User.send_weekly_summary
-    #     expect(last_email).not_to deliver_to(not_receive_user.email)
-    #   end
-    # end
   end
 
 end

@@ -2,6 +2,9 @@ require 'spec_helper'
 
 describe User do
 
+  include EmailSpec::Helpers
+  include EmailSpec::Matchers
+
   let(:group) { FactoryGirl.create(:group) }
   let(:other_group) { FactoryGirl.create(:group) }
   let!(:other_user) { FactoryGirl.create(:user, group: other_group, name: 'Steve') }
@@ -99,7 +102,7 @@ describe User do
 
   describe "properties" do
 
-    context "name" do
+    describe "name" do
       it { should respond_to(:name) }
       it { should validate_presence_of(:name) }
       context "uniqueness among group" do
@@ -111,7 +114,7 @@ describe User do
       end
     end
 
-    context "email" do
+    describe "email" do
 
       it { should respond_to(:email) }
       it { should validate_presence_of(:email)}
@@ -124,9 +127,23 @@ describe User do
                   group: Group.new(identifier: '1')).save!
         should validate_uniqueness_of(:email)
       end # without creation, null constraint on name is violated
+
+      context "receives_weekly_email?" do
+        it { should respond_to(:receives_weekly_email?) }
+        it "is false by default" do
+          expect(User.new.receives_weekly_email).to be_false
+        end
+      end
+
+      context "receives_daily_email" do
+        it { should respond_to(:receives_daily_email) }
+        it "is false by default" do
+          expect(User.new.receives_daily_email).to be_false
+        end
+      end
     end
 
-    context "password" do
+    describe "password" do
       it { should respond_to(:encrypted_password) }
       it { should respond_to(:password)}
       it { should respond_to(:password_confirmation)}
@@ -138,14 +155,13 @@ describe User do
 
   end
 
-  context "callbacks" do
+  describe "sending emails" do
     describe ".send_welcome_email" do
       it "sends the user an email after creation" do
         user = FactoryGirl.create(:user)
         expect(last_email.to).to include(user.email)
       end
     end
-
   end
 
 end

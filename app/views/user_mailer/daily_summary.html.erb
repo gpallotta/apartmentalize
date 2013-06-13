@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Daily Summary</title>
+  <style type="text/css">
+
+  </style>
+</head>
+
+<body>
+
+<table width="650" id="main" border="0">
+  <thead id="header">
+    <tr>
+      <th colspan="2"><h1 id="welcome">Daily Summary</h1></th>
+    </tr>
+  </thead>
+
+  <% @claims.each do |c| %>
+    <tr>
+      <td>
+        <p>
+          <%= c.user_owed_to.name %> created claim for <%= c.title %>
+        </p>
+        <p>Amount: <%= c.amount %></p>
+      </td>
+    </tr>
+  <% end %>
+  <tr>
+
+  </tr>
+
+</table>
+
+</body>
+
+
+</html>

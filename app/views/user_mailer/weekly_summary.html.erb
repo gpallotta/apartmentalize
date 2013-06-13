@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Weekly Summary</title>
+  <style type="text/css">
+    h1 {
+      text-align: center;
+    }
+    h3 {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+<table width="650" id="main" border="0">
+  <thead id="header">
+    <tr>
+      <th colspan="2"><h1 id="welcome">Weekly Summary</h1></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tr>
+    <td>
+      <h1 id="balances">Balances</h1>
+    </td>
+
+      <td>
+        Total: <%= @claim_balance.total %>
+        <% @claim_balance.user_balances.each do |name, balance| %>
+          <p>
+            <%= name %>
+            <%= balance %>
+          </p>
+        <% end %>
+      </td>
+    </td>
+  </tr>
+
+  <tr>
+
+    <td><h1>Chores</h1></td>
+
+    <td>
+      <% @user.chores.each do |c| %>
+        <p><%= c.title %></p>
+    <% end %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <h3>
+        <a href="fathomless-escarpment-9306.herokuapp.com">Visit the site</a>
+      </h3>
+    </td>
+  </tr>
+
+</table>
+
+</body>
+
+
+</html>

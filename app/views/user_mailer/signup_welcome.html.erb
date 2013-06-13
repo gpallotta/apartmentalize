@@ -4,28 +4,25 @@
 <head>
   <title>Hello</title>
   <style type="text/css">
-  table {
-
-  }
     #header {
       font-size: 36px;
-      border-bottom: 1px solid #ECF0F1;
+      background-color: #34495E;
+      /*background-color: #ECF0F1;*/
     }
-    td {
-      font-size: 16px;
+    #welcome {
+      color: white;
     }
-    h4 {
-      text-align: center;
-    }
+    td { font-size: 16px; }
+    h4 { text-align: center; }
   </style>
 </head>
 
 <body>
 
 <table width="650" id="main" border="0">
-  <thead>
-    <tr id="header">
-      <th colspan="2"><h1>Welcome to Apartment</h1></th>
+  <thead id="header">
+    <tr>
+      <th colspan="2"><h1 id="welcome">Welcome to Apartment</h1></th>
     </tr>
   </thead>
 
@@ -47,7 +44,6 @@
         <li>Send payments</li>
       </ul>
     </td>
-
   </tr>
 
   <tr>
@@ -76,7 +72,9 @@
 
   <tr>
     <td>
-      <a href="fathomless-escarpment-9306.herokuapp.com">Visit the site</a>
+      <h3>
+        <a href="fathomless-escarpment-9306.herokuapp.com">Visit the site</a>
+      </h3>
     </td>
   </tr>
 

@@ -40,7 +40,7 @@ function markClaimPaid(link) {
     cache: false,
     dataType: 'JSON',
     success: function(result) {
-      updateShowPageAfterPaid(link, result);
+      updateShowPageAfterPaid(result);
     },
     error: function() {
       $('#mark-as-paid-error').text('Something went wrong');
@@ -48,7 +48,7 @@ function markClaimPaid(link) {
   });
 }
 
-function updateShowPageAfterPaid(link, result) {
+function updateShowPageAfterPaid(result) {
   $('#mark-as-paid-error').text('');
   $('.btn').addClass('disabled');
   $('.comment-button').removeClass('disabled');

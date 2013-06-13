@@ -1,7 +1,5 @@
 class CommentsController < ApplicationController
 
-  respond_to :json, :html
-
   def create
     @comment = current_user.comments.new(params[:comment])
     @claim = @comment.claim

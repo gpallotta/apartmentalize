@@ -30,6 +30,7 @@
     <table class="claims-table table table-hover">
       <%= paginate @claims %>
       <thead>
+        <th><%= sortable "paid", "Paid" %></th>
         <th><%= sortable "owed_to", "Owed to" %></th>
         <th><%= sortable "owed_by", "Owed by" %></th>
         <th><%= sortable "title" %></th>

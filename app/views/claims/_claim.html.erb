@@ -1,24 +1,22 @@
-  <tr>
-    <td class="owed-to"><%= claim.user_owed_to.name %></td>
-    <td class="owed-by"><%= claim.user_who_owes.name %></td>
-    <td class="title">
-      <div><%= claim.title %></div>
-      <p class="description"><%= claim.description %></p>
-    </td>
-    <td class="amount">
-      <%= claim.amount %>
-      <p class="links">
-        <%= link_to 'View', claim_path(claim) %>
-        <% if !claim.paid? && claim.user_owed_to == current_user %>
-          <span id="<%= mark_as_paid_link_id(claim) %>">
-            <%= link_to 'Mark paid', mark_as_paid_claim_path(claim), method: 'put',
-                  remote: true %>
-          </span>
-        <% end %>
-      </p>
-    </td>
-    <td class="created-on">
-      <%= parse_time(claim.created_at) %>
-      <%= claim.paid? %>
-    </td>
-  </tr>
+<tr>
+  <td><%= paid_status(claim) %></td>
+  <td class="owed-to"><%= claim.user_owed_to.name %></td>
+  <td class="owed-by"><%= claim.user_who_owes.name %></td>
+  <td class="title">
+    <div><%= claim.title %></div>
+    <p class="description"><%= claim.description %></p>
+  </td>
+  <td class="amount">
+    <%= claim.amount %>
+    <p class="links">
+      <%= link_to 'View', claim_path(claim) %>
+      <% if !claim.paid? && claim.user_owed_to == current_user %>
+        <%= link_to 'Mark paid', mark_as_paid_claim_path(claim), method: 'put',
+                class: 'mark-as-paid-link', :data => { :id => claim.id } %>
+      <% end %>
+    </p>
+  </td>
+  <td class="created-on">
+    <%= parse_time(claim.created_at) %>
+  </td>
+</tr>

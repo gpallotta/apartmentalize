@@ -17,7 +17,34 @@ $(document).ready(function() {
     showClaimForm();
   });
 
+  $('.mark-as-paid-link').click(function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    markPaid($(this));
+    // return false;
+  });
+
 });
+
+function markPaid(link) {
+  $.ajax({
+    url: link.attr('href') + '.json',
+    type: "PUT",
+    data: { id: link.data('id') },
+    cache: false,
+    dataType: 'JSON',
+    success: function() {
+      updatePageAfterPaid(link);
+    },
+    error: function() {
+    }
+  });
+}
+
+function updatePageAfterPaid(link) {
+  link.hide(300);
+  link.closest('tr').find('td:first').text('Paid');
+}
 
 function showClaimForm() {
   $('.search-wrapper').hide(300);

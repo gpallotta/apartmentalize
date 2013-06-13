@@ -43,11 +43,13 @@ function markClaimPaid(link) {
       updateShowPageAfterPaid(link, result);
     },
     error: function() {
+      $('#mark-as-paid-error').text('Something went wrong');
     }
   });
 }
 
 function updateShowPageAfterPaid(link, result) {
+  $('#mark-as-paid-error').text('');
   $('.btn').addClass('disabled');
   $('.comment-button').removeClass('disabled');
   $('.edit-btn').text('Cannot edit paid claims');

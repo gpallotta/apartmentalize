@@ -2,6 +2,9 @@ require 'spec_helper'
 
 describe User do
 
+  include EmailSpec::Helpers
+  include EmailSpec::Matchers
+
   let(:group) { FactoryGirl.create(:group) }
   let(:other_group) { FactoryGirl.create(:group) }
   let!(:other_user) { FactoryGirl.create(:user, group: other_group, name: 'Steve') }
@@ -145,7 +148,7 @@ describe User do
 
   end
 
-  context "callbacks" do
+  describe "sending emails" do
     describe ".send_welcome_email" do
       it "sends the user an email after creation" do
         user = FactoryGirl.create(:user)
@@ -153,6 +156,16 @@ describe User do
       end
     end
 
+    # describe ".send_weekly_summary" do
+    #   it "sends emails to users who are set to receive the weekly summary" do
+    #     receive_user = FactoryGirl.create(:user, receives_weekly_email: true)
+    #     User.send_weekly_summary
+    #     expect(last_email).to deliver_to(receive_user.email)
+    #     not_receive_user = FactoryGirl.create(:user, receives_weekly_email: false)
+    #     User.send_weekly_summary
+    #     expect(last_email).not_to deliver_to(not_receive_user.email)
+    #   end
+    # end
   end
 
 end

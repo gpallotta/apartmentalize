@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130605193307) do
+ActiveRecord::Schema.define(:version => 20130613213959) do
 
   create_table "activities", :force => true do |t|
     t.integer  "owner_id",       :null => false
@@ -88,8 +88,8 @@ ActiveRecord::Schema.define(:version => 20130605193307) do
   add_index "managers", ["group_id"], :name => "index_managers_on_group_id"
 
   create_table "users", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                  :default => "",    :null => false
+    t.string   "encrypted_password",     :default => "",    :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -98,10 +98,12 @@ ActiveRecord::Schema.define(:version => 20130605193307) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
-    t.string   "name",                                   :null => false
-    t.integer  "group_id",                               :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+    t.string   "name",                                      :null => false
+    t.integer  "group_id",                                  :null => false
+    t.boolean  "receives_weekly_email",  :default => false
+    t.boolean  "receives_daily_email",   :default => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

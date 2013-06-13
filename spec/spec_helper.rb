@@ -41,5 +41,7 @@ RSpec.configure do |config|
 
   # include methods in spec/support/mailer_macros.rb
   config.include(MailerMacros)
+
+  config.before(:each) { reset_email }
 end
 

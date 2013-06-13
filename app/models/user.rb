@@ -36,7 +36,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  attr_accessible :email, :password, :name, :password_confirmation, :remember_me, :group
+  attr_accessible :email, :password, :name, :password_confirmation,
+        :remember_me, :group, :receives_weekly_email
 
   def claims
     Claim.where("user_who_owes_id = ? or user_owed_to_id = ?", id, id)

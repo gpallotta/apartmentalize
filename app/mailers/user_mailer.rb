@@ -9,4 +9,18 @@ class UserMailer < ActionMailer::Base
   def signup_welcome(user)
     mail to: user.email, subject: 'Welcome to Apartment'
   end
+
+  def weekly_summary
+    user_list.each do |u|
+      Rails.logger.debug "emailis" + u.email
+      @claim_balance = ClaimBalance.new(user, user.claims)
+      @user = u
+      mail to: u.email, subject: 'Apartment - Weekly Summary'
+    end
+  end
+
+  def user_list
+    User.where("receives_weekly_email = true")
+  end
+
 end

@@ -9,6 +9,7 @@ FactoryGirl.define do
     sequence(:email) { |n| "person_#{n}@example.com" }
     password "password"
     password_confirmation "password"
+    receives_weekly_email false
     group
   end
 

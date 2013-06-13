@@ -60,6 +60,7 @@ describe "activity feed" do
     let!(:c) { Claim.find_by_title("Cable") }
 
     context "claims" do
+      before { visit home_page_path }
       context "create" do
         it "shows when a new claim is posted" do
           expect(page).to have_content("#{user2.name} created a new claim for")

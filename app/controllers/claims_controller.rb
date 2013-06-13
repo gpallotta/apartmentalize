@@ -67,7 +67,7 @@ class ClaimsController < ApplicationController
     @claim.mark_as_paid
     track_activity @claim, recipient_for_activity(@claim)
     respond_to do |format|
-      format.json { render :json => [], :status => :ok }
+      format.json { render :json => @claim }
       format.html { redirect_to :back }
     end
   end

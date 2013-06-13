@@ -24,7 +24,38 @@ $(document).ready(function() {
     // return false;
   });
 
+  $('.show-page-mark-paid').click(function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    markClaimPaid($(this));
+  });
+
 });
+
+function markClaimPaid(link) {
+  $.ajax({
+    url: link.attr('href') + '.json',
+    type: "PUT",
+    data: { id: link.data('id') },
+    cache: false,
+    dataType: 'JSON',
+    success: function(result) {
+      updateShowPageAfterPaid(result);
+    },
+    error: function() {
+      $('#mark-as-paid-error').text('Something went wrong');
+    }
+  });
+}
+
+function updateShowPageAfterPaid(result) {
+  $('#mark-as-paid-error').text('');
+  $('.btn').addClass('disabled');
+  $('.comment-button').removeClass('disabled');
+  $('.edit-btn').text('Cannot edit paid claims');
+  $('.edit-btn').attr('href', '#');
+  $('.show-page-paid-status').text('Paid on ' + result.claim.parsed_time);
+}
 
 function markPaid(link) {
   $.ajax({

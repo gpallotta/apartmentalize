@@ -27,12 +27,12 @@ $(document).ready(function() {
   $('.show-page-mark-paid').click(function(e) {
     e.stopPropagation();
     e.preventDefault();
-    showPageMarkPaid($(this));
+    markClaimPaid($(this));
   });
 
 });
 
-function showPageMarkPaid(link) {
+function markClaimPaid(link) {
   $.ajax({
     url: link.attr('href') + '.json',
     type: "PUT",

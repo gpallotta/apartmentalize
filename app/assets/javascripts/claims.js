@@ -24,7 +24,35 @@ $(document).ready(function() {
     // return false;
   });
 
+  $('.show-page-mark-paid').click(function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    showPageMarkPaid($(this));
+  });
+
 });
+
+function showPageMarkPaid(link) {
+  $.ajax({
+    url: link.attr('href') + '.json',
+    type: "PUT",
+    data: { id: link.data('id') },
+    cache: false,
+    dataType: 'JSON',
+    success: function() {
+      updateShowPageAfterPaid(link);
+    },
+    error: function() {
+    }
+  });
+}
+
+function updateShowPageAfterPaid(link) {
+  $('.btn').addClass('disabled');
+  $('.comment-button').removeClass('disabled');
+  $('.edit-btn').text('Cannot edit paid claims');
+  $('.edit-btn').attr('href', '#');
+}
 
 function markPaid(link) {
   $.ajax({

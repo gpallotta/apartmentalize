@@ -51,6 +51,7 @@ describe "activity feed" do
       c = Claim.find_by_title('Cable')
       visit claim_path(c)
       fill_in 'comment_content', with: 'Turtles'
+      save_and_open_page
       click_button 'Comment'
       sign_out user2
       sign_in user1

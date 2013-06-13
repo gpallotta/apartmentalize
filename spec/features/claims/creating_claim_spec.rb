@@ -73,7 +73,7 @@ describe "creating claims" do
   context "using the autosplit feature" do
     before do
       fill_in 'claim_title', with: 'Split'
-      fill_in 'claim_amount', with: 10
+      fill_in 'claim_amount', with: 9
       check('Split evenly')
     end
     it "splits up the entered amount evenly between all checked users" do
@@ -81,7 +81,7 @@ describe "creating claims" do
       click_button 'Create Claim'
       results = Claim.find(:all, :order => 'id desc', :limit => 2)
       results.each do |c|
-        expect(c.amount).to eql(5)
+        expect(c.amount).to eql(3)
       end
     end
   end

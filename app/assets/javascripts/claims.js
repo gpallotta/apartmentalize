@@ -39,19 +39,20 @@ function showPageMarkPaid(link) {
     data: { id: link.data('id') },
     cache: false,
     dataType: 'JSON',
-    success: function() {
-      updateShowPageAfterPaid(link);
+    success: function(result) {
+      updateShowPageAfterPaid(link, result);
     },
     error: function() {
     }
   });
 }
 
-function updateShowPageAfterPaid(link) {
+function updateShowPageAfterPaid(link, result) {
   $('.btn').addClass('disabled');
   $('.comment-button').removeClass('disabled');
   $('.edit-btn').text('Cannot edit paid claims');
   $('.edit-btn').attr('href', '#');
+  $('.show-page-paid-status').text('Paid on ' + result.claim.parsed_time);
 }
 
 function markPaid(link) {

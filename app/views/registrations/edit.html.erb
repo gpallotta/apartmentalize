@@ -24,6 +24,18 @@
         <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
         <%= f.password_field :current_password %></div>
 
+        <div>
+          <%= f.label :receives_weekly_email,
+                'Receive weekly email summary?' %>
+          <%= f.check_box :receives_weekly_email %>
+        </div>
+
+        <div>
+          <%= f.label :receives_daily_email,
+                'Receive daily email summary?' %>
+          <%= f.check_box :receives_daily_email %>
+        </div>
+
         <div><%= f.submit "Update", class: 'btn btn-large' %></div>
       <% end %>
 

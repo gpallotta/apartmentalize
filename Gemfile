@@ -47,6 +47,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'fivemat'
   gem 'nyan-cat-formatter'
+  gem 'email_spec'
 end
 
 gem 'jquery-rails'

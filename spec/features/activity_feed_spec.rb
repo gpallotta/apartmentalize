@@ -98,13 +98,15 @@ describe "activity feed" do
           expect(page).to have_link(c.title, href: claim_path(c))
         end
       end
+    end
 
-      context "comments" do
-        it "shows when a comment is posted on anything I owe/am owed" do
-          expect(page).to have_content("#{user2.name} commented on")
-        end
+    context "comments" do
+      it "shows when a comment is posted on anything I owe/am owed" do
+        expect(page).to have_content("#{user2.name} commented on")
       end
+    end
 
+    context "size" do
       it "shows the 10 most recent items" do
         sign_out user1
         sign_in user2
@@ -118,9 +120,7 @@ describe "activity feed" do
         sign_in user1
         expect(page).not_to have_content('Title 0')
       end
-
     end
-
 
     context "my own activity" do
       it "is not shown" do

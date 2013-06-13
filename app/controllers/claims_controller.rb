@@ -2,6 +2,8 @@ class ClaimsController < ApplicationController
 
   before_filter :authenticate_user!
 
+  respond_to :json, :html
+
   def index
     @claim = Claim.new
     set_up_search_results
@@ -14,7 +16,6 @@ class ClaimsController < ApplicationController
     if user_related_to_claim?(@claim)
       @comments = @claim.comments.oldest_first
       @comments_count = @comments.count
-
     else
       redirect_to claims_path
     end
@@ -66,7 +67,7 @@ class ClaimsController < ApplicationController
     @claim.mark_as_paid
     track_activity @claim, recipient_for_activity(@claim)
     respond_to do |format|
-      format.js { render 'index' }
+      format.json { render :json => [], :status => :ok }
       format.html { redirect_to :back }
     end
   end

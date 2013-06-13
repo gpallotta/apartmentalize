@@ -34,6 +34,21 @@ describe "sorting claims" do
     end
   end
 
+  context "by paid status" do
+    before do
+      cl2.update_attributes(paid: true)
+      click_link 'Paid'
+    end
+
+    it "sorts by unpaid first" do
+      expect(page.body.index(cl.title)).to be < page.body.index(cl2.title)
+    end
+    it "sorts by paid first if clicked again" do
+      click_link 'Paid'
+      expect(page.body.index(cl2.title)).to be < page.body.index(cl.title)
+    end
+  end
+
   context "by owed_to" do
 
     before { click_link 'Owed to' }

@@ -97,5 +97,15 @@ describe ClaimsHelper do
     end
   end
 
+  describe ".paid_status" do
+    it "returns 'unpaid' if the claim is unpaid'" do
+      expect(helper.paid_status(cl)).to eql('Unpaid')
+    end
+    it "returns 'paid' if the claim is paid" do
+      cl.update_attributes(paid: true)
+      expect(helper.paid_status(cl)).to eql('Paid')
+    end
+  end
+
 
 end

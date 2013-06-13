@@ -21,7 +21,7 @@ module ClaimsHelper
       content_tag(:a, 'Already paid', class: 'btn disabled', remote: true)
     else
       link_to 'Mark as paid', mark_as_paid_claim_path(claim), method: 'put',
-            class: 'btn', remote: true
+            class: 'btn', :data => { :id => claim.id }
     end
   end
 
@@ -48,6 +48,14 @@ module ClaimsHelper
       content_tag(:a, 'Cannot edit paid claims', class: 'btn disabled', remote: true)
     else
       link_to 'Edit', edit_claim_path(claim), class: 'btn'
+    end
+  end
+
+  def paid_status claim
+    if claim.paid
+      'Paid'
+    else
+      'Unpaid'
     end
   end
 

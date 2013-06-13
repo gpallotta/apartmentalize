@@ -85,14 +85,21 @@
         <ul class="comments-list">
           <div class="row">
             <div class="span3 offset2">
-              <p id="comments-count"><%= @comments.count %> comments</p>
+              <p id="comments-count">
+                <span id="comment-number"><%= @comments_count %></span>
+                comments
+              </p>
             </div>
           </div>
           <%= render partial: 'comments/comment', collection: @comments %>
         </ul>
-
       </div>
-
     </div>
   </div>
 </div>
+
+<%= content_for :extra_footer do %>
+  <%= render partial: 'templates/comment' %>
+<% end %>
+
+

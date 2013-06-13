@@ -13,6 +13,8 @@ class ClaimsController < ApplicationController
     @claim = Claim.find(params[:id])
     if user_related_to_claim?(@claim)
       @comments = @claim.comments.oldest_first
+      @comments_count = @comments.count
+
     else
       redirect_to claims_path
     end

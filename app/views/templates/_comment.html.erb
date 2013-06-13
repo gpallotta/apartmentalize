@@ -1,0 +1,79 @@
+<script id="comment-template" type="text/x-handlebars-template">
+  <div class="row">
+    <div class="span3 offset2">
+      <li>
+        <div>
+          <span class="comment-bold">
+            {{ comment.user.name }}
+          </span>
+          on
+          <span class="comment-bold">
+            {{ comment.parsed_time }}
+          </span>
+        </div>
+        <div class="comment-content">{{ comment.content }}</div>
+          <p>
+            <a href="/comments/{{ comment.id }}/edit">Edit Comment</a>
+          </p>
+      </li>
+    </div>
+  </div>
+</script>
+
+
+<script type="text/javascript">
+
+  $(function() {
+
+    var comment_source = $('#comment-template').html();
+    var template = Handlebars.compile(comment_source);
+    // var comments = '<%= @comments %>';
+    // if (comments.length > 0) {
+    //   addAllComments(comments.to_json);
+    // }
+
+    $('#new_comment').submit(function(e) {
+      e.preventDefault();
+      submitCommentForm(this, template);
+    });
+
+    function increaseCommentCount() {
+      var num = $('#comment-number').html();
+      num = parseInt(num, 10);
+      $('#comment-number').html(num+1);
+    }
+
+    function addComment(comment) {
+      var html = template(comment);
+      $('.comments-list').append(html);
+      $('.comments-list div.row:last').hide().fadeIn();
+      $('#comment-form-errors').hide();
+      $('#new_comment')[0].reset();
+      increaseCommentCount();
+    }
+
+    // function addAllComments(comments) {
+    //   _.each(comments, function(comment) {
+    //     addComment(comment);
+    //   });
+    // }
+
+    function submitCommentForm(form_submitted, template) {
+      var form = $(form_submitted);
+      $.ajax({
+        url: form.attr('action') + '.json',
+        type: "POST",
+        data: form.serialize(),
+        cache: false,
+        dataType: "JSON",
+        success: function(result) {
+          addComment(result);
+        },
+        error: function() {
+          $('#comment-form-errors').show();
+        }
+      });
+    }
+  })
+
+</script>

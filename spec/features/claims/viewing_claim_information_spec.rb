@@ -30,9 +30,10 @@ describe "viewing claim information" do
   before { visit claims_path }
 
   describe "viewing claims within your group" do
-    it "displays all claims related to you by default" do
+    it "displays all unpaid claims related to you by default" do
       expect(page).to have_content(cl.title)
       expect(page).to have_content(cl2.title)
+      expect(page).not_to have_content(paid_cl.title)
     end
     it "does not display claims that are between others in your group" do
       expect(page).not_to have_content(roommate_cl.title)
@@ -76,7 +77,7 @@ describe "viewing claim information" do
       it "keeps sort order across pages" do
         cl.update_attributes(amount: 1)
         cl2.update_attributes(amount: 3)
-        paid_cl.update_attributes(amount: 35)
+        paid_cl.update_attributes(amount: 35, paid: false)
         Claim.last.update_attributes(amount: 30)
         last_claim = Claim.last
         click_link 'Amount'

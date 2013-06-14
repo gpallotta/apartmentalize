@@ -37,6 +37,7 @@ describe "sorting claims" do
   context "by paid status" do
     before do
       cl2.update_attributes(paid: true)
+      click_button 'Search Claims'
       click_link 'Paid'
     end
 

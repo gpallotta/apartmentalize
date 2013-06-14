@@ -248,13 +248,11 @@ describe "searching claims" do
 
     context "both claims you owe and are owed" do
       context "when both are unchecked" do
-        before do
-          check('To pay')
-        end
         it "displays both claims you owe and are owed" do
+          click_button 'Search Claims'
           expect(page).to have_content(cl.title)
-          expect(page).to have_content(cl3.title)
           expect(page).to have_content(cl2.title)
+          expect(page).to have_content(cl3.title)
           expect_unrelated_claims_to_not_be_shown
         end
       end

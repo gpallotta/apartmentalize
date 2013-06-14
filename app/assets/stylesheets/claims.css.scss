@@ -9,8 +9,8 @@ $form-background: #BDC3C7;
   width: 49%;
 }
 
-.btn:active .btn.active {
-  background-color: #E67E22;
+.btn.active {
+  background-color: #16A085;
 }
 
 .hidden {
@@ -44,6 +44,15 @@ $form-background: #BDC3C7;
     color: red;
     text-align: center;
     margin-top: 5px;
+  }
+  .claim_amount {
+    margin-bottom: 0;
+  }
+  .split-evenly-wrapper {
+    margin: 6px;
+    .split-checkbox {
+      display: none;
+    }
   }
 }
 

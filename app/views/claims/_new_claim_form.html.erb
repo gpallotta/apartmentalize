@@ -8,9 +8,10 @@
 
   <%= f.input :amount, placeholder: 'Amount (required)', error: false, label: false %>
 
-  <%= label_tag 'split_evenly', 'Split evenly', { class: 'btn split-evenly' } %>
-
-  <%= check_box_tag 'split_evenly' %>
+  <div class="split-evenly-wrapper">
+    <%= label_tag 'split_evenly', 'Split evenly', { class: 'btn split-evenly' } %>
+    <%= check_box_tag 'split_evenly', true, nil, { :class => 'split-checkbox'} %>
+  </div>
 
   <div class="user-btn-wrapper">
 

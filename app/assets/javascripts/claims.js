@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   $('.search-wrapper').hide();
-  $('.user-label, .include-paid, .user-checkbox-label').click(function() {
+  $('.user-label, .include-paid, .user-checkbox-label, .split-evenly').click(function() {
     $(this).toggleClass('active');
   });
 

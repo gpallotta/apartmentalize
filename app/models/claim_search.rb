@@ -31,6 +31,8 @@ class ClaimSearch < ActiveRecord::Base
       title_or_description_contains
       amount_between
       paid_or_unpaid
+    else
+      @claims.select! { |c| c.paid == false }
     end
     @claims
   end

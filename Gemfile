@@ -38,6 +38,7 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'pry'
+  gem 'konacha'
 end
 
 group :test do

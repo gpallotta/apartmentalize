@@ -14,6 +14,7 @@ gem 'whenever', require: false
 gem 'kaminari'
 gem 'active_model_serializers'
 gem 'roadie'
+gem 'thin'
 
 
 # Gems used only for assets and not required

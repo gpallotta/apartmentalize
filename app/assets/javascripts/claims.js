@@ -33,14 +33,13 @@ window.formManipulations = function(){
   $('.mark-as-paid-link').click(function(e) {
     e.stopPropagation();
     e.preventDefault();
-    markPaid($(this));
-    // return false;
+    markClaimPaid($(this), updateIndexPageAfterPaid);
   });
 
   $('.show-page-mark-paid').click(function(e) {
     e.stopPropagation();
     e.preventDefault();
-    markClaimPaid($(this));
+    markClaimPaid($(this), updateShowPageAfterPaid);
   });
 
   $(".search-button").click(function() {
@@ -53,7 +52,7 @@ window.formManipulations = function(){
 
 };
 
-function markClaimPaid(link) {
+function markClaimPaid(link, f) {
   $.ajax({
     url: link.attr('href') + '.json',
     type: "PUT",
@@ -61,7 +60,7 @@ function markClaimPaid(link) {
     cache: false,
     dataType: 'JSON',
     success: function(result) {
-      updateShowPageAfterPaid(result);
+      f(result, link);
     },
     error: function() {
       $('#mark-as-paid-error').text('Something went wrong');
@@ -69,7 +68,7 @@ function markClaimPaid(link) {
   });
 }
 
-function updateShowPageAfterPaid(result) {
+function updateShowPageAfterPaid(result, link) {
   $('#mark-as-paid-error').text('');
   $('.btn').addClass('disabled');
   $('.comment-button').removeClass('disabled');
@@ -78,22 +77,7 @@ function updateShowPageAfterPaid(result) {
   $('.show-page-paid-status').text('Paid on ' + result.claim.parsed_time);
 }
 
-function markPaid(link) {
-  $.ajax({
-    url: link.attr('href') + '.json',
-    type: "PUT",
-    data: { id: link.data('id') },
-    cache: false,
-    dataType: 'JSON',
-    success: function() {
-      updatePageAfterPaid(link);
-    },
-    error: function() {
-    }
-  });
-}
-
-function updatePageAfterPaid(link) {
+function updateIndexPageAfterPaid(result, link) {
   link.hide(300);
   link.closest('tr').find('td:first').text('Paid');
 }

@@ -1,20 +1,33 @@
 jQuery(function() {
 
   $('.search-wrapper').hide();
+  window.formManipulations();
+
+
+});
+
+window.formManipulations = function(){
+
+  function showClaimForm() {
+    $('.search-wrapper').hide(300);
+    $('.claim-form-wrapper').show(300);
+    $('.create-button').addClass('active');
+    $('.search-button').removeClass('active');
+  }
+
+  function showSearchForm() {
+    $('.claim-form-wrapper').hide(300);
+    $('.search-wrapper').show(300);
+    $('.create-button').removeClass("active");
+    $('.search-button').addClass("active");
+  }
+
   $('.user-label, .include-paid, .user-checkbox-label, .split-evenly').click(function() {
     $(this).toggleClass('active');
   });
 
   $('input:checked').each(function() {
     $(this).prev().addClass('active');
-  });
-
-  $(".search-button").click(function() {
-    showSearchForm();
-  });
-
-  $(".create-button").click(function() {
-    showClaimForm();
   });
 
   $('.mark-as-paid-link').click(function(e) {
@@ -30,7 +43,15 @@ jQuery(function() {
     markClaimPaid($(this));
   });
 
-});
+  $(".search-button").click(function() {
+    showSearchForm();
+  });
+
+  $(".create-button").click(function() {
+    showClaimForm();
+  });
+
+};
 
 function markClaimPaid(link) {
   $.ajax({
@@ -75,18 +96,4 @@ function markPaid(link) {
 function updatePageAfterPaid(link) {
   link.hide(300);
   link.closest('tr').find('td:first').text('Paid');
-}
-
-function showClaimForm() {
-  $('.search-wrapper').hide(300);
-  $('.claim-form-wrapper').show(300);
-  $('.create-button').addClass('active');
-  $('.search-button').removeClass('active');
-}
-
-function showSearchForm() {
-  $('.claim-form-wrapper').hide(300);
-  $('.search-wrapper').show(300);
-  $('.create-button').removeClass("active");
-  $('.search-button').addClass("active");
 }

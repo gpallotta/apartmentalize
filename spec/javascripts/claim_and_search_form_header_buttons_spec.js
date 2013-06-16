@@ -1,9 +1,4 @@
-//= require jquery
-//= require chai
-//= require chai-jquery
-//= require claims
-//= require views
-
+//= require spec_helper
 describe("claim and search forms", function() {
 
   beforeEach(function() {

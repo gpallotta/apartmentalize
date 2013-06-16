@@ -1,9 +1,7 @@
 jQuery(function() {
-
   $('.search-wrapper').hide();
+  $('.create-button').addClass('active');
   window.formManipulations();
-
-
 });
 
 window.formManipulations = function(){
@@ -68,7 +66,7 @@ function markClaimPaid(link, f) {
   });
 }
 
-function updateShowPageAfterPaid(result, link) {
+function updateShowPageAfterPaid(result) {
   $('#mark-as-paid-error').text('');
   $('.btn').addClass('disabled');
   $('.comment-button').removeClass('disabled');

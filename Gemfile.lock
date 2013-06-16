@@ -61,6 +61,7 @@ GEM
       railties (~> 3.1)
       warden (~> 1.2.1)
     diff-lcs (1.2.4)
+    ejs (1.1.1)
     em-websocket (0.5.0)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.5.3)
@@ -238,6 +239,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 3.2.1)
   devise
+  ejs
   email_spec
   factory_girl_rails
   faker

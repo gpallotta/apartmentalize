@@ -2,20 +2,31 @@
 
 describe("marking claim paid", function() {
 
-  describe("on claims index page", function() {
-    beforeEach(function() {
-      sinon.spy($, 'ajax');
-    });
+  var link = "<a href='#' data-id='1'>Hello</a>";
 
-    it("makes an ajax call", function() {
-      var link = "<a href='#' data-id='1'>Hello</a>";
-      markClaimPaid($(link));
-      expect($.ajax.calledOnce).to.be.true;
+  beforeEach(function() {
+    sinon.stub($, 'ajax').yieldsTo('success', {
+      claim: { parsed_time: 'hello' }
+    });
+  });
+
+  afterEach(function() {
+    $.ajax.restore();
+  });
+
+  it("makes an ajax call", function() {
+    markClaimPaid($(link), function() {});
+    expect($.ajax.calledOnce).to.be.true;
+  });
+
+  describe("on claims index page", function() {
+    it("updates the page after the ajax call", function() {
+      markClaimPaid($(link), updateShowPageAfterPaid);
+      // expect($('#mark-as-paid-error')).to.have.text('Chai Tea');
     });
   });
 
   describe("on claims show page", function() {
-
   });
 
 });

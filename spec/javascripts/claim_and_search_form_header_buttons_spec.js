@@ -1,9 +1,9 @@
 //= require spec_helper
+
 describe("claim and search forms", function() {
 
   beforeEach(function() {
-    var html = claimAndSearchHeaderButtons();
-    appendTo('#konacha', html);
+    $('#konacha').append(JST['templates/header_buttons']());
     window.formManipulations();
   });
 
@@ -29,6 +29,7 @@ describe("claim and search forms", function() {
     });
 
     it('removes the active class from the claim button', function() {
+      $('#konacha').append(JST['templates/header_buttons']());
       expect( $('.create-button').hasClass('active') ).to.be.false;
     });
 

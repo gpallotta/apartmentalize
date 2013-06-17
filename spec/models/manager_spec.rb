@@ -9,7 +9,8 @@ describe Manager do
 
     context "group" do
       it { should belong_to(:group) }
-      it { should validate_presence_of(:group) }
+      it { should have_valid(:group).when(Group.new) }
+      it { should_not have_valid(:group).when(nil) }
       it "sets the correct group" do
         expect(m1.group).to eql(group)
       end
@@ -20,12 +21,14 @@ describe Manager do
 
     context "name" do
       it { should respond_to(:name) }
-      it { should validate_presence_of(:name) }
+      it { should_not have_valid(:name).when(nil, '') }
+      it { should have_valid(:name).when('string') }
     end
 
     context "title" do
       it { should respond_to(:title) }
-      it { should validate_presence_of(:title) }
+      it { should_not have_valid(:title).when(nil, '') }
+      it { should have_valid(:title).when('string') }
     end
 
     context "email" do

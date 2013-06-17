@@ -24,7 +24,8 @@ describe Comment do
     context "claim" do
       it { should respond_to(:claim) }
       it { should belong_to(:claim) }
-      it { should validate_presence_of(:claim) }
+      it { should have_valid(:claim).when(Claim.new) }
+      it { should_not have_valid(:claim).when(nil) }
       it "returns the correct claim" do
         expect(c1.claim).to eql(cl1)
       end
@@ -33,7 +34,8 @@ describe Comment do
     context "user" do
       it { should respond_to(:user) }
       it { should belong_to(:user) }
-      it { should validate_presence_of(:user) }
+      it { should have_valid(:user).when(User.new) }
+      it { should_not have_valid(:user).when(nil) }
       it "returns the correct user" do
         expect(c1.user).to eql(user1)
       end
@@ -44,7 +46,8 @@ describe Comment do
 
     context "content" do
       it { should respond_to(:content) }
-      it { should validate_presence_of(:content) }
+      it { should_not have_valid(:content).when(nil, '') }
+      it { should have_valid(:content).when('string') }
     end
 
   end

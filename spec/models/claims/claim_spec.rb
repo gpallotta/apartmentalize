@@ -11,7 +11,8 @@ describe Claim do
   describe "associations" do
 
     context "user_owed_to" do
-      it { should validate_presence_of(:user_owed_to)}
+      it { should have_valid(:user_owed_to).when(User.new) }
+      it { should_not have_valid(:user_owed_to).when(nil) }
       it { should belong_to(:user_owed_to) }
       it "sets the user_owed_to" do
         expect(cl1.user_owed_to).to eql(user1)
@@ -19,7 +20,8 @@ describe Claim do
     end
 
     context "user_who_owes" do
-      it { should validate_presence_of(:user_who_owes)}
+      it { should have_valid(:user_who_owes).when(User.new) }
+      it { should_not have_valid(:user_who_owes).when(nil) }
       it { should belong_to(:user_who_owes) }
       it "sets the user_who_owes" do
         expect(cl1.user_who_owes).to eql(user1)
@@ -67,7 +69,8 @@ describe Claim do
 
     context "title" do
       it { should respond_to(:title) }
-      it { should validate_presence_of(:title) }
+      it { should_not have_valid(:title).when(nil, '') }
+      it { should have_valid(:title).when('string') }
     end
 
     context "paid" do
@@ -77,15 +80,13 @@ describe Claim do
 
     context "description" do
       it { should respond_to(:description) }
-      it { should_not validate_presence_of(:description) }
       it { should ensure_length_of(:description).is_at_most(200) }
     end
 
     context "amount" do
       it { should respond_to(:amount) }
-      it { should validate_presence_of(:amount) }
-      it { should allow_value(1.23, 1, 1.1).for(:amount) }
-      it { should_not allow_value(1.234, -1, 0, 'hello').for(:amount) }
+      it { should have_valid(:amount).when(1.23, 1, 1.1) }
+      it { should_not have_valid(:amount).when(1.234, -1, 0, 'hello') }
     end
 
     context "paid on" do

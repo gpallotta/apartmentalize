@@ -12,10 +12,18 @@ feature 'User sends invitation', %q{
   let(:user) { FactoryGirl.create(:user) }
   before do
     sign_in user
-    visit new_user_invitation_path
+    visit group_path(user.group)
+    click_link 'Invite someone to your group'
   end
 
-  scenario 'user enters valid info'
+  scenario 'user enters valid info' do
+    fill_in 'Name', with: 'Cool dude'
+    fill_in 'Email', with: 'email@email.com'
+    before_count = User.count
+    click_button 'Send an invitation'
+    expect(User.count).to eql(before_count+1)
+    expect(current_path).to eql( group_path(user.group) )
+  end
 
   scenario 'user enters invalid info' do
     before_count = User.count

@@ -82,7 +82,8 @@ describe User do
 
     context "group" do
       it { should belong_to(:group) }
-      it { should validate_presence_of(:group) }
+      it { should have_valid(:group).when(Group.new) }
+      it { should_not have_valid(:group).when(nil) }
       it "returns the proper group" do
         expect(user1.group).to eql(group)
       end
@@ -104,7 +105,8 @@ describe User do
 
     describe "name" do
       it { should respond_to(:name) }
-      it { should validate_presence_of(:name) }
+      it { should_not have_valid(:name).when(nil, '') }
+      it { should have_valid(:name).when('string') }
       context "uniqueness among group" do
         let!(:steve) { FactoryGirl.build(:user, group: group, name: 'Steve') }
         it "validates uniqueness of name amongst a group" do
@@ -117,9 +119,8 @@ describe User do
     describe "email" do
 
       it { should respond_to(:email) }
-      it { should validate_presence_of(:email)}
-      it { should allow_value('greg@greg.com').for(:email) }
-      it { should_not allow_value('greg@@greg.cpm').for(:email) }
+      it { should_not have_valid(:email).when(nil, '', 'greg') }
+      it { should have_valid(:email).when('greg@greg.com') }
 
       it "validates uniqueness of email" do
         User.new(name: 'Greg', email: 'greg@greg.com', password: '12345678',
@@ -148,7 +149,8 @@ describe User do
       it { should respond_to(:password)}
       it { should respond_to(:password_confirmation)}
 
-      it { should validate_presence_of(:password) }
+      it { should_not have_valid(:password).when(nil, '', 'greg') }
+      it { should have_valid(:password).when('password') }
       it { should validate_confirmation_of(:password) }
       it { should ensure_length_of(:password).is_at_least(8) }
     end

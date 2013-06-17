@@ -46,6 +46,7 @@ describe Group do
     context "identifier" do
       it { should respond_to(:identifier) }
       it { should validate_uniqueness_of(:identifier) }
+      it { should have_valid(:identifier).when('string') }
     end
 
   end

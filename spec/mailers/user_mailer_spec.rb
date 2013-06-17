@@ -20,21 +20,52 @@ describe UserMailer do
 
   describe "weekly_summary" do
     let!(:user2) { FactoryGirl.create(:user, group: user.group)}
+    let!(:user3) { FactoryGirl.create(:user, group: user.group)}
     let!(:cl1) { FactoryGirl.create(:claim, user_owed_to: user,
                     user_who_owes: user2)}
     let!(:cl2) { FactoryGirl.create(:claim, user_owed_to: user2,
                     user_who_owes: user, amount: 4.79)}
+    let!(:cl3) { FactoryGirl.create(:claim, user_owed_to: user,
+                    user_who_owes: user3, amount: 8.32)}
+    let!(:ch1) { FactoryGirl.create(:chore, user: user)}
+    let!(:ch2) { FactoryGirl.create(:chore, user: user2)}
     let!(:mail) { UserMailer.weekly_summary(user) }
 
     it "delivers to the correct email" do
       expect(mail).to deliver_to('to@example.org')
     end
 
-    it "renders the body and subject" do
+    it "sends wth the correct subject" do
       expect(mail).to have_subject('Apartment - Weekly Summary')
       expect(mail).to have_body_text('Weekly Summary')
-      expect(mail).to have_body_text("#{cl1.amount - cl2.amount}")
     end
+
+    it "has any chores assigned to the user for the week" do
+      expect(mail).to have_body_text(ch1.title)
+      expect(mail).not_to have_body_text(ch2.title)
+    end
+
+    it "has the total balance between you and all users" do
+      expect(mail).to have_body_text("#{cl1.amount - cl2.amount + cl3.amount}")
+    end
+
+    it "has the balance between you and each individual user" do
+      expect(mail).to have_body_text("#{cl1.amount - cl2.amount}")
+      expect(mail).to have_body_text("#{cl3.amount}")
+    end
+
+    it "has a link to the claims page" do
+      expect(mail).to have_body_text("localhost:3000/claims")
+    end
+
+    it "has a link to the chores page" do
+      expect(mail).to have_body_text("localhost:3000/chores")
+    end
+
+    it "has a link to the home page" do
+      expect(mail).to have_body_text("Visit the site")
+    end
+
   end
 
   describe "daily_summary" do

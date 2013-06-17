@@ -1,4 +1,4 @@
-class ClaimSearch < ActiveRecord::Base
+class ClaimSearch
   attr_reader :user, :claims, :params, :amount_min, :amount_max,
               :title_desc, :checked_users, :include_paid, :include_unpaid,
               :include_to_pay, :include_to_receive

@@ -44,7 +44,9 @@ class User < ActiveRecord::Base
   end
 
   def send_welcome_email
-    UserMailer.signup_welcome(self).deliver
+    unless invited_by_id
+      UserMailer.signup_welcome(self).deliver
+    end
   end
 
 end

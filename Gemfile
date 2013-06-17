@@ -15,6 +15,7 @@ gem 'kaminari'
 gem 'active_model_serializers'
 gem 'roadie'
 gem 'thin'
+gem 'ejs'
 
 
 # Gems used only for assets and not required
@@ -38,6 +39,7 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'pry'
+  gem 'konacha'
 end
 
 group :test do

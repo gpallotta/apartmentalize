@@ -27,10 +27,6 @@
 
     var comment_source = $('#comment-template').html();
     var template = Handlebars.compile(comment_source);
-    // var comments = '<%= @comments %>';
-    // if (comments.length > 0) {
-    //   addAllComments(comments.to_json);
-    // }
 
     $('#new_comment').submit(function(e) {
       e.preventDefault();
@@ -51,12 +47,6 @@
       $('#new_comment')[0].reset();
       increaseCommentCount();
     }
-
-    // function addAllComments(comments) {
-    //   _.each(comments, function(comment) {
-    //     addComment(comment);
-    //   });
-    // }
 
     function submitCommentForm(form_submitted, template) {
       var form = $(form_submitted);

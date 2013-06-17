@@ -34,4 +34,7 @@ ApartmentV2::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  # Default domain for testing email links
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 end

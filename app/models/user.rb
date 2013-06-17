@@ -33,11 +33,11 @@ class User < ActiveRecord::Base
 
   validates_uniqueness_of :name, :scope => [:group_id]
 
-  devise :database_authenticatable, :registerable,
+  devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   attr_accessible :email, :password, :name, :password_confirmation,
-        :remember_me, :group, :receives_weekly_email, :receives_daily_email
+        :remember_me, :group_id, :receives_weekly_email, :receives_daily_email
 
   def claims
     Claim.where("user_who_owes_id = ? or user_owed_to_id = ?", id, id)

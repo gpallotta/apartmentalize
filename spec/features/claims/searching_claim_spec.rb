@@ -73,6 +73,18 @@ describe "searching claims" do
 
   end
 
+  describe "resetting the search" do
+    before do
+      fill_in 'z_title_or_description_cont', with: 'sfsdsdfl'
+      click_button 'Search Claims'
+      click_link 'Clear'
+    end
+    it "resets the search to the default" do
+      expect(page).to have_content(cl.title)
+      expect(page).to have_content(cl2.title)
+    end
+  end
+
   context "searching by title or description" do
     let!(:cl_title) { FactoryGirl.create(:claim, user_owed_to: user1,
                       user_who_owes: user2, title: 'match')}

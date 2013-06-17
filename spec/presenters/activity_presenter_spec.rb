@@ -45,6 +45,12 @@ describe ActivityPresenter do
       end
     end
 
+    describe ".deleted_message" do
+      it "returns a message indicating the item was deleted" do
+        expect(presenter.deleted_message).to eql("#{user1.name} deleted this claim")
+      end
+    end
+
   end
 
 end

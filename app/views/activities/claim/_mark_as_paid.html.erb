@@ -1,9 +1,13 @@
 <div class="activity-icon">
   <span class="fui-checkmark-24"></span>
-  <%= parse_time(activity.updated_at) %>
+  <%= parse_time(activity.updated_at) if claim %>
 </div>
 
 <div class="activity-content">
-  <%= activity.owner.name %> marked <%= link_to claim.title, claim_path(claim) %>
-  as paid
+  <% if claim %>
+    <%= activity.owner.name %> marked <%= link_to claim.title, claim_path(claim) %>
+    as paid
+  <% else %>
+    <%= presenter.deleted_message %>
+  <% end %>
 </div>

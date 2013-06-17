@@ -22,6 +22,10 @@ class ActivityPresenter
     "activities/#{activity.trackable_type.underscore}/#{activity.action}"
   end
 
+  def deleted_message
+    "#{activity.owner.name} deleted this #{activity.trackable_type.downcase}"
+  end
+
 
   private
 

@@ -1,10 +1,14 @@
 <div class="activity-icon">
   <span class="fui-plus-24"></span>
-  <%= parse_time(activity.updated_at) %>
+  <%= parse_time(activity.updated_at) if claim %>
 </div>
 
 <div class="activity-content">
-  <%= activity.owner.name %> created a new claim for
-  <%= link_to claim.title, claim_path(claim) %>
-  in the amount of <%= claim.amount %>
+  <% if claim %>
+    <%= activity.owner.name %> created a new claim for
+    <%= link_to claim.title, claim_path(claim) %>
+    in the amount of <%= claim.amount %>
+  <% else %>
+    <%= presenter.deleted_message %>
+  <% end %>
 </div>

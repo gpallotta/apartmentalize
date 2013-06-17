@@ -1,8 +1,13 @@
 <div class="activity-icon">
   <span class="fui-bubble-24"></span>
-  <%= parse_time(activity.updated_at) %>
+  <%= parse_time(activity.updated_at) if comment %>
 </div>
 
 <div class="activity-content">
-  <%= activity.owner.name %> commented on <%= link_to comment.claim.title, claim_path(comment.claim) %>
+  <% if comment %>
+    <%= activity.owner.name %> commented on
+    <%= link_to comment.claim.title, claim_path(comment.claim) %>
+  <% else %>
+    <%= presenter.deleted_message %>
+  <% end %>
 </div>

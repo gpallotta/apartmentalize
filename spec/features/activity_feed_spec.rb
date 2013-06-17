@@ -65,7 +65,7 @@ describe "activity feed" do
           expect(page).to have_content("#{user2.name} created a new claim for")
         end
         it "links to the claim" do
-          expect(page).to have_link( "#{c.title}", href: claim_path(c) )
+          expect(page).to have_link( "#{c.title}")
         end
       end
 
@@ -119,6 +119,23 @@ describe "activity feed" do
         sign_out user2
         sign_in user1
         expect(page).not_to have_content('Title 0')
+      end
+    end
+
+    context "deleted items" do
+      before do
+        Comment.delete_all
+        Claim.delete_all
+      end
+      it "shows a message indicating the item was deleted" do
+        visit home_page_path
+        expect(page).to have_content("#{user2.name} deleted this comment");
+        expect(page).to have_content("#{user2.name} deleted this claim");
+      end
+      it "does not error when a user visits the page with deleted items" do
+        sign_out user1
+        sign_in user2
+        expect(page).to have_content('Recent activity')
       end
     end
 

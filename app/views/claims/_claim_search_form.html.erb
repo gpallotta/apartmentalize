@@ -1,6 +1,10 @@
 <%= form_tag({:controller => 'claims', :action => 'index' },
                     {:method => 'get', :class => 'claim-search-form'}) do |f| %>
 
+  <div id="clear-button">
+    <%= link_to 'Clear', claims_path, class: 'btn' %>
+  </div>
+
   <%= hidden_field_tag :direction, params[:direction] %>
   <%= hidden_field_tag :sort, params[:sort] %>
 

@@ -3,7 +3,7 @@
 describe("claim and search forms", function() {
 
   beforeEach(function() {
-    $('#konacha').append(JST['templates/header_buttons']());
+    $('#konacha').append(JST['templates/claim_and_search_form_header_buttons']());
     window.formManipulations();
   });
 
@@ -29,7 +29,6 @@ describe("claim and search forms", function() {
     });
 
     it('removes the active class from the claim button', function() {
-      $('#konacha').append(JST['templates/header_buttons']());
       expect( $('.create-button').hasClass('active') ).to.be.false;
     });
 

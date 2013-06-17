@@ -1,6 +1,6 @@
 ######################
 
-# As a user
+# As an authenticated user
 # I want to be redirected to the sign in page when I visit pages which require me to be authenticated
 # so that I don't see things I'm not supposed to or cause errors
 
@@ -67,6 +67,17 @@ describe "an unauthenticated user visiting pages which need authentication" do
         visit edit_chore_path(chore)
         expect(current_path).to eql(new_user_session_path)
       end
+    end
+  end
+
+  describe "redirection after sign in" do
+    let!(:user) { FactoryGirl.create(:user) }
+    it "redirects the user to the page they originally intended to visit" do
+      visit claims_path
+      fill_in 'user_email', with: user.email
+      fill_in 'user_password', with: user.password
+      click_button 'Sign in'
+      expect(current_path).to eql(claims_path)
     end
   end
 

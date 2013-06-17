@@ -13,4 +13,10 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# Ignore vim temporary files
 *.swp
+
+# Ignore DS_store
+.DS_store
+

@@ -123,9 +123,10 @@ describe User do
       it { should have_valid(:email).when('greg@greg.com') }
 
       it "validates uniqueness of email" do
-        User.new(name: 'Greg', email: 'greg@greg.com', password: '12345678',
-                  password_confirmation: '12345678',
-                  group: Group.new(identifier: '1')).save!
+        u = User.new(name: 'Greg', email: 'greg@greg.com',
+              password: '12345678', password_confirmation: '12345678')
+        u.group = Group.new(identifier: '1')
+        u.save
         should validate_uniqueness_of(:email)
       end # without creation, null constraint on name is violated
 

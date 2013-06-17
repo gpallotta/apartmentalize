@@ -7,6 +7,7 @@ gem 'rails', '3.2.13'
 
 gem 'pg'
 gem 'devise'
+gem 'devise_invitable'
 gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'faker'

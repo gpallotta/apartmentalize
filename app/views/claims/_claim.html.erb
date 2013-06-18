@@ -1,5 +1,8 @@
 <tr>
-  <td><%= paid_status(claim) %></td>
+  <td>
+    <%= paid_status(claim) -%>
+    <div class="claim-color"></div>
+  </td>
   <td class="owed-to"><%= claim.user_owed_to.name %></td>
   <td class="owed-by"><%= claim.user_who_owes.name %></td>
   <td class="title">

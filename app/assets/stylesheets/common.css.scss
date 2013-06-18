@@ -3,6 +3,7 @@
 html, body {
   height: 100%;
   width: 100%;
+  background-color: #ECF0F1;
 }
 
 a {
@@ -12,7 +13,6 @@ a {
 
 .authorized-background {
   padding-top: 80px ;
-  background-color: #ECF0F1;
   @include height-width-cover;
   @include background-cover;
 }

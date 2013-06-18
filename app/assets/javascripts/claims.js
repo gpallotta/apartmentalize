@@ -2,6 +2,13 @@ jQuery(function() {
   $('.search-wrapper').hide();
   $('.create-button').addClass('active');
   window.formManipulations();
+  $('.claim-color').css('background-color', function() {
+    if( $(this).closest('td').text().trim() == 'Unpaid') {
+      return 'red';
+    } else {
+      return '#015959';
+    }
+  });
 });
 
 window.formManipulations = function(){

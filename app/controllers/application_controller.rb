@@ -4,6 +4,10 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   include SessionsHelper
 
+  def after_invite_path_for user
+    group_path(user.group)
+  end
+
   private
 
   def redirect_if_authenticated

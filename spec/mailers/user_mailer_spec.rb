@@ -55,11 +55,11 @@ describe UserMailer do
     end
 
     it "has a link to the claims page" do
-      expect(mail).to have_body_text("localhost:3000/claims")
+      expect(mail).to have_body_text("/claims")
     end
 
     it "has a link to the chores page" do
-      expect(mail).to have_body_text("localhost:3000/chores")
+      expect(mail).to have_body_text("/chores")
     end
 
     it "has a link to the home page" do

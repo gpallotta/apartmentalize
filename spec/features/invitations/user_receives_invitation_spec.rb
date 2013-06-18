@@ -30,10 +30,11 @@ include EmailSpec::Matchers
     password = 'password'
     open_last_email_for(email)
     visit_in_email 'Accept invitation'
+    fill_in 'Name', with: 'Updated'
     fill_in 'Password', with: password
     fill_in 'Password confirmation', with: password
     click_button 'Create'
-    expect(User.last.name).to eql('roommate')
+    expect(User.last.name).to eql('Updated')
   end
 
 end

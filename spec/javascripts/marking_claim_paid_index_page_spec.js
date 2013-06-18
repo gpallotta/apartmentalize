@@ -6,6 +6,10 @@ describe("marking claim paid on index page", function() {
     $('#konacha').append(JST['templates/marking_claim_paid_index_page']());
     sinon.stub($, 'ajax').yieldsTo('success', {
       claim: { parsed_time: 'hello',
+               amount: 5,
+               title: 'jstest',
+               description: 'testdescription',
+               paid: true
       }
     });
   });

@@ -110,6 +110,11 @@ th a.desc {
       font-size: 24px;
     }
   }
+  .claim-color {
+    width: 30px;
+    height: 10px;
+    margin: 5px auto;
+  }
   td {
     font-size: 18px;
     text-align: center;
@@ -159,8 +164,6 @@ th a.desc {
   button a {
   }
 }
-
-
 
 .edit-claim-form {
   input {

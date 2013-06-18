@@ -121,13 +121,7 @@ describe User do
       it { should respond_to(:email) }
       it { should_not have_valid(:email).when(nil, '', 'greg') }
       it { should have_valid(:email).when('greg@greg.com') }
-
-      it "validates uniqueness of email" do
-        User.new(name: 'Greg', email: 'greg@greg.com', password: '12345678',
-                  password_confirmation: '12345678',
-                  group: Group.new(identifier: '1')).save!
-        should validate_uniqueness_of(:email)
-      end # without creation, null constraint on name is violated
+      it { should validate_uniqueness_of(:email) }
 
       context "receives_weekly_email?" do
         it { should respond_to(:receives_weekly_email?) }

@@ -26,10 +26,11 @@ include EmailSpec::Matchers
   end
 
   scenario 'user accepts invitation' do
+    password = 'password'
     open_last_email_for(email)
     visit_in_email 'Accept invitation'
-    fill_in 'Password', with: 'password'
-    fill_in 'Password confirmation', with: 'password'
+    fill_in 'Password', with: password
+    fill_in 'Password confirmation', with: password
     click_button 'Create'
     expect(User.last.name).to eql('roommate')
     expect(User.last.group).to eql(user.group)

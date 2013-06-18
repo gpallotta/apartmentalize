@@ -26,9 +26,7 @@ include EmailSpec::Matchers
   end
 
   scenario 'user accepts invitation' do
-    unread_emails_for(email).each do |e|
-      open_email(email)
-    end
+    open_last_email_for(email)
     visit_in_email 'Accept invitation'
     fill_in 'Password', with: 'password'
     fill_in 'Password confirmation', with: 'password'

@@ -5,17 +5,13 @@ describe("marking claim paid on index page", function() {
   beforeEach(function() {
     $('#konacha').append(JST['templates/marking_claim_paid_index_page']());
     sinon.stub($, 'ajax').yieldsTo('success', {
-      claim: { parsed_time: 'hello' }
+      claim: { parsed_time: 'hello',
+      }
     });
   });
 
   afterEach(function() {
     $.ajax.restore();
-  });
-
-  it("makes an ajax call", function() {
-    markClaimPaid($('a'), function() {});
-    expect($.ajax.calledOnce).to.be.true;
   });
 
   it("updates the page after the ajax call", function() {

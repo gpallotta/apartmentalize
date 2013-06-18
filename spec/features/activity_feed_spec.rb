@@ -1,8 +1,11 @@
-###############
+require 'spec_helper'
 
-# As a user
-# I want to see a feed of recent activity on the site
-# so I know what has been going on
+feature 'activity feed', %q{
+  As a user
+  I want to see a feed of recent activity on the site
+  so I know what has been going on
+} do
+
 
 # AC:
 # I see a feed of the most recent activity
@@ -11,144 +14,89 @@
 # Items which are older are not displayed
 # I do not see items not related to me listed in the feed
 
-###############
 
-
-require 'spec_helper'
-
-describe "activity feed" do
-
-  extend ClaimsHarness
-  let!(:group) { FactoryGirl.create(:group) }
+  let(:group) { FactoryGirl.create(:group) }
   let!(:user1) { FactoryGirl.create(:user, group: group) }
   let!(:user2) { FactoryGirl.create(:user, group: group) }
   let!(:user3) { FactoryGirl.create(:user, group: group) }
-  let!(:cl1) { FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user2) }
-  let!(:cl2) { FactoryGirl.create(:claim, user_owed_to: user2, user_who_owes: user3) }
 
-  describe "activity not related to me" do
-    before do
-      sign_in user2
-      visit claim_path(cl2)
-      fill_in 'comment_content', with: 'Not related'
-      click_button 'Comment'
-      sign_out user2
-    end
+  before(:each) {
+    sign_in user2
+  }
 
-    it "is not shown" do
-      sign_in user1
-      expect(page).not_to have_content("#{user2.name} commented on #{cl2.title}")
-    end
+  scenario 'activity not related to the user' do
+    c = FactoryGirl.create(:claim, user_owed_to: user2, user_who_owes: user3)
+    visit claim_path(c)
+    fill_in 'comment_content', with: 'Not related'
+    click_button 'Comment'
+    switch_to_user1
+    expect(page).not_to have_content("#{user2.name} commented on")
   end
 
-  describe "activity related to me" do
-    before do
-      sign_in user2
-      visit claims_path
-      fill_in 'claim_title', with: 'Cable'
-      fill_in 'claim_amount', with: 20
-      click_button 'Create Claim'
-      c = Claim.find_by_title('Cable')
-      visit claim_path(c)
-      fill_in 'comment_content', with: 'Turtles'
-      click_button 'Comment'
-      sign_out user2
-      sign_in user1
+  scenario "the current user's activity" do
+    title = 'My own activity'
+    visit claims_path
+    create_claim(title, 5)
+    visit home_page_path
+    expect(page).not_to have_content("#{user2.name} created a new claim for #{title}")
+  end
+
+  scenario 'claim created for the user' do
+    visit claims_path
+    create_claim('Test', 5)
+    switch_to_user1
+    c = Claim.find_by_title('Test')
+    expect(page).to have_content("#{user2.name} created a new claim")
+    expect(page).to have_link( "#{c.title}", href: claim_path(c) )
+  end
+
+  scenario "a user's claim is commented on" do
+    c = FactoryGirl.create(:claim, user_owed_to: user2, user_who_owes: user1)
+    visit claim_path(c)
+    fill_in 'comment_content', with: 'Test'
+    click_button 'Comment'
+    switch_to_user1
+    expect(page).to have_content("#{user2.name} commented on")
+    expect(page).to have_link("#{c.title}", href: claim_path(c))
+  end
+
+  scenario "claim owed by user is marked paid" do
+    c = FactoryGirl.create(:claim, user_owed_to: user2, user_who_owes: user1)
+    visit claims_path
+    click_link 'Mark paid'
+    switch_to_user1
+    expect(page).to have_content("#{user2.name} marked #{c.title} as paid")
+  end
+
+  scenario "activity feed item is deleted" do
+    visit claims_path
+    create_claim('Delete me', 5)
+    user1.claims_to_pay.last.destroy
+    switch_to_user1
+    expect(page).to have_content("#{user2.name} deleted this claim")
+  end
+
+  scenario 'more than 10 items on activity feed' do
+    visit claims_path
+    11.times do |i|
+      create_claim("Title #{i}", 1)
     end
+    switch_to_user1
+    expect(page).not_to have_content("#{user2.name} created a new claim for Title 0")
+  end
 
-    let!(:c) { Claim.find_by_title("Cable") }
 
-    context "claims" do
-      before { visit home_page_path }
-      context "create" do
-        it "shows when a new claim is posted" do
-          expect(page).to have_content("#{user2.name} created a new claim for")
-        end
-        it "links to the claim" do
-          expect(page).to have_link( "#{c.title}")
-        end
-      end
+  # helpers
 
-      context "mark_as_paid" do
-        it "shows when a claim I owe is marked as paid" do
-          sign_out user1
-          sign_in user2
-          visit claim_path(c)
-          click_link 'Mark as paid'
-          sign_out user2
-          sign_in user1
-          expect(page).to have_content("#{user2.name} marked #{c.title} as paid")
-          expect(page).to have_link( "#{c.title}", href: claim_path(c) )
-        end
-      end
+  def switch_to_user1
+    sign_out user2
+    sign_in user1
+  end
 
-      context "update" do
-        before do
-          sign_out user1
-          sign_in user2
-          visit edit_claim_path(c)
-          fill_in 'claim_amount', with: 11
-          click_button 'Save changes'
-          sign_out user2
-          sign_in user1
-        end
-
-        it "shows when a claim I owe is edited" do
-          expect(page).to have_content("#{user2.name} edited #{c.title}")
-          expect(page).to have_link(c.title, href: claim_path(c))
-        end
-      end
-    end
-
-    context "comments" do
-      it "shows when a comment is posted on anything I owe/am owed" do
-        expect(page).to have_content("#{user2.name} commented on")
-      end
-    end
-
-    context "size" do
-      it "shows the 10 most recent items" do
-        sign_out user1
-        sign_in user2
-        visit claims_path
-        11.times do |i|
-          fill_in 'claim_title', with: "Title #{i}"
-          fill_in 'claim_amount', with: 5
-          click_button 'Create Claim'
-        end
-        sign_out user2
-        sign_in user1
-        expect(page).not_to have_content('Title 0')
-      end
-    end
-
-    context "deleted items" do
-      before do
-        Comment.delete_all
-        Claim.delete_all
-      end
-      it "shows a message indicating the item was deleted" do
-        visit home_page_path
-        expect(page).to have_content("#{user2.name} deleted this comment");
-        expect(page).to have_content("#{user2.name} deleted this claim");
-      end
-      it "does not error when a user visits the page with deleted items" do
-        sign_out user1
-        sign_in user2
-        expect(page).to have_content('Recent activity')
-      end
-    end
-
-    context "my own activity" do
-      it "is not shown" do
-        visit claims_path
-        fill_in 'claim_title', with: 'Mine'
-        fill_in 'claim_amount', with: 3
-        click_button 'Create Claim'
-        visit home_page_path
-        expect(page).not_to have_content("#{user1.name} created a new claim for #{Claim.last.title}")
-      end
-    end
+  def create_claim(title, amount)
+    fill_in 'claim_title', with: title
+    fill_in 'claim_amount', with: amount
+    click_button 'Create Claim'
   end
 
 end

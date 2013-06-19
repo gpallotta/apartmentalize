@@ -30,8 +30,9 @@ describe("marking claim paid on index page", function() {
   describe("success", function() {
 
     it("updates the page after a successful ajax call", function() {
+      c = new Claim();
       sinon.stub($, 'ajax').yieldsTo('success', claim_object);
-      markClaimPaid( $('a'), updateIndexPageAfterPaid );
+      c.markClaimPaid( $('a'), c.claimView.updateIndexPageAfterPaid );
       expect( $('.mark-as-paid-link').is(":hidden")).to.be.true;
       expect($('td:first').text()).to.eql('Paid');
     });
@@ -41,8 +42,9 @@ describe("marking claim paid on index page", function() {
   describe("failure", function() {
 
     it("displays an error after an unsuccessufl ajax call", function() {
+      c = new Claim();
       sinon.stub($, 'ajax').yieldsTo('error', claim_object);
-      markClaimPaid($('a'), function() {});
+      c.markClaimPaid($('a'));
       expect( $('#mark-as-paid-error').text()).to.eql('Something went wrong');
     });
 

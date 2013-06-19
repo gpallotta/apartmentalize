@@ -8,6 +8,7 @@ class ClaimsController < ApplicationController
     @claim = Claim.new
     set_up_search_results
     @claim_balance = ClaimBalance.new(current_user, @claims)
+    @claims = Kaminari.paginate_array(@claims).page(params[:page])
   end
 
   def show
@@ -85,7 +86,6 @@ class ClaimsController < ApplicationController
     @unfiltered_claims = current_user.claims
     @search = ClaimSearch.new(current_user, @unfiltered_claims, params)
     @claims = @search.results
-    @claims = Kaminari.paginate_array(@claims).page(params[:page])
   end
 
   def user_related_to_claim? claim

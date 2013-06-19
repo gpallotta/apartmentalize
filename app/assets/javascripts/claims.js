@@ -3,7 +3,7 @@ jQuery(function() {
   $('#claim-form-errors').hide();
   $('.create-button').addClass('active');
   window.formManipulations();
-  addColorToClaims();
+  new ClaimView().addColorToClaims();
 
   $('#new_claim').submit(function(e) {
     e.preventDefault();
@@ -11,24 +11,26 @@ jQuery(function() {
     c.createClaims();
   });
 
+  $('.mark-as-paid-link').click(function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    c = new Claim();
+    c.markClaimPaid($(this), c.claimView.updateIndexPageAfterPaid);
+  });
+
+  $('.show-page-mark-paid').click(function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    c = new Claim();
+    c.markClaimPaid($(this), c.claimView.updateShowPageAfterPaid);
+  });
+
 });
 
 function Claim() {
 
   var that = this;
-
-  this.addClaims = function(result) {
-    claim_num = result.claims.length;
-    for(i = 0; i < claim_num; i++) {
-      var claim = result.claims[i];
-      html = HandlebarsTemplates['claims/create'](claim);
-      $('.claims-table').append(html);
-      $('.claims-table tr:last').hide().fadeIn();
-      $('#claim-form-errors').hide();
-    }
-    $('#new_claim').find('input:text, input[type="number"]').val('');
-    addColorToClaims();
-  };
+  this.claimView = new ClaimView();
 
   this.createClaims = function() {
     var form = $('#new_claim');
@@ -39,16 +41,84 @@ function Claim() {
       cache: false,
       dataType: 'JSON',
       success: function(result) {
-        console.log(result);
-        that.addClaims(result);
+        that.claimView.displayNewClaims(result);
       },
       error: function() {
-        $('#claim-form-errors').show();
+        that.claimView.displayCreateErrors();
+      }
+    });
+  };
+
+  this.markClaimPaid = function(link, f) {
+    $.ajax({
+      url: link.attr('href') + '.json',
+      type: "PUT",
+      data: { id: link.data('id') },
+      cache: false,
+      dataType: 'JSON',
+      success: function(result) {
+        f(result, link);
+      },
+      error: function() {
+        that.claimView.displayMarkPaidErrors();
       }
     });
   };
 
 }
+
+function ClaimView() {
+
+  var that = this;
+
+  this.displayNewClaims = function(result) {
+    claim_num = result.claims.length;
+    for(i = 0; i < claim_num; i++) {
+      var claim = result.claims[i];
+      html = HandlebarsTemplates['claims/create'](claim);
+      $('.claims-table').append(html);
+      $('.claims-table tr:last').hide().fadeIn();
+      $('#claim-form-errors').hide();
+    }
+    $('#new_claim').find('input:text, input[type="number"]').val('');
+    that.addColorToClaims();
+  };
+
+  this.displayMarkPaidErrors = function() {
+    $('#mark-as-paid-error').text('Something went wrong');
+  };
+
+  this.displayCreateErrors = function() {
+    $('#claim-form-errors').show();
+  };
+
+  this.updateShowPageAfterPaid = function(result) {
+    $('#mark-as-paid-error').text('');
+    $('.btn').addClass('disabled');
+    $('.comment-button').removeClass('disabled');
+    $('.edit-btn').text('Cannot edit paid claims');
+    $('.edit-btn').attr('href', '#');
+    $('.show-page-paid-status').text('Paid on ' + result.claim.parsed_time);
+  };
+
+  this.updateIndexPageAfterPaid = function(result, link) {
+    link.hide(300);
+    link.closest('tr').find('td:first').text('Paid');
+    that.addColorToClaims();
+  };
+
+  this.addColorToClaims = function() {
+    $('.claim-color').css('background-color', function() {
+      if( $(this).closest('td').text().trim() == 'Unpaid') {
+        return 'red';
+      } else {
+        return '#015959';
+      }
+    });
+  };
+
+}
+
 
 window.formManipulations = function(){
 
@@ -74,18 +144,6 @@ window.formManipulations = function(){
     $(this).prev().addClass('active');
   });
 
-  $('.mark-as-paid-link').click(function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    markClaimPaid($(this), updateIndexPageAfterPaid);
-  });
-
-  $('.show-page-mark-paid').click(function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    markClaimPaid($(this), updateShowPageAfterPaid);
-  });
-
   $(".search-button").click(function() {
     showSearchForm();
   });
@@ -95,44 +153,3 @@ window.formManipulations = function(){
   });
 
 };
-
-function markClaimPaid(link, f) {
-  $.ajax({
-    url: link.attr('href') + '.json',
-    type: "PUT",
-    data: { id: link.data('id') },
-    cache: false,
-    dataType: 'JSON',
-    success: function(result) {
-      f(result, link);
-    },
-    error: function() {
-      $('#mark-as-paid-error').text('Something went wrong');
-    }
-  });
-}
-
-function updateShowPageAfterPaid(result) {
-  $('#mark-as-paid-error').text('');
-  $('.btn').addClass('disabled');
-  $('.comment-button').removeClass('disabled');
-  $('.edit-btn').text('Cannot edit paid claims');
-  $('.edit-btn').attr('href', '#');
-  $('.show-page-paid-status').text('Paid on ' + result.claim.parsed_time);
-}
-
-function updateIndexPageAfterPaid(result, link) {
-  link.hide(300);
-  link.closest('tr').find('td:first').text('Paid');
-  addColorToClaims();
-}
-
-function addColorToClaims() {
-  $('.claim-color').css('background-color', function() {
-    if( $(this).closest('td').text().trim() == 'Unpaid') {
-      return 'red';
-    } else {
-      return '#015959';
-    }
-  });
-}

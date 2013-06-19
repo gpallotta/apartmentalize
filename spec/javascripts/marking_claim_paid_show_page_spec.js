@@ -3,7 +3,7 @@
 describe("marking claim paid on show page", function() {
 
   beforeEach(function() {
-    $('#konacha').append(JST['templates/marking_claim_paid_show_page']());
+    $('#konacha').append(HandlebarsTemplates['spec/marking_claim_paid_show_page']());
     sinon.stub($, 'ajax').yieldsTo('success', {
       claim: { parsed_time: 'hello' }
     });

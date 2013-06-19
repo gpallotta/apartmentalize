@@ -12,7 +12,6 @@ jQuery(function() {
 function Comment() {
 
   var that = this;
-  // this.template = Handlebars.compile( $('#comment-template').html() );
 
   this.addComment = function(comment) {
     html = HandlebarsTemplates['comments/create'](comment);

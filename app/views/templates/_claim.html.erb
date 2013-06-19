@@ -1,0 +1,24 @@
+<script id="claim-template" type="text/x-handlebars-template">
+  <tr>
+    <td>
+      {{ paid_status }}
+      <div class="claim-color"></div>
+    </td>
+    <td class="owed-to">{{ user_owed_to.name }}</td>
+    <td class="owed-by">{{ user_who_owes.name }}</td>
+    <td class="title">
+      <div>{{ title }}</div>
+      <p class="description">{{ description }}</p>
+    </td>
+    <td class="amount">
+      {{ amount }}
+      <p class="links">
+        <a href="/claims/{{id}}">View</a>
+        <a href="/claims/{{id}}/mark_as_paid">Mark paid</a>
+      </p>
+    </td>
+    <td class="created-on">
+      {{ parsed_time }}
+    </td>
+  </tr>
+</script>

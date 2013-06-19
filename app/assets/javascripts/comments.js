@@ -15,6 +15,7 @@ function Comment() {
   this.template = Handlebars.compile( $('#comment-template').html() );
 
   this.addComment = function(comment) {
+    console.log(comment);
     $('.comments-list').append( that.template(comment) );
     $('.comments-list div.row:last').hide().fadeIn();
     $('#comment-form-errors').hide();

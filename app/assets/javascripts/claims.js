@@ -1,15 +1,53 @@
 jQuery(function() {
   $('.search-wrapper').hide();
+  $('#claim-form-errors').hide();
   $('.create-button').addClass('active');
   window.formManipulations();
-  $('.claim-color').css('background-color', function() {
-    if( $(this).closest('td').text().trim() == 'Unpaid') {
-      return 'red';
-    } else {
-      return '#015959';
-    }
+  addColorToClaims();
+
+  $('#new_claim').submit(function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    c = new Claim();
+    c.createClaims();
   });
+
 });
+
+function Claim() {
+
+  var that = this;
+  this.template = Handlebars.compile( $('#claim-template').html() );
+
+  this.addClaims = function(result) {
+    claim_num = result.claims.length;
+    for(i = 0; i < claim_num; i++) {
+      $('.claims-table').append( that.template(result.claims[i]) );
+      $('.claims-table tr:last').hide().fadeIn();
+      $('#claim-form-errors').hide();
+    }
+    $('#new_claim').find('input:text, input[type="number"]').val('');
+    addColorToClaims();
+  };
+
+  this.createClaims = function() {
+    var form = $('#new_claim');
+    $.ajax({
+      url: form.attr('action') + '.json',
+      type: "POST",
+      data: form.serialize(),
+      cache: false,
+      dataType: 'JSON',
+      success: function(result) {
+        that.addClaims(result);
+      },
+      error: function() {
+        $('#claim-form-errors').show();
+      }
+    });
+  };
+
+}
 
 window.formManipulations = function(){
 
@@ -68,7 +106,6 @@ function markClaimPaid(link, f) {
       f(result, link);
     },
     error: function() {
-      alert('hi');
       $('#mark-as-paid-error').text('Something went wrong');
     }
   });
@@ -88,3 +125,12 @@ function updateIndexPageAfterPaid(result, link) {
   link.closest('tr').find('td:first').text('Paid');
 }
 
+function addColorToClaims() {
+  $('.claim-color').css('background-color', function() {
+    if( $(this).closest('td').text().trim() == 'Unpaid') {
+      return 'red';
+    } else {
+      return '#015959';
+    }
+  });
+}

@@ -22,9 +22,10 @@ describe("creating comments", function() {
 
   describe("success", function() {
     it("creates a comment and displays it", function() {
-      $('#comment_content').val('This is a test');
       sinon.stub($, 'ajax').yieldsTo('success', claim_object);
-      comment = new Comment();
+      $('#comment-form-errors').show();
+
+      var comment = new Comment();
       comment.submitCommentForm($('#new_comment'));
       expect( $('#comment-form-errors').is(":hidden")).to.be.true;
 
@@ -40,7 +41,10 @@ describe("creating comments", function() {
 
   describe("error", function() {
     it("displays error text", function() {
+      $('#comment-form-errors').hide();
       sinon.stub($, 'ajax').yieldsTo('error');
+      var comment = new Comment();
+      comment.submitCommentForm($('#new_comment'));
       expect( $('#comment-form-errors').is(":hidden")).to.be.false;
     });
   });

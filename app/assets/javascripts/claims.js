@@ -6,7 +6,6 @@ jQuery(function() {
   addColorToClaims();
 
   $('#new_claim').submit(function(e) {
-    e.stopPropagation();
     e.preventDefault();
     c = new Claim();
     c.createClaims();
@@ -40,6 +39,7 @@ function Claim() {
       cache: false,
       dataType: 'JSON',
       success: function(result) {
+        console.log(result);
         that.addClaims(result);
       },
       error: function() {

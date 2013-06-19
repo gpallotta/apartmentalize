@@ -1,29 +1,34 @@
-$(function() {
-
-  var comment_source = $('#comment-template').html();
-  var template = Handlebars.compile(comment_source);
+jQuery(function() {
 
   $('#new_comment').submit(function(e) {
     e.preventDefault();
-    submitCommentForm(this, template);
+    c = new Comment();
+    c.submitCommentForm(this);
   });
 
-  function increaseCommentCount() {
-    var num = $('#comment-number').html();
-    num = parseInt(num, 10);
-    $('#comment-number').html(num+1);
-  }
+});
 
-  function addComment(comment) {
-    var html = template(comment);
-    $('.comments-list').append(html);
+
+function Comment() {
+
+  var that = this;
+  this.template = Handlebars.compile( $('#comment-template').html() );
+
+  this.addComment = function(comment) {
+    $('.comments-list').append( that.template(comment) );
     $('.comments-list div.row:last').hide().fadeIn();
     $('#comment-form-errors').hide();
     $('#new_comment')[0].reset();
-    increaseCommentCount();
-  }
+    that.increaseCommentCount();
+  };
 
-  function submitCommentForm(form_submitted, template) {
+  this.increaseCommentCount = function() {
+    var num = $('#comment-number').html();
+    num = parseInt(num, 10);
+    $('#comment-number').html(num+1);
+  };
+
+  this.submitCommentForm = function(form_submitted) {
     var form = $(form_submitted);
     $.ajax({
       url: form.attr('action') + '.json',
@@ -32,11 +37,16 @@ $(function() {
       cache: false,
       dataType: "JSON",
       success: function(result) {
-        addComment(result);
+        that.addComment(result);
       },
       error: function() {
-        $('#comment-form-errors').show();
+        that.displayError();
       }
     });
-  }
-});
+  };
+
+  this.displayError = function() {
+    $('#comment-form-errors').show();
+  };
+
+}

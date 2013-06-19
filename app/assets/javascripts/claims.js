@@ -68,6 +68,7 @@ function markClaimPaid(link, f) {
       f(result, link);
     },
     error: function() {
+      alert('hi');
       $('#mark-as-paid-error').text('Something went wrong');
     }
   });

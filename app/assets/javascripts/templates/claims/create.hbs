@@ -13,7 +13,11 @@
     {{ amount }}
     <p class="links">
       <a href="/claims/{{id}}">View</a>
-      <a href="/claims/{{id}}/mark_as_paid">Mark paid</a>
+      <a href="/claims/{{id}}/mark_as_paid"
+            class="mark-as-paid-link" data-id={{id}}
+            data-method="put">
+        Mark paid
+      </a>
     </p>
   </td>
   <td class="created-on">

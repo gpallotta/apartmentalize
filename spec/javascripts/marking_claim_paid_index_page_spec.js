@@ -3,16 +3,24 @@
 describe("marking claim paid on index page", function() {
 
   var claim_object = {
-    claim: {
-      amount: 5,
-      title: 'jstest',
-      description: 'testdescription',
-      paid: true
+    id: 1,
+    amount: 5,
+    title: 'jstest',
+    description: 'testdescription',
+    paid: true,
+    paid_status: 'Paid',
+    parsed_time: 'June 1, 2020',
+    user_owed_to: {
+      name: 'Greg'
+    },
+    user_who_owes: {
+      name: 'Not Greg'
     }
   };
 
   beforeEach(function() {
-    $('#konacha').append(JST['templates/marking_claim_paid_index_page']());
+    $('#konacha').append(HandlebarsTemplates['claims/create'](claim_object));
+    $('#konacha').append('<div id="mark-as-paid-error"></div>');
   });
 
   afterEach(function() {

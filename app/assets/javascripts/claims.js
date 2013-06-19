@@ -124,6 +124,7 @@ function updateShowPageAfterPaid(result) {
 function updateIndexPageAfterPaid(result, link) {
   link.hide(300);
   link.closest('tr').find('td:first').text('Paid');
+  addColorToClaims();
 }
 
 function addColorToClaims() {

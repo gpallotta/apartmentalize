@@ -2,26 +2,43 @@
 
 describe("marking claim paid on index page", function() {
 
+  var claim_object = {
+    claim: {
+      amount: 5,
+      title: 'jstest',
+      description: 'testdescription',
+      paid: true
+    }
+  };
+
   beforeEach(function() {
     $('#konacha').append(JST['templates/marking_claim_paid_index_page']());
-    sinon.stub($, 'ajax').yieldsTo('success', {
-      claim: { parsed_time: 'hello',
-               amount: 5,
-               title: 'jstest',
-               description: 'testdescription',
-               paid: true
-      }
-    });
   });
 
   afterEach(function() {
     $.ajax.restore();
   });
 
-  it("updates the page after the ajax call", function() {
-    markClaimPaid( $('a'), updateIndexPageAfterPaid );
-    expect( $('.mark-as-paid-link').is(":hidden")).to.be.true;
-    expect($('td:first').text()).to.eql('Paid');
+  describe("success", function() {
+
+    it("updates the page after a successful ajax call", function() {
+      sinon.stub($, 'ajax').yieldsTo('success', claim_object);
+      markClaimPaid( $('a'), updateIndexPageAfterPaid );
+      expect( $('.mark-as-paid-link').is(":hidden")).to.be.true;
+      expect($('td:first').text()).to.eql('Paid');
+    });
+
   });
+
+  describe("failure", function() {
+
+    it("displays an error after an unsuccessufl ajax call", function() {
+      sinon.stub($, 'ajax').yieldsTo('error', claim_object);
+      markClaimPaid($('a'), function() {});
+      expect( $('#mark-as-paid-error').text()).to.eql('Something went wrong');
+    });
+
+  });
+
 
 });

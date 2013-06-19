@@ -41,6 +41,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'pry'
   gem 'konacha'
+  gem 'poltergeist'
 end
 
 group :test do

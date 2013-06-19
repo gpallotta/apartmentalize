@@ -1,9 +1,0 @@
-<% @claim_creator.created_claims.each do |c| %>
-  $('.claims-table').append('<%= j render c %>');
-<% end %>
-
-$("#new_claim").each(function() {
-  this.reset();
-});
-
-$('#claim-form-errors').html('')

@@ -12,11 +12,11 @@ jQuery(function() {
 function Comment() {
 
   var that = this;
-  this.template = Handlebars.compile( $('#comment-template').html() );
+  // this.template = Handlebars.compile( $('#comment-template').html() );
 
   this.addComment = function(comment) {
-    console.log(comment);
-    $('.comments-list').append( that.template(comment) );
+    html = HandlebarsTemplates['comments/create'](comment);
+    $('.comments-list').append(html);
     $('.comments-list div.row:last').hide().fadeIn();
     $('#comment-form-errors').hide();
     $('#new_comment')[0].reset();

@@ -101,6 +101,10 @@ GEM
       em-websocket (>= 0.5.0)
       guard (>= 1.8.0)
       multi_json (~> 1.7)
+    handlebars_assets (0.13.0)
+      execjs (>= 1.2.9)
+      sprockets (>= 2.0.3)
+      tilt
     hike (1.2.2)
     http_parser.rb (0.5.3)
     i18n (0.6.1)
@@ -257,6 +261,7 @@ DEPENDENCIES
   fivemat
   flatui-rails
   guard-livereload
+  handlebars_assets
   jquery-rails
   jquery-ui-sass-rails
   kaminari

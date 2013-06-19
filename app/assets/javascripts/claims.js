@@ -17,12 +17,13 @@ jQuery(function() {
 function Claim() {
 
   var that = this;
-  this.template = Handlebars.compile( $('#claim-template').html() );
 
   this.addClaims = function(result) {
     claim_num = result.claims.length;
     for(i = 0; i < claim_num; i++) {
-      $('.claims-table').append( that.template(result.claims[i]) );
+      var claim = result.claims[i];
+      html = HandlebarsTemplates['claims/create'](claim);
+      $('.claims-table').append(html);
       $('.claims-table tr:last').hide().fadeIn();
       $('#claim-form-errors').hide();
     }

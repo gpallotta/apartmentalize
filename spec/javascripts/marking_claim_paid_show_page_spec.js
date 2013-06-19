@@ -2,23 +2,14 @@
 
 describe("marking claim paid on show page", function() {
 
-  beforeEach(function() {
-    $('#konacha').append(JST['templates/marking_claim_paid_show_page']());
+  it("updates the page after the ajax call", function() {
+    $('#konacha').append(HandlebarsTemplates['spec/marking_claim_paid_show_page']());
     sinon.stub($, 'ajax').yieldsTo('success', {
       claim: { parsed_time: 'hello' }
     });
-    markClaimPaid($('a'), updateShowPageAfterPaid);
-  });
+    c = new Claim();
+    c.markClaimPaid($('a'), c.claimView.updateShowPageAfterPaid);
 
-  afterEach(function() {
-    $.ajax.restore();
-  });
-
-  it("makes an ajax call", function() {
-    expect($.ajax.calledOnce).to.be.true;
-  });
-
-  it("updates the page after the ajax call", function() {
     expect( $('.edit-btn').text()).to.eql('Cannot edit paid claims');
     expect( $('mark-as-paid-error').text()).to.eql('');
     expect( $('.btn').hasClass('disabled')).to.be.true;

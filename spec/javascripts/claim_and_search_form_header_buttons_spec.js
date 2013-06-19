@@ -3,7 +3,7 @@
 describe("claim and search forms", function() {
 
   beforeEach(function() {
-    $('#konacha').append(JST['templates/claim_and_search_form_header_buttons']());
+    $('#konacha').append(HandlebarsTemplates['spec/claim_and_search_form_header_buttons']());
     window.formManipulations();
   });
 

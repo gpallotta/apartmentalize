@@ -1,29 +1,21 @@
-$(function() {
-
-  var comment_source = $('#comment-template').html();
-  var template = Handlebars.compile(comment_source);
+jQuery(function() {
 
   $('#new_comment').submit(function(e) {
     e.preventDefault();
-    submitCommentForm(this, template);
+    c = new Comment();
+    c.submitCommentForm(this);
   });
 
-  function increaseCommentCount() {
-    var num = $('#comment-number').html();
-    num = parseInt(num, 10);
-    $('#comment-number').html(num+1);
-  }
+});
 
-  function addComment(comment) {
-    var html = template(comment);
-    $('.comments-list').append(html);
-    $('.comments-list div.row:last').hide().fadeIn();
-    $('#comment-form-errors').hide();
-    $('#new_comment')[0].reset();
-    increaseCommentCount();
-  }
 
-  function submitCommentForm(form_submitted, template) {
+function Comment() {
+
+  var that = this;
+
+  this.commentView = new CommentView();
+
+  this.submitCommentForm = function(form_submitted) {
     var form = $(form_submitted);
     $.ajax({
       url: form.attr('action') + '.json',
@@ -32,11 +24,37 @@ $(function() {
       cache: false,
       dataType: "JSON",
       success: function(result) {
-        addComment(result);
+        that.commentView.displayComment(result);
       },
       error: function() {
-        $('#comment-form-errors').show();
+        that.commentView.displayError();
       }
     });
-  }
-});
+  };
+
+}
+
+function CommentView() {
+
+  var that = this;
+
+  this.displayError = function() {
+    $('#comment-form-errors').show();
+  };
+
+  this.displayComment = function(comment) {
+    html = HandlebarsTemplates['comments/create'](comment);
+    $('.comments-list').append(html);
+    $('.comments-list div.row:last').hide().fadeIn();
+    $('#comment-form-errors').hide();
+    $('#new_comment')[0].reset();
+    that.increaseCommentCount();
+  };
+
+  this.increaseCommentCount = function() {
+    var num = $('#comment-number').html();
+    num = parseInt(num, 10);
+    $('#comment-number').html(num+1);
+  };
+
+}

@@ -3,16 +3,24 @@
 describe("marking claim paid on index page", function() {
 
   var claim_object = {
-    claim: {
-      amount: 5,
-      title: 'jstest',
-      description: 'testdescription',
-      paid: true
+    id: 1,
+    amount: 5,
+    title: 'jstest',
+    description: 'testdescription',
+    paid: true,
+    paid_status: 'Paid',
+    parsed_time: 'June 1, 2020',
+    user_owed_to: {
+      name: 'Greg'
+    },
+    user_who_owes: {
+      name: 'Not Greg'
     }
   };
 
   beforeEach(function() {
-    $('#konacha').append(JST['templates/marking_claim_paid_index_page']());
+    $('#konacha').append(HandlebarsTemplates['claims/create'](claim_object));
+    $('#konacha').append('<div id="mark-as-paid-error"></div>');
   });
 
   afterEach(function() {
@@ -22,8 +30,9 @@ describe("marking claim paid on index page", function() {
   describe("success", function() {
 
     it("updates the page after a successful ajax call", function() {
+      c = new Claim();
       sinon.stub($, 'ajax').yieldsTo('success', claim_object);
-      markClaimPaid( $('a'), updateIndexPageAfterPaid );
+      c.markClaimPaid( $('a'), c.claimView.updateIndexPageAfterPaid );
       expect( $('.mark-as-paid-link').is(":hidden")).to.be.true;
       expect($('td:first').text()).to.eql('Paid');
     });
@@ -33,8 +42,9 @@ describe("marking claim paid on index page", function() {
   describe("failure", function() {
 
     it("displays an error after an unsuccessufl ajax call", function() {
+      c = new Claim();
       sinon.stub($, 'ajax').yieldsTo('error', claim_object);
-      markClaimPaid($('a'), function() {});
+      c.markClaimPaid($('a'));
       expect( $('#mark-as-paid-error').text()).to.eql('Something went wrong');
     });
 

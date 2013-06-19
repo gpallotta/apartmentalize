@@ -1,0 +1,26 @@
+<tr>
+  <td>
+    {{ paid_status }}
+    <div class="claim-color"></div>
+  </td>
+  <td class="owed-to">{{ user_owed_to.name }}</td>
+  <td class="owed-by">{{ user_who_owes.name }}</td>
+  <td class="title">
+    <div>{{ title }}</div>
+    <p class="description">{{ description }}</p>
+  </td>
+  <td class="amount-links">
+    <span class="amount">{{ amount }}</span>
+    <p class="links">
+      <a href="/claims/{{id}}">View</a>
+      <a href="/claims/{{id}}/mark_as_paid"
+            class="mark-as-paid-link" data-id={{id}}
+            data-method="put">
+        Mark paid
+      </a>
+    </p>
+  </td>
+  <td class="created-on">
+    {{ parsed_time }}
+  </td>
+</tr>

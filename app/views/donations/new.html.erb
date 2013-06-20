@@ -24,6 +24,8 @@
     <%= select_year nil, {start_year: Date.today.year,
             end_year: Date.today.year+15}, {name: nil, id: "card_year"}%>
 
+    <div id="stripe-error"></div>
+
     <div class="actions">
       <%= f.submit "Donate", class: 'btn' %>
     </div>

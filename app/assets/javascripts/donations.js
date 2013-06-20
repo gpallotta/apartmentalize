@@ -21,7 +21,7 @@ window.donation = {
     if (status == 200) {
       alert(response.id);
     } else {
-      alert(response.error.message);
+      $('#stripe-error').text(response.error.message);
       $('input[type=submit]').attr('disabled', false);
     }
   }

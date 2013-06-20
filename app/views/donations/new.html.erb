@@ -31,3 +31,12 @@
 
   </div>
 </div>
+
+<%= content_for :extra_footer do %>
+  <script type="text/javascript">
+  jQuery(function() {
+    Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
+    donation.setupForm();
+  });
+  </script>
+<%- end -%>

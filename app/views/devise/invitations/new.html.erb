@@ -1,16 +1,20 @@
-<h2><%= t "devise.invitations.new.header" %></h2>
+<div class="span4 offset4">
+  <div class="well">
+    <h2><%= t "devise.invitations.new.header" %></h2>
 
-<%= simple_form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f| %>
-  <%= devise_error_messages! %>
+    <%= simple_form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f| %>
+      <%= devise_error_messages! %>
 
-  <div>
-    <%= f.input :name, required: false %>
-  </div>
+      <div>
+        <%= f.input :name, required: false %>
+      </div>
 
-  <% resource.class.invite_key_fields.each do |field| -%>
-    <%= f.input field %>
-  <% end -%>
+      <% resource.class.invite_key_fields.each do |field| -%>
+        <%= f.input field %>
+      <% end -%>
 
-  <%= f.submit t("devise.invitations.new.submit_button") %>
+      <%= f.submit t("devise.invitations.new.submit_button") %>
 
-<% end %>
+    <% end %>
+    </div>
+</div>

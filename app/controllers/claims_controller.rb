@@ -25,6 +25,7 @@ class ClaimsController < ApplicationController
   def create
     @claim_creator = ClaimCreator.new(current_user, params)
     @claim_creator.create_claims
+    # binding.pry
 
     respond_to do |format|
       if @claim_creator.all_valid

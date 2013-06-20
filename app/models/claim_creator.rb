@@ -19,7 +19,8 @@ class ClaimCreator
   private
 
   def split_amount_evenly
-    params[:claim][:amount] = (params[:claim][:amount].to_f / (other_users.count+1)).to_s
+    amt = params[:claim][:amount].to_f / (other_users.count+1)
+    params[:claim][:amount] = amt.to_s
   end
 
   def create_single_claim user_who_owes

@@ -1,5 +1,5 @@
-<div class="well">
-  <div class="span4 offset4">
+<div class="span4 offset4">
+  <div class="well">
 
     <%= form_for @donation do |f| %>
 
@@ -24,7 +24,9 @@
     <%= select_year nil, {start_year: Date.today.year,
             end_year: Date.today.year+15}, {name: nil, id: "card_year"}%>
 
-    <div class="actions"><%= f.submit "Donate" %></div>
+    <div class="actions">
+      <%= f.submit "Donate", class: 'btn' %>
+    </div>
 
     <% end %>
 

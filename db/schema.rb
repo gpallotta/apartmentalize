@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130620150923) do
+ActiveRecord::Schema.define(:version => 20130620151052) do
 
   create_table "activities", :force => true do |t|
     t.integer  "owner_id",       :null => false
@@ -65,6 +65,13 @@ ActiveRecord::Schema.define(:version => 20130620150923) do
 
   add_index "comments", ["claim_id"], :name => "index_comments_on_debt_id"
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
+
+  create_table "donations", :force => true do |t|
+    t.string   "email",      :null => false
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "groups", :force => true do |t|
     t.string   "identifier", :null => false

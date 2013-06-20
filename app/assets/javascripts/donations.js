@@ -19,7 +19,7 @@ window.donation = {
 
   handleStripeResponse: function(status, response) {
     if (status == 200) {
-      $('#stripe_card_token').val(response.id);
+      $('#donation_stripe_card_token').val(response.id);
       $('#new_donation')[0].submit();
     } else {
       $('#stripe-error').text(response.error.message);

@@ -1,0 +1,16 @@
+<% if @donation.errors.any? %>
+  <div class="error_messages">
+
+    <h2>
+      <%= pluralize(@donation.errors.count, "error") %>
+          prohibited this donation from being saved:
+    </h2>
+
+    <ul>
+    <% @donation.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+
+  </div>
+<% end %>

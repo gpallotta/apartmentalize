@@ -62,7 +62,7 @@ describe User do
 
     context "activity" do
       context "activities_as_owner" do
-        it { should have_many(:activities_as_owner) }
+        it { should have_many(:activities_as_owner).dependent(:destroy) }
       end
 
       context "activities_as_recipient" do

@@ -17,7 +17,8 @@ class User < ActiveRecord::Base
   has_many :activities_as_owner,
             class_name: 'Activity',
             foreign_key: 'owner_id',
-            inverse_of: :owner
+            inverse_of: :owner,
+            dependent: :destroy
 
   has_many :activities_as_recipient,
             class_name: 'Activity',

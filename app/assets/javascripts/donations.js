@@ -19,7 +19,8 @@ window.donation = {
 
   handleStripeResponse: function(status, response) {
     if (status == 200) {
-      alert(response.id);
+      $('#stripe_card_token').val(response.id);
+      $('#new_donation')[0].submit();
     } else {
       $('#stripe-error').text(response.error.message);
       $('input[type=submit]').attr('disabled', false);

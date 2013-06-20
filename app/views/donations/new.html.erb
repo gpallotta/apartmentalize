@@ -3,26 +3,28 @@
 
     <%= form_for @donation do |f| %>
 
-      <%= f.label :email %>
-      <%= f.text_field :email %>
+    <%= f.label :email %>
+    <%= f.text_field :email %>
 
-      <%= f.label :name %>
-      <%= f.text_field :name %>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
 
-      <%= f.label :amount %>
-      <%= f.text_field :amount %>
+    <%= f.label :amount %>
+    <%= f.text_field :amount %>
 
-      <%= label_tag :card_number, "Credit Card Number " %>
-      <%= text_field_tag :card_number, nil, name: nil %>
+    <%= label_tag :card_number, "Credit Card Number " %>
+    <%= text_field_tag :card_number, nil, name: nil %>
 
-      <%= label_tag :card_code, "Security Code on Card (CVV)" %>
-      <%= text_field_tag :card_code, nil, name: nil %>
+    <%= label_tag :card_code, "Security Code on Card (CVV)" %>
+    <%= text_field_tag :card_code, nil, name: nil %>
 
     <%= label_tag :card_month, "Card Expiration" %>
     <%= select_month nil, {add_month_numbers_true: true},
             {name: nil, id: "card_month"}%>
     <%= select_year nil, {start_year: Date.today.year,
             end_year: Date.today.year+15}, {name: nil, id: "card_year"}%>
+
+    <%= hidden_field_tag :stripe_card_token %>
 
     <div id="stripe-error"></div>
 

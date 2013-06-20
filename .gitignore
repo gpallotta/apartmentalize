@@ -20,3 +20,5 @@
 # Ignore DS_store
 .DS_store
 
+# Ignore stripe initializer
+/config/initializers/stripe.rb

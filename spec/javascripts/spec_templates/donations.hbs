@@ -1,0 +1,18 @@
+<form action="/donations" id="new_donation">
+  <input type="text" id="donation_email" name="donation[email]">
+  <input type="text" id="donation_name" name="donation[name]">
+  <input type="text" id="donation_amount" name="donation[amount]">
+  <input type="text" id="card_number">
+  <input type="text" id="card_code">
+  <select id="card_month">
+    <option value="1">January</option>
+  </select>
+  <select id="card_year">
+    <option value="2014">2014</option>
+  </select>
+
+  <input type="hidden" id="donation_stripe_card_token">
+
+  <div id="stripe-error"></div>
+
+</form>

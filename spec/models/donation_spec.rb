@@ -17,7 +17,27 @@ describe Donation do
   end
 
   describe ".save_with_payment" do
-    it "creates a charge if the info is valid"
-    it "does not create a charge if the info is invalid"
+
+    let(:donation) { FactoryGirl.create(:donation) }
+
+    it "creates a charge if the info is valid" do
+      before_count = Donation.count
+      token = Stripe::Token.create(
+          :card => {
+          :number => "4242424242424242",
+          :exp_month => 6,
+          :exp_year => 2014,
+          :cvc => 123
+        }
+      )
+      donation.stripe_card_token = token.id
+      donation.save_with_payment
+      expect(Donation.count).to eql(before_count+1)
+    end
+
+    it "does not create a charge if the info is invalid" do
+      donation.stripe_card_token = 'tok_blarg'
+      expect{donation.save_with_payment}.to raise_error
+    end
   end
 end

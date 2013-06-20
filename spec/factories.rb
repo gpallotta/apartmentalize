@@ -47,4 +47,18 @@ FactoryGirl.define do
     group
   end
 
+  factory :donation do
+    email 'greg@greg.com'
+    name 'Greg'
+    amount 1
+    stripe_card_token "tok_23I4fpEaOUCAZf"
+  end
+
+  factory :card do
+    number 4242424242424242
+    cvc 123
+    expMonth 12
+    expYear 2028
+  end
+
 end

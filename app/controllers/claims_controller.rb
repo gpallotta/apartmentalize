@@ -1,6 +1,7 @@
 class ClaimsController < ApplicationController
 
   before_filter :authenticate_user!
+  before_filter :user_related_to_claim, :only => [:show]
 
   respond_to :json, :html
 
@@ -13,13 +14,8 @@ class ClaimsController < ApplicationController
 
   def show
     @comment = Comment.new
-    @claim = Claim.find(params[:id])
-    if user_related_to_claim?(@claim)
-      @comments = @claim.comments.oldest_first
-      @comments_count = @comments.count
-    else
-      redirect_to claims_path
-    end
+    @comments = @claim.comments.oldest_first
+    @comments_count = @comments.count
   end
 
   def create
@@ -90,11 +86,10 @@ class ClaimsController < ApplicationController
     @claims = @search.results
   end
 
-  def user_related_to_claim? claim
-    if claim.user_who_owes == current_user || claim.user_owed_to == current_user
-      true
-    else
-      false
+  def user_related_to_claim
+    @claim = Claim.find(params[:id])
+    if @claim.user_who_owes != current_user && @claim.user_owed_to != current_user
+      redirect_to claims_path
     end
   end
 

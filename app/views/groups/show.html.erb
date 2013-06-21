@@ -3,39 +3,72 @@
   <%= render 'shared/profile_links' %>
 
   <div class="span5 offset1">
-    <%= current_user.group.identifier %>
+    <div class="well">
 
-    <ul>
-      <% current_user.group.users.each do |u| %>
-        <li>
-          <% if u.id != current_user.id %>
-            <%= u.name %>
-            <%= u.email %>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
+      <div id="group-info">
+        <h1> Group Information </h1>
+        <div class="identifier">
+          <h3>Identifier:</h3>
+          <p><%= current_user.group.identifier %></p>
+        </div>
 
-    <h2>Invite someone</h2>
-    <p><%= link_to 'Invite someone to your group', new_user_invitation_path %></p>
+        <div class="members">
+          <h3>Members</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <% current_user.group.users.each do |u| %>
+              <tr>
+                <% if u.id != current_user.id %>
+                  <td><%= u.name %></td>
+                  <td><%= u.email %></td>
+                <% end %>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+      </div>
 
-    <h2>Important People</h2>
+      <div class="invitations">
+        <h3>Invite someone</h3>
+        <p><%= link_to 'Send an invitation',
+                 new_user_invitation_path %></p>
+      </div>
 
-    <%= link_to 'Add An Important Person', new_manager_path %>
+      <div class="important-people">
+        <h3>Important People</h3>
 
-    <ul>
-      <% current_user.group.managers.each do |m| %>
-        <li>
-          <%= m.title %>
-          <%= m.name %>
-          <%= m.email %>
-          <%= m.address %>
-          <%= m.phone_number %>
-          <%= link_to 'Edit', edit_manager_path(m) %>
-        </li>
-      <% end %>
-    </ul>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>Phone Number</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tr>
+            <% current_user.group.managers.each do |m| %>
+                <td><%= m.title %></td>
+                <td><%= m.name %></td>
+                <td><%= m.email %></td>
+                <td><%= m.address %></td>
+                <td><%= m.phone_number %></td>
+                <td><%= link_to 'Edit', edit_manager_path(m) %></td>
+            <% end %>
+          </tr>
+        </table>
+        <%= link_to 'Add', new_manager_path %>
 
+      </div>
+
+    </div>
   </div>
 
 </div>

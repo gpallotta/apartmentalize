@@ -6,3 +6,22 @@
   font-size: 12px;
   border-radius: 5px;
 }
+
+#group-info {
+  h1 {
+    padding-bottom: 5px;
+    border-bottom: 1px solid black;
+  }
+  .identifier {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    p {
+      margin-left: 8px;
+      display: inline-block;
+      font-size: 15px;
+    }
+  }
+  .invitations {
+    margin: 10px 0;
+  }
+}

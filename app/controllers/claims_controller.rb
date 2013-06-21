@@ -9,7 +9,7 @@ class ClaimsController < ApplicationController
     @claim = Claim.new
     set_up_search_results
     @claim_balance = ClaimBalance.new(current_user, @claims)
-    @claims = Kaminari.paginate_array(@claims).page(params[:page])
+    decorate_claims
   end
 
   def show
@@ -33,7 +33,8 @@ class ClaimsController < ApplicationController
         format.html do
           set_up_search_results
           @claim_balance = ClaimBalance.new(current_user, @claims)
-          @claims = Kaminari.paginate_array(@claims).page(params[:page])
+          # @claims = Kaminari.paginate_array(@claims).page(params[:page])
+          decorate_claims
           render 'index'
         end
       end
@@ -72,6 +73,10 @@ class ClaimsController < ApplicationController
 
 
   private
+
+  def decorate_claims
+    @claims = PaginatingDecorator.decorate(Kaminari.paginate_array(@claims).page(params[:page]), with: ClaimDecorator)
+  end
 
   def track_activity_for_claim_creation
     @claim_creator.created_claims.each do |c|

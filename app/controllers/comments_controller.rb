@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
 
   def create
     @comment = current_user.comments.new(params[:comment])
-    @claim = @comment.claim
+    @claim = @comment.claim.decorate
 
     respond_to do |format|
       if @comment.save

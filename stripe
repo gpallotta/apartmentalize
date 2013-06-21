@@ -1,0 +1,40 @@
+user enters credit card info
+you use that to get a token
+a charge can then be created using that token and your secret api key
+you are paid, the person who entered the form pays
+a token can only be used once
+
+a customer can also be created
+you can optionally attach a token to the customer
+to look up an existing customer, you need to provide the id, which is returned at creation
+you could then create a charge using the customer's token and a secret api key
+
+connect:
+user authenticates using oauth, lets app connect to stripe
+i get back a code
+using that code, post to a stripe url
+get back an access token
+somehow store that access token with the particular user
+when i want that user to get paid, use the access token as the private key
+  use whatever form just got submitted to get the card token
+
+
+
+
+On profile page, can have a link to authenticate with stripe
+if they click this, get back code, post to their special url, and get back access token
+store access token someplace - user model? it needs to be secure
+    far as i can tell, can't store in customer object
+
+first time payment is sent, user enters credit card info
+create a customer object with that card (if they say save info for later)
+store the customer object ID in database
+
+to make payment:
+get token (from form or current_user.customer field)
+get access token from user being paid (if they have it)
+charge it
+
+have a button to remove stripe info from account
+when they click that, clear the field wherever it's stored
+

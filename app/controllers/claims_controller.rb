@@ -1,7 +1,7 @@
 class ClaimsController < ApplicationController
 
   before_filter :authenticate_user!
-  before_filter :user_related_to_claim, :only => [:show]
+  before_filter :authorize_claim_collaborator, :only => [:show]
 
   respond_to :json, :html
 
@@ -21,7 +21,6 @@ class ClaimsController < ApplicationController
   def create
     @claim_creator = ClaimCreator.new(current_user, params)
     @claim_creator.create_claims
-    # binding.pry
 
     respond_to do |format|
       if @claim_creator.all_valid
@@ -86,9 +85,9 @@ class ClaimsController < ApplicationController
     @claims = @search.results
   end
 
-  def user_related_to_claim
+  def authorize_claim_collaborator
     @claim = Claim.find(params[:id])
-    if @claim.user_who_owes != current_user && @claim.user_owed_to != current_user
+    if !@claim.involves?(current_user)
       redirect_to claims_path
     end
   end

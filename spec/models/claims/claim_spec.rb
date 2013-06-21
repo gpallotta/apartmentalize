@@ -96,13 +96,23 @@ describe Claim do
   end
 
   describe "methods" do
-    context ".mark_as_paid" do
+    describe ".mark_as_paid" do
       before { cl1.mark_as_paid }
       it "marks the debt as paid" do
         expect(cl1).to be_paid
       end
       it "sets the paid_on property to the current time" do
         expect(cl1.paid_on).to be_a(Time)
+      end
+    end
+
+    describe ".involves?" do
+      it "returns true if the user owes or is owed" do
+        expect(cl1.involves?(user1)).to be_true
+      end
+      it "returns false if the user is unrelated" do
+        user2 = FactoryGirl.create(:user)
+        expect(cl1.involves?(user2)).to be_false
       end
     end
   end

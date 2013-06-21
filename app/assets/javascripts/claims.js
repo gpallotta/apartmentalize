@@ -3,7 +3,8 @@ jQuery(function() {
   $('#claim-form-errors').hide();
   $('.create-button').addClass('active');
   window.formManipulations();
-  new ClaimView().addColorToClaims();
+  var claimView = new ClaimView();
+  claimView.addColorToClaims();
 
   $('#new_claim').submit(function(e) {
     e.preventDefault();
@@ -72,7 +73,7 @@ function ClaimView() {
   var that = this;
 
   this.displayNewClaims = function(result) {
-    claim_num = result.claims.length;
+    var claim_num = result.claims.length;
     for(i = 0; i < claim_num; i++) {
       var claim = result.claims[i];
       html = HandlebarsTemplates['claims/create'](claim);

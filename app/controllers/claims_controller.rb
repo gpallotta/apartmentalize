@@ -25,6 +25,7 @@ class ClaimsController < ApplicationController
   def create
     @claim_creator = ClaimCreator.new(current_user, params)
     @claim_creator.create_claims
+    # binding.pry
 
     respond_to do |format|
       if @claim_creator.all_valid
@@ -37,6 +38,7 @@ class ClaimsController < ApplicationController
         format.html do
           set_up_search_results
           @claim_balance = ClaimBalance.new(current_user, @claims)
+          @claims = Kaminari.paginate_array(@claims).page(params[:page])
           render 'index'
         end
       end

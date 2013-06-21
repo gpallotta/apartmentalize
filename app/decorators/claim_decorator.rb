@@ -1,7 +1,6 @@
 class ClaimDecorator < Draper::Decorator
   delegate_all
 
-
   def paid_on
     if object.paid?
       "#{parse_time(object.paid_on)}"

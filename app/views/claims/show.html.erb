@@ -1,4 +1,3 @@
-<% presenter = ClaimLinksPresenter.new(@claim, self) %>
 <div class="row">
   <div class="span8 offset2">
     <div class="well">
@@ -57,7 +56,7 @@
           <div class="span3">
             <span class="claim-header-title">Paid on
             <div class="claim-header-small show-page-paid-status">
-              <%= presenter.paid_on %>
+              <%= @claim.paid_on %>
             </div>
           </div>
         </div>
@@ -66,9 +65,9 @@
       <div class="claim-button-wrapper">
         <div class="row">
           <div class="span6">
-              <%= presenter.edit_link(current_user) %>
+              <%= @claim.edit_link(current_user) %>
               <span id="mark-as-paid-link">
-                <%= presenter.mark_as_paid_link(current_user) %>
+                <%= @claim.mark_as_paid_link(current_user) %>
               </span>
           </div>
         </div>

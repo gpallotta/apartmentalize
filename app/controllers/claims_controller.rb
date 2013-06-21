@@ -86,7 +86,7 @@ class ClaimsController < ApplicationController
   end
 
   def authorize_claim_collaborator
-    @claim = Claim.find(params[:id])
+    @claim = Claim.find(params[:id]).decorate
     if !@claim.involves?(current_user)
       redirect_to claims_path
     end

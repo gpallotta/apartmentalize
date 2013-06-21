@@ -5,7 +5,7 @@
 # so we have a centralized place to find that information
 
 # AC:
-# I can attach a person of interest to the group
+# I can attach a person of interest to the user
 
 ###############
 
@@ -17,8 +17,8 @@ describe "creating a new manager" do
   create_factories_and_sign_in
 
   before do
-    visit group_path(group)
-    click_link 'Add An Important Person'
+    visit user_path(user)
+    click_link 'Add'
   end
 
   context "with invalid info" do
@@ -29,14 +29,11 @@ describe "creating a new manager" do
 
   context "with valid info" do
 
-    before do
+    it "creates a manager" do
       fill_in 'Title', with: 'Awesome Dude'
       fill_in 'manager_name', with: 'Dude'
       fill_in 'Address', with: '123 Blueberry Lane'
       fill_in 'Phone Number', with: '1234567890'
-    end
-
-    it "creates a manager" do
       expect { click_button 'Create' }.to change { Manager.count }.by(1)
       expect(page).to have_content('Awesome Dude')
     end

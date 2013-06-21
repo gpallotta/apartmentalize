@@ -1,7 +1,7 @@
 ###############
 
 # As a user
-# I want to view information about the managers I add to the group
+# I want to view information about the managers I add to the user
 # so that I can see the info I need to contact them
 
 # AC:
@@ -16,7 +16,7 @@ describe "viewing manager info" do
   extend ManagersHarness
   create_factories_and_sign_in
 
-  before { visit group_path(group) }
+  before { visit user_path(user) }
 
   it "displays info about each manager" do
     expect(page).to have_content(manager.name)
@@ -27,7 +27,7 @@ describe "viewing manager info" do
   end
 
   it "has a link to create a new manager" do
-    expect(page).to have_link("Add An Important Person", href: new_manager_path)
+    expect(page).to have_link("Add", href: new_manager_path)
   end
 
   it "has a link to edit a manager" do

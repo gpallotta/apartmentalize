@@ -19,8 +19,10 @@ describe "manager pages" do
   create_factories_and_sign_in
 
   before do
-    visit group_path(group)
-    click_link 'Edit'
+    visit user_path(user)
+    within('.important-people') do
+      click_link 'Edit'
+    end
   end
 
   describe "deleting a manager" do

@@ -1,14 +1,8 @@
 <div class="row">
 
-  <%= render 'shared/profile_links' %>
+  <%= render 'profile/user_info' %>
 
-  <div class="span5 offset1">
+  <%= render 'profile/group_info' %>
 
-    <h2><%= current_user.name %></h2>
-    <%= link_to 'Edit', edit_user_registration_path(current_user) %>
-    <p><%= current_user.email %></p>
-    <p><%= current_user.group.identifier %></p>
-
-  </div>
 </div>
 

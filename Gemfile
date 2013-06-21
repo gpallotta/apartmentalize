@@ -17,6 +17,7 @@ gem 'active_model_serializers'
 gem 'roadie'
 gem 'thin'
 gem 'stripe'
+gem 'omniauth-stripe-connect'
 
 
 # Gems used only for assets and not required

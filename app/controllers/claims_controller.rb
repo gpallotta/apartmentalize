@@ -33,7 +33,6 @@ class ClaimsController < ApplicationController
         format.html do
           set_up_search_results
           @claim_balance = ClaimBalance.new(current_user, @claims)
-          # @claims = Kaminari.paginate_array(@claims).page(params[:page])
           decorate_claims
           render 'index'
         end
@@ -75,7 +74,7 @@ class ClaimsController < ApplicationController
   private
 
   def decorate_claims
-    @claims = PaginatingDecorator.decorate(Kaminari.paginate_array(@claims).page(params[:page]), with: ClaimDecorator)
+    @claims = PaginatingDecorator.decorate(Kaminari.paginate_array(@claims).page(params[:page]))
   end
 
   def track_activity_for_claim_creation

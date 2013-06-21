@@ -40,7 +40,10 @@ class Claim < ActiveRecord::Base
   end
 
   def involves?(user)
-    user_owed_to == user || user_who_owes == user
+    [
+      user_owed_to,
+      user_who_owes
+    ].include?(user)
   end
 
 end

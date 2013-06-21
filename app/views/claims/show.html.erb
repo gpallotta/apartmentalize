@@ -100,3 +100,16 @@
     </div>
   </div>
 </div>
+
+<%= content_for :extra_footer do %>
+
+  <script type="text/javascript">
+    $('.show-page-mark-paid').click(function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      c = new ClaimController();
+      c.markPaid($(this), c.claimView.updateShowPageAfterPaid);
+    });
+  </script>
+
+<% end %>

@@ -7,8 +7,8 @@ describe("marking claim paid on show page", function() {
     sinon.stub($, 'ajax').yieldsTo('success', {
       claim: { parsed_time: 'hello' }
     });
-    c = new Claim();
-    c.markClaimPaid($('a'), c.claimView.updateShowPageAfterPaid);
+    c = new ClaimController();
+    c.markPaid($('a'), c.claimView.updateShowPageAfterPaid);
 
     expect( $('.edit-btn').text()).to.eql('Cannot edit paid claims');
     expect( $('mark-as-paid-error').text()).to.eql('');

@@ -35,8 +35,8 @@ describe("creating claims", function() {
       sinon.stub($, 'ajax').yieldsTo('success', claim_object);
       $('#claim-form-errors').show();
 
-      var claim = new Claim();
-      claim.createClaims();
+      var claimController = new ClaimController();
+      claimController.submitForm();
 
       expect( $('#claim-form-errors').is(":hidden")).to.be.true;
       var status = $('.claims-table td:first').text().replace(/\s/g,'');
@@ -56,8 +56,8 @@ describe("creating claims", function() {
     it("displays error text", function() {
       $('#claim-form-errors').hide();
       sinon.stub($, 'ajax').yieldsTo('error', claim_object);
-      var claim = new Claim();
-      claim.createClaims();
+      var claimController = new ClaimController();
+      claimController.submitForm();
 
       expect( $('#claim-form-errors').is(":hidden")).to.be.false;
     });

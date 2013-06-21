@@ -1,37 +1,65 @@
+function ClaimController() {
+
+  var that = this;
+  this.claim = new Claim();
+  this.claimView = new ClaimView();
+
+  this.submitForm = function() {
+    var successCallback = that.claimView.displayNewClaims;
+    var errorCallback   = that.claimView.displayCreateErrors;
+    var data_to_post = {
+      url:  $('#new_claim').attr('action') + '.json',
+      info: $('#new_claim').serialize()
+    }
+    that.claim.createClaims(data_to_post, successCallback, errorCallback);
+  };
+
+  this.markPaid = function(link, updatePageFunction) {
+    var successCallback = updatePageFunction;
+    var errorCallback   = that.claimView.displayMarkPaidErrors;
+    var data_obj = {
+      url: link.attr('href') + '.json',
+      id: link.data('id'),
+      link: link
+    };
+    that.claim.markClaimPaid(data_obj, successCallback, errorCallback);
+  };
+
+}
+
 function Claim() {
 
   var that = this;
-  this.claimView = new ClaimView();
 
-  this.createClaims = function() {
+  this.createClaims = function(data_obj, successCallback, errorCallback) {
     var form = $('#new_claim');
     $.ajax({
-      url: form.attr('action') + '.json',
+      url: data_obj.url,
       type: "POST",
-      data: form.serialize(),
+      data: data_obj.info,
       cache: false,
       dataType: 'JSON',
       success: function(result) {
-        that.claimView.displayNewClaims(result);
+        successCallback(result);
       },
       error: function() {
-        that.claimView.displayCreateErrors();
+        errorCallback();
       }
     });
   };
 
-  this.markClaimPaid = function(link, f) {
+  this.markClaimPaid = function(data_obj, successCallback, errorCallback) {
     $.ajax({
-      url: link.attr('href') + '.json',
+      url: data_obj.url,
       type: "PUT",
-      data: { id: link.data('id') },
+      data: { id: data_obj.id },
       cache: false,
       dataType: 'JSON',
       success: function(result) {
-        f(result, link);
+        successCallback(result, data_obj.link);
       },
       error: function() {
-        that.claimView.displayMarkPaidErrors();
+        errorCallback();
       }
     });
   };
@@ -60,7 +88,7 @@ function ClaimView() {
     $('#mark-as-paid-error').text('Something went wrong');
   };
 
-  this.displayCreateErrors = function() {
+  this.displayCreateErrors = function(result) {
     $('#claim-form-errors').show();
   };
 
@@ -70,7 +98,7 @@ function ClaimView() {
     $('.comment-button').removeClass('disabled');
     $('.edit-btn').text('Cannot edit paid claims');
     $('.edit-btn').attr('href', '#');
-    $('.show-page-paid-status').text('Paid on ' + result.claim.parsed_time);
+    $('.show-page-paid-status').text(result.claim.parsed_time);
   };
 
   this.updateIndexPageAfterPaid = function(result, link) {
@@ -96,7 +124,6 @@ function ClaimColor() {
   };
 
 }
-
 
 window.formManipulations = function(){
 

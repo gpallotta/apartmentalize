@@ -16,7 +16,7 @@ gem 'kaminari'
 gem 'active_model_serializers'
 gem 'roadie'
 gem 'thin'
-gem 'ejs'
+gem 'draper', '~> 1.0'
 
 
 # Gems used only for assets and not required

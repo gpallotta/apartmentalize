@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
 
   def after_invite_path_for user
-    group_path(user.group)
+    user_path(current_user)
   end
 
   private

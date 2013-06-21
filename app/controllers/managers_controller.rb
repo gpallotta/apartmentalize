@@ -7,7 +7,7 @@ class ManagersController < ApplicationController
   def create
     @manager = current_user.group.managers.new(params[:manager])
     if @manager.save
-      redirect_to group_path(current_user.group)
+      redirect_to user_path(current_user)
     else
       render 'new'
     end
@@ -20,7 +20,7 @@ class ManagersController < ApplicationController
   def update
     @manager = Manager.find_by_id(params[:id])
     if @manager.update_attributes(params[:manager])
-      redirect_to group_path(current_user.group)
+      redirect_to user_path(current_user)
     else
       render 'edit'
     end
@@ -29,7 +29,7 @@ class ManagersController < ApplicationController
   def destroy
     @manager = Manager.find_by_id(params[:id])
     @manager.destroy
-    redirect_to group_path(current_user.group)
+    redirect_to user_path(current_user)
   end
 
 end

@@ -21,7 +21,8 @@ feature 'user viewing information', %q{
     expect(page).to have_content(user.email)
     expect(page).to have_content(user.group.identifier)
     expect(page).to have_link('Edit', href: edit_user_registration_path(user))
-    expect(page).to have_link('Group Info', href: group_path(user.group) )
+    expect(page).to have_content('weekly email summaries')
+    expect(page).to have_content('daily email summaries')
   end
 
   scenario 'user visits profile page of another user' do

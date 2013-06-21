@@ -1,33 +1,3 @@
-jQuery(function() {
-  $('.search-wrapper').hide();
-  $('#claim-form-errors').hide();
-  $('.create-button').addClass('active');
-  window.formManipulations();
-  var claimView = new ClaimView();
-  claimView.addColorToClaims();
-
-  $('#new_claim').submit(function(e) {
-    e.preventDefault();
-    c = new Claim();
-    c.createClaims();
-  });
-
-  $('.mark-as-paid-link').click(function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    c = new Claim();
-    c.markClaimPaid($(this), c.claimView.updateIndexPageAfterPaid);
-  });
-
-  $('.show-page-mark-paid').click(function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    c = new Claim();
-    c.markClaimPaid($(this), c.claimView.updateShowPageAfterPaid);
-  });
-
-});
-
 function Claim() {
 
   var that = this;
@@ -71,6 +41,7 @@ function Claim() {
 function ClaimView() {
 
   var that = this;
+  this.claimColor = new ClaimColor();
 
   this.displayNewClaims = function(result) {
     var claim_num = result.claims.length;
@@ -82,7 +53,7 @@ function ClaimView() {
       $('#claim-form-errors').hide();
     }
     $('#new_claim').find('input:text, input[type="number"]').val('');
-    that.addColorToClaims();
+    that.claimColor.addColorToClaims();
   };
 
   this.displayMarkPaidErrors = function() {
@@ -105,8 +76,14 @@ function ClaimView() {
   this.updateIndexPageAfterPaid = function(result, link) {
     link.hide(300);
     link.closest('tr').find('td:first').text('Paid');
-    that.addColorToClaims();
+    that.claimColor.addColorToClaims();
   };
+
+}
+
+function ClaimColor() {
+
+  var that = this;
 
   this.addColorToClaims = function() {
     $('.claim-color').css('background-color', function() {

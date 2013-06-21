@@ -3,7 +3,7 @@
 describe("creating claims", function() {
 
   beforeEach(function() {
-    $('#konacha').append(HandlebarsTemplates['spec/creating_claim']());
+    $('#konacha').append(HandlebarsTemplates['spec_templates/creating_claim']());
   });
 
   afterEach(function() {
@@ -61,7 +61,6 @@ describe("creating claims", function() {
 
       expect( $('#claim-form-errors').is(":hidden")).to.be.false;
     });
-
   });
 
 });

@@ -57,6 +57,16 @@ describe ClaimDecorator do
       end
     end
 
+    describe ".paid_status" do
+      it "returns 'paid' if the claim is paid" do
+        claim.mark_as_paid
+        expect(decorator.paid_status).to eql('Paid')
+      end
+      it "returns 'unpaid' if the claim is unpaid" do
+        expect(decorator.paid_status).to eql('Unpaid')
+      end
+    end
+
   end
 
 end

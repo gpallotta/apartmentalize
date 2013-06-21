@@ -6,12 +6,4 @@ module ClaimsHelper
     end
   end
 
-  def paid_status claim
-    if claim.paid
-      'Paid'
-    else
-      'Unpaid'
-    end
-  end
-
 end

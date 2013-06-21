@@ -30,6 +30,14 @@ class ClaimDecorator < Draper::Decorator
     end
   end
 
+  def paid_status
+    if object.paid
+      'Paid'
+    else
+      'Unpaid'
+    end
+  end
+
 
   protected
 

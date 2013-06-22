@@ -6,6 +6,10 @@ feature 'Chores cycle automatically', %q{
   so we can share responsibility
 } do
 
+  # AC
+  # * chores cycle between users at an interval
+  # * if a user account is deleted, the chore is reassigned
+
   given(:group) { FactoryGirl.create(:group) }
   given!(:user1) { FactoryGirl.create(:user, group: group)}
   given!(:user2) { FactoryGirl.create(:user, group: group)}
@@ -19,6 +23,11 @@ feature 'Chores cycle automatically', %q{
     expect(ch1.reload.user).to eql(user3)
     expect(ch2.reload.user).to eql(user1)
     expect(ch3.reload.user).to eql(user2)
+  end
+
+  scenario 'user is deleted with a chore assigned to them' do
+    user1.destroy
+    expect(ch1.reload.user).to eql(user3)
   end
 
 end

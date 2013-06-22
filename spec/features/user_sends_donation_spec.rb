@@ -12,9 +12,20 @@ feature 'user sends donation', %q{
   # * I am notified that the donation has been sent
   # * I must be logged in to send a donation
 
-  scenario 'unauthenticated user visits donations page' do
+  let!(:user) { FactoryGirl.create(:user) }
+  before { sign_in user }
+
+  # scenario 'unauthenticated user visits donations page' do
+  #   visit new_donation_path
+  #   expect(current_path).to eql new_user_session_path
+  # end
+
+  scenario 'authenticated user sends a donation', :js => true do
+    # sign_in user
     visit new_donation_path
-    expect(current_path).to eql new_user_session_path
+    fill_in 'card_number', with: '4242424242424242'
+    fill_in 'card_code', with: 123
+    click_button 'Donate'
   end
 
 end

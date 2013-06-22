@@ -10,6 +10,16 @@ class Group < ActiveRecord::Base
 
   attr_accessible :identifier
 
+  def cycle_chores
+    users_arr = []
+    chores.each { |c| users_arr << c.user}
+    users_arr << users_arr.shift
+    chores.count.times do |i|
+      chores[i].user = users_arr[i]
+      chores[i].save
+    end
+  end
+
   private
 
   def create_identifier
@@ -25,5 +35,7 @@ class Group < ActiveRecord::Base
       end
     end
   end
+
+
 
 end

@@ -25,9 +25,4 @@ feature 'Chores cycle automatically', %q{
     expect(ch3.reload.user).to eql(user2)
   end
 
-  scenario 'user is deleted with a chore assigned to them' do
-    user1.destroy
-    expect(ch1.reload.user).to eql(user3)
-  end
-
 end

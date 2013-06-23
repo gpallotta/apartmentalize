@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
 
   after_create :send_welcome_email
-  before_destroy :reassign_chore
 
   has_many :claims_to_receive,
             class_name: "Claim",
@@ -48,13 +47,6 @@ class User < ActiveRecord::Base
   def send_welcome_email
     unless invited_by_id
       UserMailer.signup_welcome(self).deliver
-    end
-  end
-
-  def reassign_chore
-    chores.each do |c|
-      c.user = group.users.last
-      c.save
     end
   end
 

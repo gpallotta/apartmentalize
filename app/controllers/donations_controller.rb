@@ -7,7 +7,7 @@ class DonationsController < ApplicationController
   end
 
   def create
-    @donation = Donation.new(params[:donation])
+    @donation = current_user.donations.build(params[:donation])
     if @donation.save_with_payment
       redirect_to home_page_path, :notice => 'Thank you for donating'
     else

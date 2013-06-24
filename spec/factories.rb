@@ -52,6 +52,7 @@ FactoryGirl.define do
     name 'Greg'
     amount 1
     stripe_card_token "tok_23I4fpEaOUCAZf"
+    user
   end
 
   factory :card do

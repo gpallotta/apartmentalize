@@ -1,7 +1,10 @@
 class Donation < ActiveRecord::Base
 
+  belongs_to :user, inverse_of: :donations
+
   validates_presence_of :email
   validates_presence_of :amount
+  validates_presence_of :user
   validates_numericality_of :amount, :greater_than => 0
 
   attr_accessible :email, :name, :amount, :stripe_card_token

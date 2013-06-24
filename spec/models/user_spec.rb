@@ -99,6 +99,10 @@ describe User do
       end
     end
 
+    context "donations" do
+      it { should have_many(:donations) }
+    end
+
   end
 
   describe "properties" do

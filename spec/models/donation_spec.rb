@@ -6,6 +6,7 @@ describe Donation do
     it { should respond_to(:email) }
     it { should respond_to(:name) }
     it { should respond_to(:amount) }
+    it { should respond_to(:user_id) }
   end
 
   describe "validations" do
@@ -14,6 +15,11 @@ describe Donation do
 
     it { should have_valid(:amount).when(50)}
     it { should_not have_valid(:amount).when(nil, 0, -1)}
+  end
+
+  describe "associations" do
+    it { should have_valid(:user).when(User.new) }
+    it { should_not have_valid(:user).when(nil) }
   end
 
   describe ".save_with_payment" do

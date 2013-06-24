@@ -15,17 +15,22 @@ feature 'user sends donation', %q{
   let!(:user) { FactoryGirl.create(:user) }
   before { sign_in user }
 
-  # scenario 'unauthenticated user visits donations page' do
-  #   visit new_donation_path
-  #   expect(current_path).to eql new_user_session_path
-  # end
+  scenario 'unauthenticated user visits donations page' do
+    sign_out user
+    visit new_donation_path
+    expect(current_path).to eql new_user_session_path
+  end
 
   scenario 'authenticated user sends a donation', :js => true do
-    # sign_in user
+    before_count = Donation.count
     visit new_donation_path
     fill_in 'card_number', with: '4242424242424242'
     fill_in 'card_code', with: 123
+    select '2014', from: 'card_year'
     click_button 'Donate'
+    expect(Donation.count).to eql(before_count+1)
   end
+
+  scenario 'authenticated user sends a donation with invalid info'
 
 end

@@ -37,7 +37,8 @@ describe Donation do
 
     it "does not create a charge if the info is invalid" do
       donation.stripe_card_token = 'tok_blarg'
-      expect{donation.save_with_payment}.to raise_error
+      expect{donation.save_with_payment}.
+      to raise_error(Stripe::InvalidRequestError)
     end
   end
 end

@@ -19,7 +19,6 @@ gem 'thin'
 gem 'stripe'
 gem 'omniauth-stripe-connect'
 
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

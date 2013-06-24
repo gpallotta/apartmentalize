@@ -17,12 +17,12 @@ function ClaimController() {
   this.markPaid = function(link, updatePageFunction) {
     var successCallback = updatePageFunction;
     var errorCallback   = that.claimView.displayMarkPaidErrors;
-    var data_obj = {
+    var dataObj = {
       url: link.attr('href') + '.json',
       id: link.data('id'),
       link: link
     };
-    that.claim.markClaimPaid(data_obj, successCallback, errorCallback);
+    that.claim.markClaimPaid(dataObj, successCallback, errorCallback);
   };
 
 }
@@ -31,12 +31,12 @@ function Claim() {
 
   var that = this;
 
-  this.createClaims = function(data_obj, successCallback, errorCallback) {
+  this.createClaims = function(dataObj, successCallback, errorCallback) {
     var form = $('#new_claim');
     $.ajax({
-      url: data_obj.url,
+      url: dataObj.url,
       type: "POST",
-      data: data_obj.info,
+      data: dataObj.info,
       cache: false,
       dataType: 'JSON',
       success: function(result) {
@@ -48,15 +48,15 @@ function Claim() {
     });
   };
 
-  this.markClaimPaid = function(data_obj, successCallback, errorCallback) {
+  this.markClaimPaid = function(dataObj, successCallback, errorCallback) {
     $.ajax({
-      url: data_obj.url,
+      url: dataObj.url,
       type: "PUT",
-      data: { id: data_obj.id },
+      data: { id: dataObj.id },
       cache: false,
       dataType: 'JSON',
       success: function(result) {
-        successCallback(result, data_obj.link);
+        successCallback(result, dataObj.link);
       },
       error: function() {
         errorCallback();

@@ -1,6 +1,18 @@
 <div class="span4 offset4">
   <div class="well">
 
+    <h1>Send a donation</h1>
+
+    <%= image_tag('stripe_button.png', class: 'stripe-button') %>
+
+    <p>
+      This site is (and almost certainly always will be) free to use. If you have
+      enjoyed using it, feel free to send a one-time donation. It is not required,
+      and there are no recurring charges. Payment is handled by
+       <%= link_to 'Stripe', 'https://stripe.com/' %>
+       - no credit card information is stored on this site.
+    </p>
+
     <%= render 'form_errors' %>
 
     <%= form_for @donation do |f| %>

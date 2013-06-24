@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
 
   def register
     if save
-      UserMailer.signup_welcome(self).deliver
+      UserMailer.signup_welcome(id).deliver
     else
       false
     end

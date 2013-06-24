@@ -1,55 +1,54 @@
 ##############
 
-# As a user
-# I want to be able to edit my information
-# so I can update it as necessary
+
 
 # AC:
 # I can edit my information
 # The new information is reflected in my account
 
 ##############
+#
+
 
 require 'spec_helper'
 
-describe "editing a user" do
-  let!(:user) { FactoryGirl.create(:user) }
+feature 'editing user information', %q{
+  As a user
+  I want to be able to edit my information
+  so I can update it as necessary
+} do
 
-  before do
+  given(:user) { FactoryGirl.create(:user) }
+
+  scenario 'user edits with invalid info' do
     sign_in user
-    visit user_path(user)
-    click_link 'Edit'
+    before_email = user.email
+    visit edit_user_registration_path(user)
+    fill_in 'Email', with: ''
+    fill_in 'user_current_password', with: user.password
+    click_button 'Update'
+    expect(user.reload.email).to eql(before_email)
+    expect(page).to have_content("can't be blank")
   end
 
-  context "with invalid info" do
-    before do
-      fill_in 'Email', with: ''
-    end
-    it "does not save the changes" do
-      before_email = user.email
-      click_button 'Update'
-      expect(user.reload.email).to eql(before_email)
-    end
-    it "renders errors" do
-      click_button 'Update'
-      expect(page).to have_content("Current password can't be blank")
-    end
+  scenario 'user edits with invalid info' do
+    sign_in user
+    visit edit_user_registration_path(user)
+    fill_in 'Email', with: 'new@new_email.com'
+    fill_in 'user_current_password', with: user.password
+    click_button 'Update'
+    expect(user.reload.email).to eql('new@new_email.com')
+    expect(page).to have_content('new@new_email.com')
+    expect(current_path).to eql(user_path(user))
   end
 
-  context "with valid info" do
-    before do
-      fill_in 'Email', with: 'new@new_email.com'
-      fill_in 'user_current_password', with: user.password
-      click_button 'Update'
-    end
-    it "saves the changes" do
-      expect(user.reload.email).to eql('new@new_email.com')
-    end
-    it "displays the new email" do
-      expect(page).to have_content('new@new_email.com')
-    end
-    it "redirects to the user info page" do
-      expect(current_path).to eql(user_path(user))
-    end
+  scenario 'user goes to edit page when not signed in' do
+    visit edit_user_registration_path
+    expect(current_path).to eql(new_user_session_path)
+    fill_in 'user_email', with: user.email
+    fill_in 'user_password', with: user.password
+    click_button 'Sign in'
+    expect(current_path).to eql(edit_user_registration_path)
   end
+
 end

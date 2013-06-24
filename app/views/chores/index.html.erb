@@ -2,7 +2,10 @@
   <div class="span8 offset2">
     <div class="chore-box well">
 
-      <h2>Chores for the week of <%= Date.today.beginning_of_week %></h2>
+      <h2>
+        Chores for the week of
+          <%= Date.today.beginning_of_week.strftime("%b %d") %>
+      </h2>
 
       <table class="table">
         <tr>

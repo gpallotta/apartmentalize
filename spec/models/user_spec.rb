@@ -151,11 +151,55 @@ describe User do
 
   end
 
-  describe "sending emails" do
-    describe ".send_welcome_email" do
-      it "sends the user an email after creation" do
-        user = FactoryGirl.create(:user)
+  describe "methods" do
+
+    describe ".register" do
+      let(:user) { FactoryGirl.build(:user) }
+      it "saves the user and sends an email if successful" do
+        user.register
         expect(last_email.to).to include(user.email)
+      end
+
+      it "does not send an email if the save is unsuccessful" do
+        user.password_confirmation = ''
+        user.register
+        expect(last_email).to be_nil
+      end
+
+    end
+
+    describe ".delete_unaccepted_invitations" do
+
+      let!(:regular_user) { FactoryGirl.create(:user) }
+      let!(:unaccepted_user) do
+        unaccepted_user = FactoryGirl.build(:user)
+        unaccepted_user.invitation_token = 'greg1'
+        unaccepted_user.invitation_sent_at = Time.now
+        unaccepted_user.save
+        unaccepted_user
+      end
+      let!(:accepted_user) do
+        accepted_user = FactoryGirl.build(:user)
+        accepted_user.invitation_token = 'greg3'
+        unaccepted_user.invitation_sent_at = Time.now
+        accepted_user.invitation_accepted_at = Time.now
+        accepted_user.save
+        accepted_user
+      end
+
+      before do
+        Timecop.freeze(Date.today + 9)
+      end
+
+      after do
+        Timecop.return
+      end
+
+      it "deletes users who have not accepted their invitation in 7 days" do
+        User.delete_unaccepted_invitations
+        unaccepted_user = unaccepted_user
+        expect(unaccepted_user).to be_nil
+        expect(accepted_user).not_to be_nil
       end
     end
   end

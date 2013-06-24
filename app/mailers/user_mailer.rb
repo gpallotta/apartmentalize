@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: "apartment.com"
 
   def signup_welcome(user)
     mail to: user.email, subject: 'Welcome to Apartment'
@@ -21,12 +21,14 @@ class UserMailer < ActionMailer::Base
   def send_daily_summary
     users = User.where("receives_daily_email = true")
     users.each do |u|
-      daily_summary(u).deliver
+      self.daily_summary(u).deliver
     end
   end
 
   def daily_summary user
-    @claims = user.claims.where("DATE(created_at) = DATE(?) and user_who_owes_id = ?", Time.now, user.id)
+    @user = user
+    @claims = user.claims.
+      where("DATE(created_at) = DATE(?) and user_who_owes_id = ?", Time.now, user.id)
     mail to: user.email, subject: 'Apartment - Daily Summary'
   end
 

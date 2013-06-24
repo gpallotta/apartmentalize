@@ -1,7 +1,5 @@
 class User < ActiveRecord::Base
 
-  after_create :send_welcome_email
-
   has_many :claims_to_receive,
             class_name: "Claim",
             foreign_key: "user_owed_to_id",
@@ -44,9 +42,17 @@ class User < ActiveRecord::Base
     Claim.where("user_who_owes_id = ? or user_owed_to_id = ?", id, id)
   end
 
-  def send_welcome_email
-    unless invited_by_id
+  def register
+    if save
       UserMailer.signup_welcome(self).deliver
+    else
+      false
+    end
+  end
+
+  def self.delete_unaccepted_invitations
+    User.invitation_not_accepted.each do |u|
+      u.destroy if u.invitation_sent_at < 7.days.ago
     end
   end
 

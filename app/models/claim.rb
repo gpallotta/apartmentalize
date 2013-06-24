@@ -39,4 +39,11 @@ class Claim < ActiveRecord::Base
     update_attributes(paid: true, paid_on: Time.now)
   end
 
+  def involves?(user)
+    [
+      user_owed_to,
+      user_who_owes
+    ].include?(user)
+  end
+
 end

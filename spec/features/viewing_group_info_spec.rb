@@ -16,7 +16,7 @@ feature 'user seeing group info', %q{
 
   scenario 'user visits group show page' do
     sign_in user1
-    visit group_path(group)
+    visit user_path(user1)
     expect(page).to have_content(group.identifier)
     expect(page).to have_content(user2.name)
     expect(page).to have_content(user2.email)

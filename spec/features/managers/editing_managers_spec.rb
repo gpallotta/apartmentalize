@@ -19,8 +19,10 @@ describe "editing a manager" do
   create_factories_and_sign_in
 
   before do
-    visit group_path(group)
-    click_link 'Edit'
+    visit user_path(user)
+    within('.important-people') do
+      click_link 'Edit'
+    end
   end
 
   context "with invalid info" do

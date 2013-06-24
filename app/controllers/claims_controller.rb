@@ -1,6 +1,7 @@
 class ClaimsController < ApplicationController
 
   before_filter :authenticate_user!
+  before_filter :authorize_claim_collaborator, :only => [:show]
 
   respond_to :json, :html
 
@@ -8,24 +9,18 @@ class ClaimsController < ApplicationController
     @claim = Claim.new
     set_up_search_results
     @claim_balance = ClaimBalance.new(current_user, @claims)
-    @claims = Kaminari.paginate_array(@claims).page(params[:page])
+    decorate_claims
   end
 
   def show
     @comment = Comment.new
-    @claim = Claim.find(params[:id])
-    if user_related_to_claim?(@claim)
-      @comments = @claim.comments.oldest_first
-      @comments_count = @comments.count
-    else
-      redirect_to claims_path
-    end
+    @comments = @claim.comments.oldest_first
+    @comments_count = @comments.count
   end
 
   def create
     @claim_creator = ClaimCreator.new(current_user, params)
     @claim_creator.create_claims
-    # binding.pry
 
     respond_to do |format|
       if @claim_creator.all_valid
@@ -38,7 +33,7 @@ class ClaimsController < ApplicationController
         format.html do
           set_up_search_results
           @claim_balance = ClaimBalance.new(current_user, @claims)
-          @claims = Kaminari.paginate_array(@claims).page(params[:page])
+          decorate_claims
           render 'index'
         end
       end
@@ -78,6 +73,10 @@ class ClaimsController < ApplicationController
 
   private
 
+  def decorate_claims
+    @claims = PaginatingDecorator.decorate(Kaminari.paginate_array(@claims).page(params[:page]))
+  end
+
   def track_activity_for_claim_creation
     @claim_creator.created_claims.each do |c|
       track_activity( c, recipient_for_activity(c) )
@@ -90,11 +89,10 @@ class ClaimsController < ApplicationController
     @claims = @search.results
   end
 
-  def user_related_to_claim? claim
-    if claim.user_who_owes == current_user || claim.user_owed_to == current_user
-      true
-    else
-      false
+  def authorize_claim_collaborator
+    @claim = Claim.find(params[:id]).decorate
+    if !@claim.involves?(current_user)
+      redirect_to claims_path
     end
   end
 

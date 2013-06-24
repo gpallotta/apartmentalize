@@ -65,7 +65,10 @@ GEM
       devise (>= 2.1.2)
       railties (~> 3.0)
     diff-lcs (1.2.4)
-    ejs (1.1.1)
+    draper (1.2.1)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      request_store (~> 1.0.3)
     em-websocket (0.5.0)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.5.3)
@@ -186,6 +189,7 @@ GEM
       ffi (>= 0.5.0)
     rdoc (3.12.2)
       json (~> 1.4)
+    request_store (1.0.5)
     roadie (2.3.4)
       actionmailer (> 3.0.0, < 3.3.0)
       css_parser
@@ -228,6 +232,7 @@ GEM
       rack (>= 1.0.0)
     thor (0.18.1)
     tilt (1.4.1)
+    timecop (0.6.1)
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
@@ -254,7 +259,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   devise
   devise_invitable
-  ejs
+  draper (~> 1.0)
   email_spec
   factory_girl_rails
   faker
@@ -278,6 +283,7 @@ DEPENDENCIES
   shoulda-matchers
   simple_form
   thin
+  timecop
   uglifier (>= 1.0.3)
   valid_attribute
   whenever

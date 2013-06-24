@@ -1,0 +1,24 @@
+<div class="span5 offset1">
+    <div class="well">
+
+      <div id="user-info">
+        <h1>User Information</h1>
+
+        <div class="contact-info">
+          <h2>Contact Info</h2>
+          <p>Name: <%= @user.name %></p>
+          <p>Email: <%= @user.email %></p>
+        </div>
+
+        <div class="email-settings">
+          <h2>Email Settings</h2>
+          <p><%= receive_weekly_email(@user) %></p>
+          <p><%= receive_daily_email(@user) %></p>
+        </div>
+
+        <%= link_to 'Edit', edit_user_registration_path(@user),
+            class: 'btn btn-large' %>
+      </div>
+
+    </div>
+  </div>

@@ -22,14 +22,23 @@ feature 'user sends donation', %q{
   end
 
   scenario 'authenticated user sends a donation', :js => true do
-    sign_in user
     before_count = Donation.count
-    visit new_donation_path
-    fill_in 'card_number', with: '4242424242424242'
-    fill_in 'card_code', with: '123'
-    select '2014', from: 'card_year'
-    click_button 'Donate'
-    sleep(15)
+    # VCR.use_cassette 'new_donation' do
+      visit welcome_page_path
+      fill_in 'user_email', with: user.email
+      fill_in 'user_password', with: user.password
+      click_button 'Sign in'
+      visit new_donation_path
+      fill_in 'donation_email', with: 'greg@greg.com'
+      fill_in 'donation_name', with: 'greg'
+      fill_in 'donation_amount', with: 5
+      fill_in 'card_number', with: '4242424242424242'
+      fill_in 'card_code', with: '123'
+      select '2014', from: 'card_year'
+      select 'January', from: 'card_month'
+      click_button 'Donate'
+
+    # end
     expect(Donation.count).to eql(before_count+1)
   end
 

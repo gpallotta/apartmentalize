@@ -151,16 +151,23 @@ describe User do
 
   end
 
-  describe "sending emails" do
-    describe ".send_welcome_email" do
-      it "sends the user an email after creation" do
-        user = FactoryGirl.create(:user)
+  describe "methods" do
+
+    describe ".register" do
+      let(:user) { FactoryGirl.build(:user) }
+      it "saves the user and sends an email if successful" do
+        user.register
         expect(last_email.to).to include(user.email)
       end
-    end
-  end
 
-  describe "methods" do
+      it "does not send an email if the save is unsuccessful" do
+        user.password_confirmation = ''
+        user.register
+        expect(last_email).to be_nil
+      end
+
+    end
+
     describe ".delete_unaccepted_invitations" do
 
       let!(:regular_user) { FactoryGirl.create(:user) }

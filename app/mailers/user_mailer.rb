@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: "apartment.com"
 
   def signup_welcome(user)
     mail to: user.email, subject: 'Welcome to Apartment'

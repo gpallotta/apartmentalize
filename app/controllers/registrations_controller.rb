@@ -8,7 +8,7 @@ class RegistrationsController < Devise::RegistrationsController
 
   def create
     @user = current_group.users.build( params[:user] )
-    if @user.save
+    if @user.register
       sign_in @user
       redirect_to home_page_path
     else

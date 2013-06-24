@@ -39,10 +39,12 @@ class ClaimSearch
 
   def sort claims
     if params[:sort] == "owed_by"
-      claims.find(:all, :joins => "left join users on claims.user_who_owes_id = users.id",
+      claims.find(:all, :joins =>
+            "left join users on claims.user_who_owes_id = users.id",
         :order => "users.name #{params[:direction]}")
     elsif params[:sort] == "owed_to"
-      claims.find(:all, :joins => "left join users on claims.user_owed_to_id = users.id",
+      claims.find(:all, :joins =>
+            "left join users on claims.user_owed_to_id = users.id",
         :order => "users.name #{params[:direction]}")
     else
       claims.order("#{sort_column} #{sort_direction}")
@@ -50,8 +52,10 @@ class ClaimSearch
   end
 
   def owed_user_index
-    to_receive_present, to_pay_present = params[:z][:to_receive], params[:z][:to_pay]
-    if (to_receive_present && to_pay_present) || (!to_receive_present && !to_pay_present)
+    to_receive_present, to_pay_present =
+        params[:z][:to_receive], params[:z][:to_pay]
+    if (to_receive_present && to_pay_present) ||
+        (!to_receive_present && !to_pay_present)
       to_receive_and_pay
     elsif to_receive_present
       to_receive
@@ -63,15 +67,18 @@ class ClaimSearch
   def to_receive_and_pay
     if params[:z][:user_name]
       name_list = params[:z][:user_name]
-      @claims.select! { |c|  (name_list.include?(c.user_who_owes.name)) || (name_list.include?(c.user_owed_to.name)) }
+      @claims.select! { |c|  (name_list.include?(c.user_who_owes.name)) ||
+          (name_list.include?(c.user_owed_to.name)) }
     else
-      @claims.select! { |c| (c.user_owed_to.id == user.id) || (c.user_who_owes.id == user.id) }
+      @claims.select! { |c| (c.user_owed_to.id == user.id) ||
+          (c.user_who_owes.id == user.id) }
     end
   end
 
   def to_receive
     if params[:z][:user_name]
-      @claims.select! { |c| c.user_owed_to.id == user.id && params[:z][:user_name].include?(c.user_who_owes.name) }
+      @claims.select! { |c| c.user_owed_to.id == user.id &&
+          params[:z][:user_name].include?(c.user_who_owes.name) }
     else
       @claims.select! { |c| c.user_owed_to.id == user.id }
     end
@@ -79,7 +86,8 @@ class ClaimSearch
 
   def to_pay
     if params[:z][:user_name]
-      @claims.select! { |c| c.user_who_owes.id == user.id && params[:z][:user_name].include?(c.user_owed_to.name) }
+      @claims.select! { |c| c.user_who_owes.id ==
+          user.id && params[:z][:user_name].include?(c.user_owed_to.name) }
     else
       @claims.select! { |c| c.user_who_owes.id == user.id }
     end
@@ -114,7 +122,8 @@ class ClaimSearch
     phrase = params[:z][:title_or_description_cont]
     if phrase != '' && phrase != nil
       @claims.select! do |c|
-        string_nil(c.title).include?(phrase) || string_nil(c.description).include?(phrase)
+        string_nil(c.title).include?(phrase) ||
+            string_nil(c.description).include?(phrase)
       end
     end
   end

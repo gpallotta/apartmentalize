@@ -276,4 +276,13 @@ describe ClaimSearch do
     end
   end
 
+  describe ".created_at" do
+    let(:old_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
+          user_who_owes: user2, created_at: 5.days.ago) }
+
+    it "includes claims which were created between the dates selected" do
+      date_cs = ClaimSearch.new(user1, user1.claims, params)
+    end
+  end
+
 end

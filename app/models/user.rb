@@ -56,4 +56,12 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.subscribed_to_weekly_email
+    where("receives_weekly_email = true")
+  end
+
+  def self.subscribed_to_daily_email
+    where("receives_daily_email = true")
+  end
+
 end

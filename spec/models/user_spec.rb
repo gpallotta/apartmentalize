@@ -16,7 +16,7 @@ describe User do
 
   describe "scope" do
 
-    context ".claims" do
+    describe ".claims" do
       it { should respond_to(:claims) }
       it "returns all claims for user" do
         expect(user1.claims).to include(c1, c2)
@@ -24,17 +24,35 @@ describe User do
       end
     end
 
-    context '.claims_to_receive' do
+    describe '.claims_to_receive' do
       it "returns claims that are owed to you" do
         expect(user1.claims_to_receive).to include(c1)
         expect(user1.claims_to_receive).not_to include(c2, c3)
       end
     end
 
-    context ".claims_to_pay" do
+    describe ".claims_to_pay" do
       it "returns claims that you owe to other users" do
         expect(user1.claims_to_pay).to include(c2)
         expect(user1.claims_to_pay).not_to include(c1, c3)
+      end
+    end
+
+    describe ".subscribed_to_weekly_email" do
+      it "returns users who are subscribed to the weekly email" do
+        user2.update_attributes(receives_weekly_email: true)
+        users = User.subscribed_to_weekly_email
+        expect(users).to include(user2)
+        expect(users).not_to include(user1)
+      end
+    end
+
+    describe ".subscribed_to_daily_email" do
+      it "returns users who are subscribed to the daily email" do
+        user2.update_attributes(receives_daily_email: true)
+        users = User.subscribed_to_daily_email
+        expect(users).to include(user2)
+        expect(users).not_to include(user1)
       end
     end
 

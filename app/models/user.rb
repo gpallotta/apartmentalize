@@ -44,16 +44,29 @@ class User < ActiveRecord::Base
 
   def register
     if save
-      UserMailer.signup_welcome(self).deliver
+      UserMailer.signup_welcome(id).deliver
     else
       false
     end
+  end
+
+  def claims_owed_and_created_today
+    claims.where("DATE(created_at) = DATE(?) and user_who_owes_id = ?",
+        Time.now, id)
   end
 
   def self.delete_unaccepted_invitations
     User.invitation_not_accepted.each do |u|
       u.destroy if u.invitation_sent_at < 7.days.ago
     end
+  end
+
+  def self.subscribed_to_weekly_email
+    where("receives_weekly_email = true")
+  end
+
+  def self.subscribed_to_daily_email
+    where("receives_daily_email = true")
   end
 
 end

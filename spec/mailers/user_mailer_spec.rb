@@ -6,7 +6,7 @@ describe UserMailer do
   include EmailSpec::Matchers
   let!(:user) { FactoryGirl.create(:user, email: 'to@example.org')}
   describe "signup_welcome" do
-    let(:mail) { UserMailer.signup_welcome(user) }
+    let(:mail) { UserMailer.signup_welcome(user.id) }
 
     it "delivers to the correct email" do
       expect(mail).to deliver_to('to@example.org')
@@ -29,7 +29,7 @@ describe UserMailer do
                     user_who_owes: user3, amount: 8.32)}
     let!(:ch1) { FactoryGirl.create(:chore, user: user)}
     let!(:ch2) { FactoryGirl.create(:chore, user: user2)}
-    let!(:mail) { UserMailer.weekly_summary(user) }
+    let!(:mail) { UserMailer.weekly_summary(user.id) }
 
     it "delivers to the correct email" do
       expect(mail).to deliver_to('to@example.org')

@@ -1,7 +1,7 @@
 class ClaimSearch
   attr_reader :user, :claims, :params, :amount_min, :amount_max,
               :title_desc, :checked_users, :include_paid, :include_unpaid,
-              :include_to_pay, :include_to_receive
+              :include_to_pay, :include_to_receive, :date_min, :date_max
 
   def initialize user, claims, params
     @user = user

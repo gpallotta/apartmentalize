@@ -50,6 +50,13 @@
     <%= text_field_tag 'z[amount_max]', @search.amount_max, class: 'amount-search' %>
   </div>
 
+  <div class="field">
+    <%= label_tag 'z[date_min]', 'Created between' %>
+    <%= text_field_tag 'z[date_min]', @search.date_min, id: 'datepicker-min' %>
+    <%= label_tag 'z[date_max]', 'and' %>
+    <%= text_field_tag 'z[date_max]', @search.date_max, id: 'datepicker-max' %>
+  </div>
+
   <div class="actions"><%= submit_tag "Search Claims",
               class: 'btn submit-search-button' %></div>
 

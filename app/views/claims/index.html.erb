@@ -54,6 +54,8 @@
       $('.search-wrapper').hide();
       $('#claim-form-errors').hide();
       $('.create-button').addClass('active');
+      $('#datepicker-min').datepicker();
+      $('#datepicker-max').datepicker();
       window.formManipulations();
       var claimColor = new ClaimColor();
       claimColor.addColorToClaims();

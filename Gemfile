@@ -17,6 +17,7 @@ gem 'active_model_serializers'
 gem 'roadie'
 gem 'thin'
 gem 'draper', '~> 1.0'
+gem 'timecop'
 
 
 # Gems used only for assets and not required

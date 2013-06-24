@@ -50,4 +50,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.delete_unaccepted_invitations
+    User.invitation_not_accepted.each do |u|
+      u.destroy if u.invitation_sent_at < 7.days.ago
+    end
+  end
+
 end

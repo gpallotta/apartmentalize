@@ -26,9 +26,10 @@ feature 'user sends donation', %q{
     before_count = Donation.count
     visit new_donation_path
     fill_in 'card_number', with: '4242424242424242'
-    fill_in 'card_code', with: 123
+    fill_in 'card_code', with: '123'
     select '2014', from: 'card_year'
     click_button 'Donate'
+    sleep(15)
     expect(Donation.count).to eql(before_count+1)
   end
 

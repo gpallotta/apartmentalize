@@ -43,6 +43,7 @@ group :development, :test do
   gem 'pry'
   gem 'konacha'
   gem 'poltergeist'
+  gem 'database_cleaner'
 end
 
 group :test do

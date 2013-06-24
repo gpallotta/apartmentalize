@@ -276,39 +276,84 @@ describe ClaimSearch do
     end
   end
 
-  describe ".created_at" do
+  describe "filtering by date" do
 
-    describe "by minimum date created" do
-      let!(:old_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
-          user_who_owes: user2, created_at: 5.days.ago) }
-      let!(:older_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
-          user_who_owes: user2, created_at: 7.days.ago) }
+    let!(:old_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
+        user_who_owes: user2, created_at: 5.days.ago, paid_on: 5.days.ago) }
+    let!(:older_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
+        user_who_owes: user2, created_at: 7.days.ago, paid_on: 7.days.ago) }
+    let!(:time) { 6.days.ago.strftime("%m/%d/%Y") }
 
-      it "includes claims which were created no earlier than the date selected" do
-        time = 6.days.ago.strftime("%m/%d/%Y")
-        params[:z][:date_min] = time
-        date_cs = ClaimSearch.new(user1, user1.claims, params)
-        date_cs.filter_date
-        expect(date_cs.claims).to include(old_cl)
-        expect(date_cs.claims).not_to include(older_cl)
-      end
+    before do
+      params[:z][:date_created_min] = ''
+      params[:z][:date_created_max] = ''
+      params[:z][:date_paid_min] = ''
+      params[:z][:date_paid_max] = ''
     end
 
-    describe "by maximum date created" do
-      let!(:included_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
-          user_who_owes: user2, created_at: 5.days.since(Time.now)) }
-      let!(:unincluded_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
-          user_who_owes: user2, created_at: 7.days.since(Time.now)) }
+    describe "by date created" do
 
-      it "includes claims which were created no later thna the date selected" do
-        time = 6.days.since(Time.now).strftime("%m/%d/%Y")
-        params[:z][:date_max] = time
-        date_cs = ClaimSearch.new(user1, user1.claims, params)
-        date_cs.filter_date
-        expect(date_cs.claims).to include(included_cl)
-        expect(date_cs.claims).not_to include(unincluded_cl)
+      describe "by minimum date created" do
+
+        it "includes claims created no earlier than the date selected" do
+          params[:z][:date_created_min] = time
+          date_cs = ClaimSearch.new(user1, user1.claims, params)
+          date_cs.filter_dates
+          expect(date_cs.claims).to include(old_cl)
+          expect(date_cs.claims).not_to include(older_cl)
+        end
       end
+
+      describe "by maximum date created" do
+
+        it "includes claims created no later than the date selected" do
+          params[:z][:date_created_max] = time
+          date_cs = ClaimSearch.new(user1, user1.claims, params)
+          date_cs.filter_dates
+          expect(date_cs.claims).to include(older_cl)
+          expect(date_cs.claims).not_to include(old_cl)
+        end
+      end
+
     end
+
+    describe "by date paid" do
+      before do
+        old_cl.update_attributes(paid: true)
+        older_cl.update_attributes(paid: true)
+      end
+
+      describe "by minimum date paid" do
+        it "returns claims paid no earlier than the date selected" do
+          params[:z][:date_paid_min] = time
+          date_cs = ClaimSearch.new(user1, user1.claims, params)
+          date_cs.filter_dates
+          expect(date_cs.claims).to include(old_cl)
+          expect(date_cs.claims).not_to include(older_cl)
+        end
+      end
+
+      describe "by latest date paid" do
+        it "returns claims paid no earlier than the date selected" do
+          params[:z][:date_paid_max] = time
+          date_cs = ClaimSearch.new(user1, user1.claims, params)
+          date_cs.filter_dates
+          expect(date_cs.claims).to include(older_cl)
+          expect(date_cs.claims).not_to include(old_cl)
+        end
+      end
+
+    end
+
+  end
+
+  describe "filter_date_paid" do
+
+    let!(:included_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
+        user_who_owes: user2, paid_on: 5.days.ago) }
+    let!(:unincluded_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
+        user_who_owes: user2, paid_on: 7.days.ago) }
+
 
   end
 

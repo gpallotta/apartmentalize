@@ -53,12 +53,21 @@
   </div>
 
   <div class="field">
-    <%= label_tag 'z[date_min]', 'Created between' %>
-    <%= text_field_tag 'z[date_min]', @search.date_min, id: 'datepicker-min',
-          class: 'between-search' %>
-    <%= label_tag 'z[date_max]', 'and', class: 'between-text' %>
-    <%= text_field_tag 'z[date_max]', @search.date_max, id: 'datepicker-max',
-          class: 'between-search' %>
+    <%= label_tag 'z[date_created_min]', 'Created between' %>
+    <%= text_field_tag 'z[date_created_min]', @search.date_created_min,
+          id: 'datepicker-created-min', class: 'between-search' %>
+    <%= label_tag 'z[date_created_max]', 'and', class: 'between-text' %>
+    <%= text_field_tag 'z[date_created_max]', @search.date_created_max,
+          id: 'datepicker-created-max', class: 'between-search' %>
+  </div>
+
+  <div class="field">
+    <%= label_tag 'z[date_paid_min]', 'Paid between' %>
+    <%= text_field_tag 'z[date_paid_min]', @search.date_paid_min,
+          id: 'datepicker-paid-min', class: 'between-search' %>
+    <%= label_tag 'z[date_paid_max]', 'and', class: 'between-text' %>
+    <%= text_field_tag 'z[date_paid_max]', @search.date_paid_max,
+          id: 'datepicker-paid-max', class: 'between-search' %>
   </div>
 
   <div class="actions"><%= submit_tag "Search Claims",

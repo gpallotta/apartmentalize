@@ -1,7 +1,8 @@
 class ClaimSearch
   attr_reader :user, :claims, :params, :amount_min, :amount_max,
               :title_desc, :checked_users, :include_paid, :include_unpaid,
-              :include_to_pay, :include_to_receive, :date_min, :date_max
+              :include_to_pay, :include_to_receive, :date_created_min,
+              :date_created_max, :date_paid_min, :date_paid_max
 
   def initialize user, claims, params
     @user = user
@@ -16,8 +17,7 @@ class ClaimSearch
       @amount_max = params[:z][:amount_max]
       @title_desc = params[:z][:title_or_description_cont]
       @checked_users = params[:z][:user_name]
-      @date_min = params[:z][:date_min]
-      @date_max = params[:z][:date_max]
+      set_date_instance_variables
       if params[:z][:paid_status]
         @include_paid = params[:z][:paid_status].include? 'true'
         @include_unpaid = params[:z][:paid_status].include? 'false'
@@ -27,13 +27,20 @@ class ClaimSearch
     end
   end
 
+  def set_date_instance_variables
+    @date_created_min = params[:z][:date_created_min]
+    @date_created_max = params[:z][:date_created_max]
+    @date_paid_min = params[:z][:date_paid_min]
+    @date_paid_max = params[:z][:date_paid_max]
+  end
+
   def results
     if params[:z]
       owed_user_index
       title_or_description_contains
       amount_between
       paid_or_unpaid
-      filter_date
+      filter_dates
     else
       @claims.select! { |c| c.paid == false }
     end
@@ -113,17 +120,29 @@ class ClaimSearch
     end
   end
 
-  def filter_date
-    filter_on_min_date unless @date_min == ''
-    filter_on_max_date unless @date_max == ''
+  def filter_dates
+    filter_on_min_date(@date_created_min) unless @date_created_min == ''
+    filter_on_max_date(@date_created_max) unless @date_created_max == ''
+    filter_by_paid_date
   end
 
-  def filter_on_min_date
-    @claims.select! { |c| c.created_at.strftime("%m/%d/%Y") >= @date_min }
+  def filter_by_paid_date
+    if @date_paid_min != ''
+      @claims.select! { |c| c.paid &&
+            c.created_at.strftime("%m/%d/%Y") >= @date_paid_min }
+    end
+    if @date_paid_max != ''
+      @claims.select! { |c| c.paid &&
+            c.created_at.strftime("%m/%d/%Y") <= @date_paid_max }
+    end
   end
 
-  def filter_on_max_date
-    @claims.select! { |c| c.created_at.strftime("%m/%d/%Y") <= @date_max }
+  def filter_on_min_date(date)
+    @claims.select! { |c| c.created_at.strftime("%m/%d/%Y") >= date }
+  end
+
+  def filter_on_max_date(date)
+    @claims.select! { |c| c.created_at.strftime("%m/%d/%Y") <= date }
   end
 
   def filter_claims_by_min_amount

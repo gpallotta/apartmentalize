@@ -294,8 +294,8 @@ describe "searching claims" do
         user_who_owes: user2, created_at: 7.days.ago, title: 'older_cl')}
 
     context "by min date" do
-      it "shows claims newer than the date selected" do
-        fill_in 'datepicker-min', with: 6.days.ago.strftime("%m/%d/%Y")
+      it "shows claims no older than the date selected" do
+        fill_in 'datepicker-created-min', with: 6.days.ago.strftime("%m/%d/%Y")
         click_button 'Search Claims'
         expect(page).to have_content(old_cl.title)
         expect(page).not_to have_content(older_cl.title)
@@ -303,8 +303,8 @@ describe "searching claims" do
     end
 
     context "by max date" do
-      it "shows claims newer than the date selected" do
-        fill_in 'datepicker-max', with: 6.days.ago.strftime("%m/%d/%Y")
+      it "shows claims no newer than the date selected" do
+        fill_in 'datepicker-created-max', with: 6.days.ago.strftime("%m/%d/%Y")
         click_button 'Search Claims'
         expect(page).to have_content(older_cl.title)
         expect(page).not_to have_content(old_cl.title)
@@ -313,8 +313,46 @@ describe "searching claims" do
 
     context "between both min and max date" do
       it "shows claims created between the dates" do
-        fill_in 'datepicker-min', with: 8.days.ago.strftime("%m/%d/%Y")
-        fill_in 'datepicker-max', with: 6.days.ago.strftime("%m/%d/%Y")
+        fill_in 'datepicker-created-min', with: 8.days.ago.strftime("%m/%d/%Y")
+        fill_in 'datepicker-created-max', with: 6.days.ago.strftime("%m/%d/%Y")
+        click_button 'Search Claims'
+        expect(page).to have_content(older_cl.title)
+        expect(page).not_to have_content(old_cl.title)
+      end
+    end
+
+  end
+
+  context "by date paid" do
+    let!(:old_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
+        user_who_owes: user2, paid_on: 5.days.ago, title: 'old_cl',
+        paid: true, created_at: 5.days.ago) }
+    let!(:older_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
+        user_who_owes: user2, paid_on: 7.days.ago, title: 'older_cl',
+        paid: true, created_at: 7.days.ago) }
+
+    context "by min date" do
+      it "shows claims paid no earlier than the date selected" do
+        fill_in 'datepicker-paid-min', with: 6.days.ago.strftime("%m/%d/%Y")
+        click_button 'Search Claims'
+        expect(page).to have_content(old_cl.title)
+        expect(page).not_to have_content(older_cl.title)
+      end
+    end
+
+    context "by max date" do
+      it "shows claims paid no later than the date selected" do
+        fill_in 'datepicker-paid-max', with: 6.days.ago.strftime("%m/%d/%Y")
+        click_button 'Search Claims'
+        expect(page).to have_content(older_cl.title)
+        expect(page).not_to have_content(old_cl.title)
+      end
+    end
+
+    context "by both min and max date paid" do
+      it "shows claims paid between the specified dates" do
+        fill_in 'datepicker-paid-min', with: 8.days.ago.strftime("%m/%d/%Y")
+        fill_in 'datepicker-paid-max', with: 6.days.ago.strftime("%m/%d/%Y")
         click_button 'Search Claims'
         expect(page).to have_content(older_cl.title)
         expect(page).not_to have_content(old_cl.title)

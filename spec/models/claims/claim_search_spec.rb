@@ -279,10 +279,22 @@ describe ClaimSearch do
   describe ".created_at" do
     let(:old_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
           user_who_owes: user2, created_at: 5.days.ago) }
-
-    it "includes claims which were created between the dates selected" do
-      date_cs = ClaimSearch.new(user1, user1.claims, params)
+    let(:older_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
+          user_who_owes: user2, created_at: 7.days.ago) }
+    before do
+      time = 6.days.ago.strftime("%m/%d/%Y")
+      params[:z][:date_min] = time
     end
+
+    describe "by minimum date created" do
+      it "includes claims which were created no earlier than the date selected" do
+        date_cs = ClaimSearch.new(user1, user1.claims, params)
+        date_cs.filter_date
+        expect(date_cs.claims).to include(old_cl)
+        expect(date_cs.claims).not_to include(older_cl)
+      end
+    end
+
   end
 
 end

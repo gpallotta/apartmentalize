@@ -16,6 +16,8 @@ class ClaimSearch
       @amount_max = params[:z][:amount_max]
       @title_desc = params[:z][:title_or_description_cont]
       @checked_users = params[:z][:user_name]
+      @date_min = params[:z][:date_min]
+      @date_max = params[:z][:date_max]
       if params[:z][:paid_status]
         @include_paid = params[:z][:paid_status].include? 'true'
         @include_unpaid = params[:z][:paid_status].include? 'false'
@@ -107,6 +109,11 @@ class ClaimSearch
     end
     if params[:z][:amount_max] != '' && params[:z][:amount_max] != nil
       filter_claims_by_max_amount if params[:z][:amount_max]
+    end
+  end
+
+  def filter_date
+    @claims.select! do |c|
     end
   end
 

@@ -55,6 +55,8 @@ group :test do
   gem 'fivemat'
   gem 'nyan-cat-formatter'
   gem 'email_spec'
+  gem 'vcr'
+  gem 'fakeweb'
 end
 
 gem 'jquery-rails'

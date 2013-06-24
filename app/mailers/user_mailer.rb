@@ -7,7 +7,7 @@ class UserMailer < ActionMailer::Base
 
   def send_weekly_summary
     users = User.where("receives_weekly_email = true")
-    users.each do |u|
+    users.find_each do |u|
       weekly_summary(u).deliver
     end
   end
@@ -20,7 +20,7 @@ class UserMailer < ActionMailer::Base
 
   def send_daily_summary
     users = User.where("receives_daily_email = true")
-    users.each do |u|
+    users.find_each do |u|
       self.daily_summary(u).deliver
     end
   end

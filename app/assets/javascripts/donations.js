@@ -1,6 +1,7 @@
 window.donation = {
   setupForm: function() {
-    $('#new_donation').submit(function() {
+    $('#new_donation').submit(function(e) {
+      e.preventDefault();
       $('input[type=submit]').attr('disabled', true);
       donation.processCard();
       return false;

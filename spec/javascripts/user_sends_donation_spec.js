@@ -30,7 +30,6 @@ describe("user sends a donation", function() {
       setTimeout(function() {
         expect( $('#donation_stripe_card_token').val() ).to.be(undefined);
       }, 5000);
-      alert($('#donation_stripe_card_token').val());
     });
   });
 

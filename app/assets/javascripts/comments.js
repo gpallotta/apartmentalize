@@ -1,14 +1,3 @@
-jQuery(function() {
-
-  $('#new_comment').submit(function(e) {
-    e.preventDefault();
-    c = new Comment();
-    c.submitCommentForm(this);
-  });
-
-});
-
-
 function Comment() {
 
   var that = this;

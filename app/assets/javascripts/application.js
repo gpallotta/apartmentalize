@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.datepicker
 //= require flat-ui
 //= require handlebars
 //= require_tree ./templates

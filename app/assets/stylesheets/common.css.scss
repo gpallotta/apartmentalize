@@ -1,9 +1,16 @@
 @import 'mixins';
 
+@font-face {
+  font-family: 'playfair-display';
+  src: font-url('PlayfairDisplay-Regular.ttf');
+}
+
 html, body {
   height: 100%;
   width: 100%;
-  background-color: #ECF0F1;
+  // background-color: #ECF0F1;
+  background: url('witewall.png');
+  font-family: playfair-display;
 }
 
 a {

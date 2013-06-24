@@ -6,6 +6,10 @@ feature 'Chores cycle automatically', %q{
   so we can share responsibility
 } do
 
+  # AC
+  # * chores cycle between users at an interval
+  # * if a user account is deleted, the chore is reassigned
+
   given(:group) { FactoryGirl.create(:group) }
   given!(:user1) { FactoryGirl.create(:user, group: group)}
   given!(:user2) { FactoryGirl.create(:user, group: group)}

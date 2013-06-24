@@ -16,7 +16,7 @@ describe User do
 
   describe "scope" do
 
-    context ".claims" do
+    describe ".claims" do
       it { should respond_to(:claims) }
       it "returns all claims for user" do
         expect(user1.claims).to include(c1, c2)
@@ -24,17 +24,45 @@ describe User do
       end
     end
 
-    context '.claims_to_receive' do
+    describe '.claims_to_receive' do
       it "returns claims that are owed to you" do
         expect(user1.claims_to_receive).to include(c1)
         expect(user1.claims_to_receive).not_to include(c2, c3)
       end
     end
 
-    context ".claims_to_pay" do
+    describe ".claims_to_pay" do
       it "returns claims that you owe to other users" do
         expect(user1.claims_to_pay).to include(c2)
         expect(user1.claims_to_pay).not_to include(c1, c3)
+      end
+    end
+
+    describe ".subscribed_to_weekly_email" do
+      it "returns users who are subscribed to the weekly email" do
+        user2.update_attributes(receives_weekly_email: true)
+        users = User.subscribed_to_weekly_email
+        expect(users).to include(user2)
+        expect(users).not_to include(user1)
+      end
+    end
+
+    describe ".subscribed_to_daily_email" do
+      it "returns users who are subscribed to the daily email" do
+        user2.update_attributes(receives_daily_email: true)
+        users = User.subscribed_to_daily_email
+        expect(users).to include(user2)
+        expect(users).not_to include(user1)
+      end
+    end
+
+    describe ".claims_owed_and_created_today" do
+      let!(:old_cl) { FactoryGirl.create(:claim, user_who_owes: user1,
+                  user_owed_to: user2, created_at: Date.yesterday)}
+      it "returns claims that were created today and are owed by the user" do
+        claims = user1.claims_owed_and_created_today
+        expect(claims).to include(c2)
+        expect(claims).not_to include(old_cl)
       end
     end
 
@@ -151,11 +179,55 @@ describe User do
 
   end
 
-  describe "sending emails" do
-    describe ".send_welcome_email" do
-      it "sends the user an email after creation" do
-        user = FactoryGirl.create(:user)
+  describe "methods" do
+
+    describe ".register" do
+      let(:user) { FactoryGirl.build(:user) }
+      it "saves the user and sends an email if successful" do
+        user.register
         expect(last_email.to).to include(user.email)
+      end
+
+      it "does not send an email if the save is unsuccessful" do
+        user.password_confirmation = ''
+        user.register
+        expect(last_email).to be_nil
+      end
+
+    end
+
+    describe ".delete_unaccepted_invitations" do
+
+      let!(:regular_user) { FactoryGirl.create(:user) }
+      let!(:unaccepted_user) do
+        unaccepted_user = FactoryGirl.build(:user)
+        unaccepted_user.invitation_token = 'greg1'
+        unaccepted_user.invitation_sent_at = Time.now
+        unaccepted_user.save
+        unaccepted_user
+      end
+      let!(:accepted_user) do
+        accepted_user = FactoryGirl.build(:user)
+        accepted_user.invitation_token = 'greg3'
+        unaccepted_user.invitation_sent_at = Time.now
+        accepted_user.invitation_accepted_at = Time.now
+        accepted_user.save
+        accepted_user
+      end
+
+      before do
+        Timecop.freeze(Date.today + 9)
+      end
+
+      after do
+        Timecop.return
+      end
+
+      it "deletes users who have not accepted their invitation in 7 days" do
+        User.delete_unaccepted_invitations
+        unaccepted_user = unaccepted_user
+        expect(unaccepted_user).to be_nil
+        expect(accepted_user).not_to be_nil
       end
     end
   end

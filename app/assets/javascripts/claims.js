@@ -1,66 +1,65 @@
-jQuery(function() {
-  $('.search-wrapper').hide();
-  $('#claim-form-errors').hide();
-  $('.create-button').addClass('active');
-  window.formManipulations();
-  new ClaimView().addColorToClaims();
+function ClaimController() {
 
-  $('#new_claim').submit(function(e) {
-    e.preventDefault();
-    c = new Claim();
-    c.createClaims();
-  });
+  var that = this;
+  this.claim = new Claim();
+  this.claimView = new ClaimView();
 
-  $('.mark-as-paid-link').click(function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    c = new Claim();
-    c.markClaimPaid($(this), c.claimView.updateIndexPageAfterPaid);
-  });
+  this.submitForm = function() {
+    var successCallback = that.claimView.displayNewClaims;
+    var errorCallback   = that.claimView.displayCreateErrors;
+    var data_to_post = {
+      url:  $('#new_claim').attr('action') + '.json',
+      info: $('#new_claim').serialize()
+    }
+    that.claim.createClaims(data_to_post, successCallback, errorCallback);
+  };
 
-  $('.show-page-mark-paid').click(function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    c = new Claim();
-    c.markClaimPaid($(this), c.claimView.updateShowPageAfterPaid);
-  });
+  this.markPaid = function(link, updatePageFunction) {
+    var successCallback = updatePageFunction;
+    var errorCallback   = that.claimView.displayMarkPaidErrors;
+    var dataObj = {
+      url: link.attr('href') + '.json',
+      id: link.data('id'),
+      link: link
+    };
+    that.claim.markClaimPaid(dataObj, successCallback, errorCallback);
+  };
 
-});
+}
 
 function Claim() {
 
   var that = this;
-  this.claimView = new ClaimView();
 
-  this.createClaims = function() {
+  this.createClaims = function(dataObj, successCallback, errorCallback) {
     var form = $('#new_claim');
     $.ajax({
-      url: form.attr('action') + '.json',
+      url: dataObj.url,
       type: "POST",
-      data: form.serialize(),
+      data: dataObj.info,
       cache: false,
       dataType: 'JSON',
       success: function(result) {
-        that.claimView.displayNewClaims(result);
+        successCallback(result);
       },
       error: function() {
-        that.claimView.displayCreateErrors();
+        errorCallback();
       }
     });
   };
 
-  this.markClaimPaid = function(link, f) {
+  this.markClaimPaid = function(dataObj, successCallback, errorCallback) {
     $.ajax({
-      url: link.attr('href') + '.json',
+      url: dataObj.url,
       type: "PUT",
-      data: { id: link.data('id') },
+      data: { id: dataObj.id },
       cache: false,
       dataType: 'JSON',
       success: function(result) {
-        f(result, link);
+        successCallback(result, dataObj.link);
       },
       error: function() {
-        that.claimView.displayMarkPaidErrors();
+        errorCallback();
       }
     });
   };
@@ -70,9 +69,10 @@ function Claim() {
 function ClaimView() {
 
   var that = this;
+  this.claimColor = new ClaimColor();
 
   this.displayNewClaims = function(result) {
-    claim_num = result.claims.length;
+    var claim_num = result.claims.length;
     for(i = 0; i < claim_num; i++) {
       var claim = result.claims[i];
       html = HandlebarsTemplates['claims/create'](claim);
@@ -81,14 +81,14 @@ function ClaimView() {
       $('#claim-form-errors').hide();
     }
     $('#new_claim').find('input:text, input[type="number"]').val('');
-    that.addColorToClaims();
+    that.claimColor.addColorToClaims();
   };
 
   this.displayMarkPaidErrors = function() {
     $('#mark-as-paid-error').text('Something went wrong');
   };
 
-  this.displayCreateErrors = function() {
+  this.displayCreateErrors = function(result) {
     $('#claim-form-errors').show();
   };
 
@@ -98,14 +98,20 @@ function ClaimView() {
     $('.comment-button').removeClass('disabled');
     $('.edit-btn').text('Cannot edit paid claims');
     $('.edit-btn').attr('href', '#');
-    $('.show-page-paid-status').text('Paid on ' + result.claim.parsed_time);
+    $('.show-page-paid-status').text(result.claim.parsed_time);
   };
 
   this.updateIndexPageAfterPaid = function(result, link) {
     link.hide(300);
     link.closest('tr').find('td:first').text('Paid');
-    that.addColorToClaims();
+    that.claimColor.addColorToClaims();
   };
+
+}
+
+function ClaimColor() {
+
+  var that = this;
 
   this.addColorToClaims = function() {
     $('.claim-color').css('background-color', function() {
@@ -118,7 +124,6 @@ function ClaimView() {
   };
 
 }
-
 
 window.formManipulations = function(){
 

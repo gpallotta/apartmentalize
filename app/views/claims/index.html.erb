@@ -45,3 +45,37 @@
   </div>
 
 </div>
+
+<%= content_for :extra_footer do %>
+
+  <script type="text/javascript">
+
+    jQuery(function() {
+      $('.search-wrapper').hide();
+      $('#claim-form-errors').hide();
+      $('.create-button').addClass('active');
+      $('#datepicker-created-min').datepicker();
+      $('#datepicker-created-max').datepicker();
+      $('#datepicker-paid-min').datepicker();
+      $('#datepicker-paid-max').datepicker();
+      window.formManipulations();
+      var claimColor = new ClaimColor();
+      claimColor.addColorToClaims();
+
+      $('#new_claim').submit(function(e) {
+        e.preventDefault();
+        c = new ClaimController();
+        c.submitForm();
+      });
+
+      $('.mark-as-paid-link').click(function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        c = new ClaimController();
+        c.markPaid($(this), c.claimView.updateIndexPageAfterPaid);
+      });
+
+    });
+
+  </script>
+<% end %>

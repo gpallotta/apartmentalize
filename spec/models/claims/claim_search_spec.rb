@@ -203,8 +203,8 @@ describe ClaimSearch do
         params[:z][:title_or_description_cont] = 'hello'
         cl.update_attributes(title: 'hello')
       end
-        let!(:desc_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
-                   user_who_owes: user2, description: 'hello')}
+      let!(:desc_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
+          user_who_owes: user2, description: 'hello')}
 
 
       it "returns only claims whose titles or descriptions match the phrase" do
@@ -274,6 +274,87 @@ describe ClaimSearch do
         expect(both_cs.claims).to include(cl2)
       end
     end
+  end
+
+  describe "filtering by date" do
+
+    let!(:old_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
+        user_who_owes: user2, created_at: 5.days.ago, paid_on: 5.days.ago) }
+    let!(:older_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
+        user_who_owes: user2, created_at: 7.days.ago, paid_on: 7.days.ago) }
+    let!(:time) { 6.days.ago.strftime("%m/%d/%Y") }
+
+    before do
+      params[:z][:date_created_min] = ''
+      params[:z][:date_created_max] = ''
+      params[:z][:date_paid_min] = ''
+      params[:z][:date_paid_max] = ''
+    end
+
+    describe "by date created" do
+
+      describe "by minimum date created" do
+
+        it "includes claims created no earlier than the date selected" do
+          params[:z][:date_created_min] = time
+          date_cs = ClaimSearch.new(user1, user1.claims, params)
+          date_cs.filter_dates
+          expect(date_cs.claims).to include(old_cl)
+          expect(date_cs.claims).not_to include(older_cl)
+        end
+      end
+
+      describe "by maximum date created" do
+
+        it "includes claims created no later than the date selected" do
+          params[:z][:date_created_max] = time
+          date_cs = ClaimSearch.new(user1, user1.claims, params)
+          date_cs.filter_dates
+          expect(date_cs.claims).to include(older_cl)
+          expect(date_cs.claims).not_to include(old_cl)
+        end
+      end
+
+    end
+
+    describe "by date paid" do
+      before do
+        old_cl.update_attributes(paid: true)
+        older_cl.update_attributes(paid: true)
+      end
+
+      describe "by minimum date paid" do
+        it "returns claims paid no earlier than the date selected" do
+          params[:z][:date_paid_min] = time
+          date_cs = ClaimSearch.new(user1, user1.claims, params)
+          date_cs.filter_dates
+          expect(date_cs.claims).to include(old_cl)
+          expect(date_cs.claims).not_to include(older_cl)
+        end
+      end
+
+      describe "by latest date paid" do
+        it "returns claims paid no earlier than the date selected" do
+          params[:z][:date_paid_max] = time
+          date_cs = ClaimSearch.new(user1, user1.claims, params)
+          date_cs.filter_dates
+          expect(date_cs.claims).to include(older_cl)
+          expect(date_cs.claims).not_to include(old_cl)
+        end
+      end
+
+    end
+
+  end
+
+  describe "filter_date_paid" do
+
+    let!(:included_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
+        user_who_owes: user2, paid_on: 5.days.ago) }
+    let!(:unincluded_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
+        user_who_owes: user2, paid_on: 7.days.ago) }
+
+
   end
 
 end

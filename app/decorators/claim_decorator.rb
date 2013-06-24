@@ -3,7 +3,7 @@ class ClaimDecorator < Draper::Decorator
 
   def paid_on
     if object.paid?
-      "#{parse_time(object.paid_on)}"
+      object.paid_on.strftime("%B %d, %Y")
     else
       "Unpaid"
     end

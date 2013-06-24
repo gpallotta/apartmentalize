@@ -73,14 +73,15 @@ $form-background: #BDC3C7;
     width: 185px;
     margin-left: 10px;
   }
-  .amount-between {
+  .between-text {
+    margin: 0 5px;
     text-align: center;
     display: inline-block;
-    margin: 0 19px;
   }
-  .amount-search {
+  .between-search {
     display: inline-block;
-    width: 50px;
+    width: 80px;
+    padding-left: 2px;
   }
   .submit-search-button {
     width: 100%;

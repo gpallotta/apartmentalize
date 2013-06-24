@@ -286,6 +286,43 @@ describe "searching claims" do
 
   end
 
+  context "by date created" do
+
+    let!(:old_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
+        user_who_owes: user2, created_at: 5.days.ago, title: 'old_cl')}
+    let!(:older_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
+        user_who_owes: user2, created_at: 7.days.ago, title: 'older_cl')}
+
+    context "by min date" do
+      it "shows claims newer than the date selected" do
+        fill_in 'datepicker-min', with: 6.days.ago.strftime("%m/%d/%Y")
+        click_button 'Search Claims'
+        expect(page).to have_content(old_cl.title)
+        expect(page).not_to have_content(older_cl.title)
+      end
+    end
+
+    context "by max date" do
+      it "shows claims newer than the date selected" do
+        fill_in 'datepicker-max', with: 6.days.ago.strftime("%m/%d/%Y")
+        click_button 'Search Claims'
+        expect(page).to have_content(older_cl.title)
+        expect(page).not_to have_content(old_cl.title)
+      end
+    end
+
+    context "between both min and max date" do
+      it "shows claims created between the dates" do
+        fill_in 'datepicker-min', with: 8.days.ago.strftime("%m/%d/%Y")
+        fill_in 'datepicker-max', with: 6.days.ago.strftime("%m/%d/%Y")
+        click_button 'Search Claims'
+        expect(page).to have_content(older_cl.title)
+        expect(page).not_to have_content(old_cl.title)
+      end
+    end
+
+  end
+
   context "combining fields" do
 
     context "searching for debts you are owed from a particular user" do

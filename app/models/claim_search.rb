@@ -33,6 +33,7 @@ class ClaimSearch
       title_or_description_contains
       amount_between
       paid_or_unpaid
+      filter_date
     else
       @claims.select! { |c| c.paid == false }
     end
@@ -113,8 +114,16 @@ class ClaimSearch
   end
 
   def filter_date
-    @claims.select! do |c|
-    end
+    filter_on_min_date unless @date_min == ''
+    filter_on_max_date unless @date_max == ''
+  end
+
+  def filter_on_min_date
+    @claims.select! { |c| c.created_at.strftime("%m/%d/%Y") >= @date_min }
+  end
+
+  def filter_on_max_date
+    @claims.select! { |c| c.created_at.strftime("%m/%d/%Y") <= @date_max }
   end
 
   def filter_claims_by_min_amount

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130620152106) do
+ActiveRecord::Schema.define(:version => 20130624183014) do
 
   create_table "activities", :force => true do |t|
     t.integer  "owner_id",       :null => false
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(:version => 20130620152106) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "amount",     :null => false
+    t.integer  "user_id",    :null => false
   end
 
   create_table "groups", :force => true do |t|
@@ -94,6 +95,15 @@ ActiveRecord::Schema.define(:version => 20130620152106) do
   end
 
   add_index "managers", ["group_id"], :name => "index_managers_on_group_id"
+
+  create_table "payment_tokens", :force => true do |t|
+    t.string   "encrypted_token",      :null => false
+    t.string   "encrypted_token_salt", :null => false
+    t.string   "encrypted_token_iv",   :null => false
+    t.integer  "user_id",              :null => false
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
 
   create_table "payments", :force => true do |t|
     t.string   "email"

@@ -1,4 +1,7 @@
 class UserMailer < ActionMailer::Base
+
+  include Resque::Mailer
+
   default from: "apartment.com"
 
   def signup_welcome(user)

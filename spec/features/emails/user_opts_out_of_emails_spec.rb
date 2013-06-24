@@ -23,7 +23,7 @@ feature 'User opts out of emails', %{
     click_button 'Update'
     expect(user1.reload.receives_weekly_email).to be_false
     reset_email
-    UserMailer.send_weekly_summary
+    SummaryDispatcher::WeeklySummary.send_weekly_summary
     expect(last_email).to be_nil
   end
 
@@ -33,7 +33,7 @@ feature 'User opts out of emails', %{
     click_button 'Update'
     expect(user1.reload.receives_daily_email).to be_false
     reset_email
-    UserMailer.send_daily_summary
+    SummaryDispatcher::DailySummary.send_daily_summary
     expect(last_email).to be_nil
   end
 

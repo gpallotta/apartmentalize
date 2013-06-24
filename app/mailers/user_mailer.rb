@@ -9,24 +9,10 @@ class UserMailer < ActionMailer::Base
     mail to: user.email, subject: 'Welcome to Apartment'
   end
 
-  def send_weekly_summary
-    users = User.subscribed_to_weekly_email
-    users.each do |u|
-      weekly_summary(u.id).deliver
-    end
-  end
-
   def weekly_summary(user_id)
     @user = User.find(user_id)
     @claim_balance = ClaimBalance.new(@user, @user.claims)
     mail to: @user.email, subject: 'Apartment - Weekly Summary'
-  end
-
-  def send_daily_summary
-    users = User.subscribed_to_daily_email
-    users.each do |u|
-      self.daily_summary(u.id).deliver
-    end
   end
 
   def daily_summary(user_id)

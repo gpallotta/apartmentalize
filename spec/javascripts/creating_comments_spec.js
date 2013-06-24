@@ -3,7 +3,7 @@
 describe("creating comments", function() {
 
   beforeEach(function() {
-    $('#konacha').append(HandlebarsTemplates['spec/creating_comment']());
+    $('#konacha').append(HandlebarsTemplates['spec_templates/creating_comment']());
   });
 
   afterEach(function() {

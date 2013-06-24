@@ -56,6 +56,16 @@ describe User do
       end
     end
 
+    describe ".claims_owed_and_created_today" do
+      let!(:old_cl) { FactoryGirl.create(:claim, user_who_owes: user1,
+                  user_owed_to: user2, created_at: Date.yesterday)}
+      it "returns claims that were created today and are owed by the user" do
+        claims = user1.claims_owed_and_created_today
+        expect(claims).to include(c2)
+        expect(claims).not_to include(old_cl)
+      end
+    end
+
   end
 
   describe "associations" do

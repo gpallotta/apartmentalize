@@ -31,8 +31,7 @@ class UserMailer < ActionMailer::Base
 
   def daily_summary(user_id)
     @user = User.find(user_id)
-    @claims = @user.claims.
-      where("DATE(created_at) = DATE(?) and user_who_owes_id = ?", Time.now, user_id)
+    @claims = @user.claims_owed_and_created_today
     mail to: @user.email, subject: 'Apartment - Daily Summary'
   end
 

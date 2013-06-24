@@ -50,6 +50,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  def claims_owed_and_created_today
+    claims.where("DATE(created_at) = DATE(?) and user_who_owes_id = ?",
+        Time.now, id)
+  end
+
   def self.delete_unaccepted_invitations
     User.invitation_not_accepted.each do |u|
       u.destroy if u.invitation_sent_at < 7.days.ago

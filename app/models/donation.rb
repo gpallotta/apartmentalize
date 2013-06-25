@@ -14,7 +14,7 @@ class Donation < ActiveRecord::Base
   def save_with_payment
     if valid?
       begin
-        charge = Stripe::Charge.create(
+        Stripe::Charge.create(
           :amount => amount*100,
           :currency => 'usd',
           :card => stripe_card_token,

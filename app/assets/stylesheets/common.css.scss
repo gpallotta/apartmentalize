@@ -23,3 +23,7 @@ a {
   @include height-width-cover;
   @include background-cover;
 }
+
+.header-title {
+  font-size: 26px;
+}

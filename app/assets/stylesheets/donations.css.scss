@@ -1,3 +1,18 @@
 #loading {
   display: none;
 }
+
+#donation-error {
+  margin-top: 10px;
+  display: none;
+  color: #C0392B;
+}
+
+#stripe-error {
+  color: #C0392B;
+  margin: 5px;
+}
+
+.stripe-button {
+  margin-bottom: 10px;
+}

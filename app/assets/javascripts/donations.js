@@ -45,8 +45,11 @@ window.donation = {
         window.location.href = result.redirect_url;
       },
       error: function() {
+        $('#stripe-error').hide();
+        $('#donation-error').show();
         $('#loading').hide();
-      }
+      },
+      timeout: 15000
     });
   }
 };

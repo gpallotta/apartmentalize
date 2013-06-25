@@ -10,7 +10,7 @@
 // Buttons -----------------------
 .btn
   border: none
-  background: #015959
+  background: $base
   color: $inverse
   font-size: 16.5px
   text-decoration: none
@@ -20,13 +20,13 @@
 
   &:hover,
   &:focus
-    background-color: scale-color(#015959, $lightness: 10%)
+    background-color: scale-color($base, $lightness: 20%)
     color: $inverse
     +transition(.25s)
 
   &:active,
   &.active
-    background-color: scale-color(#015959, $lightness: -50%)
+    background-color: scale-color($base, $lightness: -50%)
     color: rgba($inverse, .75)
     +box-shadow(none)
 

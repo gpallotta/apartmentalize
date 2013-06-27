@@ -6,17 +6,23 @@
   <%= hidden_field_tag :direction, params[:direction] %>
   <%= hidden_field_tag :sort, params[:sort] %>
 
-  <%= label_tag "to-receive", "To receive from", class: 'user-label btn' %>
-  <%= check_box_tag "z[to_receive]", true, @search.include_to_receive,
-                {id: 'to-receive', :hidden => true} %>
+  <div class="search-intro" data-intro="test" data-step="1">
+    <%= label_tag "to-receive",
+                  "To receive from",
+                  class: 'user-label btn search-intro'
+    %>
+
+    <%= check_box_tag "z[to_receive]", true, @search.include_to_receive,
+                  {id: 'to-receive', :hidden => true} %>
 
 
-  <%= label_tag 'to-pay', 'To pay', class: 'user-label btn' %>
-  <%= check_box_tag "z[to_pay]", true, @search.include_to_pay,
-                { :id => "to-pay", :hidden => true } %>
+    <%= label_tag 'to-pay', 'To pay', class: 'user-label btn' %>
+    <%= check_box_tag "z[to_pay]", true, @search.include_to_pay,
+                  { :id => "to-pay", :hidden => true } %>
+  </div>
 
 
-  <div class="search-button-wrapper">
+  <div class="search-button-wrapper search-intro" data-intro="test2" data-step="2">
     <% other_users(current_user).each do |u| %>
         <%= label_tag "#{u.name}-checkbox", "#{u.name}", class: 'user-label btn' %>
         <%= check_box_tag "z[user_name][]", u.name, user_checkbox_checked?(u.name, @search),
@@ -75,6 +81,10 @@
 
   <div id="clear-button">
     <%= link_to 'Clear', claims_path %>
+  </div>
+
+  <div>
+    <p id='claim-search-intro'>Help</p>
   </div>
 
 <% end %>

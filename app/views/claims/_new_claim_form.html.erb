@@ -4,12 +4,12 @@
       placeholder: 'Title (required)',
       error: false,
       label: false,
-      :input_html =>
-        { :data =>
-          { :'intro' => 'Title of the claim. It is required.',
+      :input_html => {
+        :data => {
+          :'intro' => t('claim-title'),
             :'step' => '1'
-          }
-        }
+          }, :class => 'new-claim-intro'
+      }
   %>
 
   <%= f.input :description,
@@ -22,9 +22,9 @@
           :cols => 50,
           :rows => 3,
           :data => {
-            :intro => 'Short description of the claim. It is optional.',
+            :intro => t('claim-description'),
             :step => '2'
-          }
+          }, :class => 'new-claim-intro'
         }
   %>
 
@@ -34,8 +34,7 @@
       label: false,
       :input_html => {
         :data => {
-          :intro => 'Amount of the claim. Must be a number with between
-           0 and 2 decimal places. It is required.',
+          :intro => t('claim-amount'),
            :step => '3'
         }
       }

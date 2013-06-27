@@ -2,7 +2,7 @@ class UserMailer < ActionMailer::Base
 
   # include Resque::Mailer
 
-  default from: "apartment.com"
+  default from: "apartmentalize.info"
 
   def signup_welcome(user_id)
     user = User.find(user_id)

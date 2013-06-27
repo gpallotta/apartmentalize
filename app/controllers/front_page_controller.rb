@@ -14,4 +14,7 @@ class FrontPageController < ApplicationController
   def welcome
   end
 
+  def about
+  end
+
 end

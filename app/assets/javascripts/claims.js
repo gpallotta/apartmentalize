@@ -116,9 +116,9 @@ function ClaimColor() {
   this.addColorToClaims = function() {
     $('.claim-color').css('background-color', function() {
       if( $(this).closest('td').text().trim() == 'Unpaid') {
-        return 'red';
+        return '#721905';
       } else {
-        return '#015959';
+        return '#2C7C87';
       }
     });
   };

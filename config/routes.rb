@@ -20,5 +20,6 @@ ApartmentV2::Application.routes.draw do
 
   root :to => 'front_page#home', :as => 'home_page'
   match "/welcome" => 'front_page#welcome', :as => 'welcome_page'
+  match "/about" => 'front_page#about', :as => 'about_page'
 
 end

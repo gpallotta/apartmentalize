@@ -67,3 +67,16 @@ $unauth-box-shadow: inset 0px 0px 85px rgba(0,0,0,.5);
   color: red;
   margin-left: 3px;
 }
+
+.front-page-links-wrapper {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+
+.about-wrapper {
+  box-shadow:inset 0px 0px 85px rgba(0,0,0,.5);
+  .about {
+    line-height: 1.5em;
+  }
+}

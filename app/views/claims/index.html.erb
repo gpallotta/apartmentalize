@@ -62,6 +62,14 @@
       var claimColor = new ClaimColor();
       claimColor.addColorToClaims();
 
+      $('#claim-search-intro').on('click', function() {
+        introJs(".search-intro").start();
+      })
+
+      $('#new-claim-intro').on('click', function() {
+        introJs(".new-claim-intro").start();
+      })
+
       $('#new_claim').submit(function(e) {
         e.preventDefault();
         c = new ClaimController();

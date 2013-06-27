@@ -74,7 +74,8 @@ class ClaimsController < ApplicationController
   private
 
   def decorate_claims
-    @claims = PaginatingDecorator.decorate(Kaminari.paginate_array(@claims).page(params[:page]))
+    @claims = PaginatingDecorator.decorate(Kaminari.paginate_array(@claims).
+          page(params[:page]))
   end
 
   def track_activity_for_claim_creation

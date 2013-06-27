@@ -3,3 +3,8 @@
 
 en:
   hello: "Hello world"
+  claim-title: 'Title of the claim. It is required.'
+  claim-description: 'Short description of the claim. It is optional.'
+  claim-amount: 'Amount of the claim. Must be a number with between
+                 0 and 2 decimal places. It is required.'
+

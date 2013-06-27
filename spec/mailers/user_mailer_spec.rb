@@ -13,7 +13,7 @@ describe UserMailer do
     end
 
     it "renders the body and subject" do
-      expect(mail).to have_subject('Welcome to Apartment')
+      expect(mail).to have_subject('Welcome to Apartmentalize')
       expect(mail).to have_body_text('Thanks for signing up')
     end
   end
@@ -36,7 +36,7 @@ describe UserMailer do
     end
 
     it "sends wth the correct subject" do
-      expect(mail).to have_subject('Apartment - Weekly Summary')
+      expect(mail).to have_subject('Apartmentalize - Weekly Summary')
       expect(mail).to have_body_text('Weekly Summary')
     end
 
@@ -84,7 +84,7 @@ describe UserMailer do
     end
 
     it "renders the body and subject" do
-      expect(mail).to have_subject('Apartment - Daily Summary')
+      expect(mail).to have_subject('Apartmentalize - Daily Summary')
       expect(mail).to have_body_text('Daily Summary')
     end
 

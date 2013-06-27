@@ -23,7 +23,7 @@ feature 'User opts in to emails', %{
     expect(user1.reload.receives_weekly_email).to be_true
     SummaryDispatcher::WeeklySummary.send_weekly_summary
     expect(last_email).to deliver_to(user1.email)
-    expect(last_email).to have_subject('Apartment - Weekly Summary')
+    expect(last_email).to have_subject('Apartmentalize - Weekly Summary')
   end
 
   scenario 'user opts in to daily email' do
@@ -33,7 +33,7 @@ feature 'User opts in to emails', %{
     expect(user1.reload.receives_daily_email).to be_true
     SummaryDispatcher::DailySummary.send_daily_summary
     expect(last_email).to deliver_to(user1.email)
-    expect(last_email).to have_subject('Apartment - Daily Summary')
+    expect(last_email).to have_subject('Apartmentalize - Daily Summary')
   end
 
 end

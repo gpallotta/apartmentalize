@@ -11,7 +11,6 @@ gem 'devise_invitable'
 gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'faker'
-gem 'whenever', require: false
 gem 'kaminari'
 gem 'active_model_serializers'
 gem 'roadie'

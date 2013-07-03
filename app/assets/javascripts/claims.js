@@ -10,7 +10,7 @@ function ClaimController() {
     var data_to_post = {
       url:  $('#new_claim').attr('action') + '.json',
       info: $('#new_claim').serialize()
-    }
+    };
     that.claim.createClaims(data_to_post, successCallback, errorCallback);
   };
 

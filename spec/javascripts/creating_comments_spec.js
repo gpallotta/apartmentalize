@@ -10,7 +10,7 @@ describe("creating comments", function() {
     $.ajax.restore();
   });
 
-  var claim_object = {
+  var comment_object = {
     comment: {
       content: 'This is a test',
       parsed_time: 'Today',
@@ -22,11 +22,12 @@ describe("creating comments", function() {
 
   describe("success", function() {
     it("creates a comment and displays it", function() {
-      sinon.stub($, 'ajax').yieldsTo('success', claim_object);
+      sinon.stub($, 'ajax').yieldsTo('success', comment_object);
+      // stub the Ajax call and callback
       $('#comment-form-errors').show();
 
       var comment = new Comment();
-      comment.submitCommentForm($('#new_comment'));
+      comment.submitCommentForm($('#new_comment')); // Ajax call is made in this function
       expect( $('#comment-form-errors').is(":hidden")).to.be.true;
 
       var name = $('.comments-list span:first').text().replace(/\s/g,'');

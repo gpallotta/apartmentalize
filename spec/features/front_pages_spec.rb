@@ -18,7 +18,7 @@ feature "user sees info on front page", %q{
                 user_who_owes: user3, amount: 5.5) }
 
   scenario 'user visits front page' do
-    visit home_page_path
+    visit user_root_path
     expect(page).to have_content(chore.title)
     expect(page).not_to have_content(unrelated_chore.title)
     expect(page).to have_content("Balance for #{user2.name}")

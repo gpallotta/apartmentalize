@@ -43,7 +43,7 @@ describe "signing in" do
 
     it "signs in the user" do
       expect(page).to have_link('Sign out')
-      expect(current_path).to eql(home_page_path)
+      expect(current_path).to eql(user_root_path)
     end
   end
 end

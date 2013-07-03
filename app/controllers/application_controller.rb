@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   def redirect_if_authenticated
     if user_signed_in?
-      redirect_to home_page_path
+      redirect_to user_root_path
     end
   end
 
@@ -27,7 +27,6 @@ class ApplicationController < ActionController::Base
   end
 
   def recipient_for_activity obj
-    # the recipient is the other user in regards to the object
     if obj.user_owed_to.id == current_user.id
       obj.user_who_owes
     else

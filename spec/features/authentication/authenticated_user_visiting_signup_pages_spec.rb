@@ -61,7 +61,7 @@ describe "an authenticated user visiting the signup pages" do
    end
 
   def expect_redirect_to_home_path
-    expect(current_path).to eql(home_page_path)
+    expect(current_path).to eql(user_root_path)
   end
 
 end

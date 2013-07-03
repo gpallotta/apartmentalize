@@ -30,7 +30,7 @@ feature 'user viewing information', %q{
     sign_out user
     sign_in user2
     visit user_path(user)
-    expect(current_path).to eql home_page_path
+    expect(current_path).to eql user_root_path
   end
 
 end

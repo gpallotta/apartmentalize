@@ -4,6 +4,7 @@
     border-bottom: 1px solid black;
   }
   .btn-large {
+    background-color: #27AE60;
     margin-top: 10px;
   }
   .contact-info {
@@ -36,4 +37,9 @@
   .invitations {
     margin: 10px 0;
   }
+}
+
+#invitation-button {
+  background-color: #27AE60;
+  padding: 10px;
 }

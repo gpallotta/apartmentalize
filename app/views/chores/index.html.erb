@@ -2,18 +2,20 @@
   <div class="span8 offset2">
     <div class="chore-box well">
 
-      <h2>
+      <h1>
         Chores for the week of
-          <%= Date.today.beginning_of_week.strftime("%b %d") %>
-      </h2>
+          <span id="chore-week"> <%= Date.today.beginning_of_week.strftime("%b %d") -%> </span>
+      </h1>
 
-      <table class="table">
-        <tr>
-          <td>Name</td>
-          <td>Title</td>
-          <td>Description</td>
-          <td></td>
-        </tr>
+      <table class="table" id="chores-table">
+        <thead>
+          <tr>
+            <th>Assigned to</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th></th>
+          </tr>
+        </thead>
 
         <% @chores.each do |c| %>
           <tr>

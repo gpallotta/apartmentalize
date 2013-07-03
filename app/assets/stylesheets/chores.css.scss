@@ -1,4 +1,9 @@
 .chore-box {
+  #chore-week {
+    display: inline-block;
+    margin-left: 10px;
+    color: #27AE60;
+  }
   .control-group {
     display: inline-block;
     #chore_title {
@@ -12,4 +17,26 @@
     margin-bottom: 0;
   }
 
+
+}
+
+#dk_container_chore_user_id {
+  margin-bottom: 0;
+}
+
+#chores-table {
+  th {
+    font-size: 20px;
+  }
+}
+
+#new_chore {
+  input {
+    margin-right: 10px;
+  }
+  input.btn {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #27AE60;
+  }
 }

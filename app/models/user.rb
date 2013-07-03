@@ -49,6 +49,10 @@ class User < ActiveRecord::Base
     Claim.where("user_who_owes_id = ? or user_owed_to_id = ?", id, id)
   end
 
+  def unpaid_claims
+    Claim.where("(user_who_owes_id = ? or user_owed_to_id = ?) and paid = false", id, id)
+  end
+
   def register
     if save
       UserMailer.signup_welcome(id).deliver

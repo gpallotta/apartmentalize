@@ -24,6 +24,14 @@ describe User do
       end
     end
 
+    describe ".unpaid_claims" do
+      it "returns unpaid claims related to the user" do
+        c2.update_attributes(paid: true)
+        expect(user1.unpaid_claims).to include(c1)
+        expect(user1.unpaid_claims).not_to include(c2)
+      end
+    end
+
     describe '.claims_to_receive' do
       it "returns claims that are owed to you" do
         expect(user1.claims_to_receive).to include(c1)

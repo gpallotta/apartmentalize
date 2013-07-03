@@ -1,3 +1,5 @@
+<% title 'Apartmentalize - forgot your password?' %>
+
 <div class="span4 offset4">
 <div class="well sign-in-wrapper">
 
@@ -9,7 +11,7 @@
   <div><%= f.label :email %><br />
   <%= f.email_field :email, :autofocus => true %></div>
 
-  <div><%= f.submit "Send me reset password instructions" %></div>
+  <div><%= f.submit "Send reset instructions", class: 'btn' %></div>
 <% end %>
 
 <%= render "devise/shared/links" %>

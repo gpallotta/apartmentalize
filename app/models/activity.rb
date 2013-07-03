@@ -1,4 +1,5 @@
 class Activity < ActiveRecord::Base
+
   belongs_to :owner,
     class_name: 'User',
     foreign_key: 'owner_id',
@@ -16,4 +17,5 @@ class Activity < ActiveRecord::Base
   validates_presence_of :trackable
 
   attr_accessible :action, :trackable_type, :trackable
+
 end

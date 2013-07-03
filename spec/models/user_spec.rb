@@ -94,7 +94,7 @@ describe User do
       end
 
       context "activities_as_recipient" do
-        it { should have_many(:activities_as_recipient)}
+        it { should have_many(:activities_as_recipient).dependent(:destroy) }
       end
     end
 
@@ -120,7 +120,7 @@ describe User do
     context "comments" do
       let(:com1) { FactoryGirl.create(:comment, claim: c1, user: user1) }
       let(:com2) { FactoryGirl.create(:comment, claim: c1, user: user2) }
-      it { should have_many(:comments) }
+      it { should have_many(:comments).dependent(:destroy) }
       it "returns comments which belong to the user" do
         expect(user1.comments).to include(com1)
         expect(user1.comments).not_to include(com2)

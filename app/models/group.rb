@@ -1,9 +1,18 @@
 class Group < ActiveRecord::Base
   before_validation :create_identifier
 
-  has_many :users, dependent: :destroy, inverse_of: :group
-  has_many :chores, dependent: :destroy, inverse_of: :group
-  has_many :managers, dependent: :destroy, inverse_of: :group
+  has_many :users,
+            dependent: :destroy,
+            inverse_of: :group
+
+  has_many :chores,
+            dependent: :destroy,
+            inverse_of: :group
+
+  has_many :managers,
+            dependent: :destroy,
+            inverse_of: :group
+
 
   validates_presence_of :identifier
   validates_uniqueness_of :identifier

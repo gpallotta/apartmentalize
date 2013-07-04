@@ -25,6 +25,7 @@ feature "user sees info on front page", %q{
     expect(page).to have_content("Balance for #{user3.name}")
     expect(page).to have_content(cl.amount - cl2.amount)
     expect(page).to have_content(cl3.amount)
+    expect(page).to have_content(cl.amount - cl2.amount + cl3.amount)
   end
 
 end

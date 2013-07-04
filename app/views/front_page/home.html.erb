@@ -1,4 +1,4 @@
-<% title 'Apartmentalize - Home page' %>
+<% page_title 'Apartmentalize - Home page' %>
 
 <div class="row">
 
@@ -32,12 +32,18 @@
         </table>
       </li>
 
-        <% other_users(current_user).each do |u| %>
       <li class="well">
-        <h6>Balance for <%= u.name %></h6>
-        <p><%= @balances[u.name] %></p>
+        <h6>Total Balance</h6>
+        <p><%= @total %></p>
       </li>
-        <% end %>
+
+
+      <% other_users(current_user).each do |u| %>
+        <li class="well">
+          <h6>Balance for <%= u.name %></h6>
+          <p><%= @balances[u.name] %></p>
+        </li>
+      <% end %>
     </ul>
   </div>
 

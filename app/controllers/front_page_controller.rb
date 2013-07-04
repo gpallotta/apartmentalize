@@ -4,7 +4,9 @@ class FrontPageController < ApplicationController
   before_filter :authenticate_user!, only: [:home]
 
   def home
-    @balances = ClaimBalance.new(current_user, current_user.unpaid_claims).user_balances
+    c = ClaimBalance.new(current_user, current_user.unpaid_claims)
+    @balances = c.user_balances
+    @total = c.total
     @activities = current_user.activities_as_recipient.order("created_at DESC").limit(10)
   end
 

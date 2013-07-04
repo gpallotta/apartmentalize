@@ -27,7 +27,7 @@ module ApplicationHelper
     params[:direction] || "desc"
   end
 
-  def title(page_title)
+  def page_title(page_title)
     content_for :title, page_title.to_s
   end
 

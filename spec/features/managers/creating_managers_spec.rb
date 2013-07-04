@@ -33,7 +33,7 @@ describe "creating a new manager" do
       fill_in 'Title', with: 'Awesome Dude'
       fill_in 'manager_name', with: 'Dude'
       fill_in 'Address', with: '123 Blueberry Lane'
-      fill_in 'Phone Number', with: '1234567890'
+      fill_in 'manager_phone_number', with: '1234567890'
       expect { click_button 'Create' }.to change { Manager.count }.by(1)
       expect(page).to have_content('Awesome Dude')
     end

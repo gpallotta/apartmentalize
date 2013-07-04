@@ -6,3 +6,47 @@
   font-size: 12px;
   border-radius: 5px;
 }
+
+#group-info {
+  h1 {
+    padding-bottom: 5px;
+    border-bottom: 1px solid black;
+  }
+  .btn {
+    background-color: #27AE60;
+  }
+  .identifier {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    p {
+      margin-left: 8px;
+      display: inline-block;
+      font-size: 15px;
+    }
+  }
+  .members {
+    border-bottom: 1px solid black;
+  }
+  .invitations {
+    border-bottom: 1px solid black;
+    padding-bottom: 10px;
+    margin: 10px 0;
+  }
+  .important-people {
+    table {
+      margin-bottom: 0;
+    }
+  }
+}
+
+
+.receive-email-checkbox {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+#cancel-wrapper {
+  background-color: white;
+  padding: 10px;
+  margin-bottom: 10px;
+}

@@ -13,6 +13,10 @@ class ManagersController < ApplicationController
     end
   end
 
+  def show
+    @manager = Manager.find(params[:id])
+  end
+
   def edit
     @manager = Manager.find_by_id(params[:id])
   end

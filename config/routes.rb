@@ -15,7 +15,7 @@ ApartmentV2::Application.routes.draw do
     put :mark_as_paid, :on => :member
   end
   resources :users, :only => [:show]
-  resources :managers, :except => [:index, :show]
+  resources :managers, :except => [:index]
   resources :comments, :only => [:create, :edit, :update, :destroy]
 
   # root :to => 'front_page#home', :as => 'home_page'

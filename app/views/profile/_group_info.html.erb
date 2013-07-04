@@ -42,9 +42,6 @@
               <tr>
                 <th>Title</th>
                 <th>Name</th>
-                <th>Email</th>
-                <th>Address</th>
-                <th>Phone Number</th>
                 <th></th>
               </tr>
             </thead>
@@ -52,10 +49,7 @@
               <% @group.managers.each do |m| %>
                   <td><%= m.title %></td>
                   <td><%= m.name %></td>
-                  <td><%= m.email %></td>
-                  <td><%= m.address %></td>
-                  <td><%= m.phone_number %></td>
-                  <td><%= link_to 'Edit', edit_manager_path(m) %></td>
+                  <td><%= link_to 'View info', manager_path(m) %></td>
               <% end %>
             </tr>
           </table>

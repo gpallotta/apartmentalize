@@ -1,0 +1,25 @@
+<div class="span10 offset1">
+  <div class="well">
+    <h1>Detailed info</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Phone Number</th>
+        </tr>
+      </thead>
+
+      <tr>
+        <td> <%= @manager.title %></td>
+        <td> <%= @manager.name%> </td>
+        <td> <%= @manager.email%> </td>
+        <td> <%= @manager.address%> </td>
+        <td> <%= @manager.phone_number%> </td>
+      </tr>
+    </table>
+    <%= link_to 'Edit', edit_manager_path(@manager), class: 'btn' %>
+  </div>
+</div>

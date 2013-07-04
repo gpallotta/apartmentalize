@@ -19,6 +19,13 @@ $unauth-box-shadow: inset 0px 0px 85px rgba(0,0,0,.5);
   p {
     font-size: 18px;
   }
+  .about {
+    font-size: 12px;
+    color: white;
+  }
+  .about:hover {
+    color: #20ae60;
+  }
 }
 
 
@@ -70,15 +77,6 @@ $unauth-box-shadow: inset 0px 0px 85px rgba(0,0,0,.5);
   color: red;
   margin-left: 3px;
 }
-
-.front-page-links-wrapper {
-  margin-top: 10px;
-  font-size: 16px;
-  a {
-    color: white;
-  }
-}
-
 
 .about-wrapper {
   box-shadow:inset 0px 0px 85px rgba(0,0,0,.5);

@@ -1,8 +1,8 @@
 <% title 'Apartmentalize - Edit chore' %>
 
 <div class="row">
-  <div class="span6 offset3">
-    <div class="chore-box well">
+  <div class="span4 offset4">
+    <div class="well">
       <%= simple_form_for(@chore) do |f| %>
         <%= f.input :title, error: false, value: @chore.title %>
         <%= f.input :description, error: false, value: @chore.description %>

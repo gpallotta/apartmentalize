@@ -39,14 +39,15 @@
   }
 }
 
-
-.receive-email-checkbox {
-  display: inline-block;
-  margin-right: 10px;
-  margin-bottom: 10px;
+#new_manager .btn {
+  background-color: #27AE60;
+  padding: 5px 10px;
 }
-#cancel-wrapper {
-  background-color: white;
-  padding: 10px;
-  margin-bottom: 10px;
+
+.edit-manager-button, .save-manager-button {
+  background-color: #27AE60;
+}
+
+.save-manager-button {
+  display: block;
 }

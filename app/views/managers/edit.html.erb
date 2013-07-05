@@ -7,10 +7,12 @@
         <%= f.input :email, error: false, value: @manager.email %>
         <%= f.input :address, error: false, value: @manager.address %>
         <%= f.input :phone_number, error: false, value: @manager.phone_number %>
-        <%= f.button :submit, 'Save Changes', class: 'btn btn-large btn-primary' %>
+        <%= f.button :submit, 'Save Changes',
+              class: 'btn btn-large save-manager-button' %>
       <% end %>
 
-      <%= link_to 'Delete', manager_path(@manager), method: 'delete', confirm: 'Are you sure?' %>
+      <%= link_to 'Delete', manager_path(@manager), method: 'delete',
+              confirm: 'Are you sure?' %>
 
     </div>
   </div>

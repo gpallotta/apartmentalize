@@ -4,10 +4,13 @@
   <div class="span4 offset4">
     <div class="well">
       <%= simple_form_for(@chore) do |f| %>
-        <%= f.input :title, error: false, value: @chore.title %>
-        <%= f.input :description, error: false, value: @chore.description %>
+        <%= f.input :title, error: false, value: @chore.title, required: false,
+              label: 'Title (required)' %>
+        <%= f.input :description, error: false, value: @chore.description, required: false,
+              label: 'Description (required)' %>
         <%= f.association :user, collection: current_user.group.users,
-                :wrapper_html => { class: 'select-wrapper'} %>
+                :wrapper_html => { class: 'select-wrapper'}, required: false,
+                label: 'User (required)' %>
         <%= f.button :submit, 'Save changes', class: 'btn btn-large btn-primary' %>
       <% end %>
 

@@ -35,8 +35,29 @@
   }
 }
 
-.edit-chore {
+.edit_chore {
   input {
-    display: block;
+    display: inline-block;
   }
+}
+
+.select-wrapper .controls {
+  display: inline-block;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #27AE60 url(asset-path('select/toggle.png', image)) no-repeat right center;
+  margin-bottom: 15px;
+}
+
+#chore_user_id {
+  color: white;
+  margin-bottom: 0;
+  background: transparent;
+  width: 145px;
+  height: 40px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  -webkit-appearance: none;
 }

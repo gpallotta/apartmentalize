@@ -34,7 +34,8 @@
           <%= f.input :title, label: false, placeholder: 'Title', error: false %>
           <%= f.input :description, label: false, placeholder: 'Description', error: false %>
           <%= f.association :user, collection: current_user.group.users,
-                      label: false, prompt: 'Select User' %>
+                      label: false, prompt: 'Select User',
+                      :wrapper_html => {class: 'select-wrapper'} %>
         </div>
         <%= f.button :submit %>
       <% end %>

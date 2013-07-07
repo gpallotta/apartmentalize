@@ -19,6 +19,7 @@ gem 'draper', '~> 1.0'
 gem 'timecop'
 gem 'resque'
 gem 'resque_mailer'
+gem 'newrelic_rpm'
 
 # Gems used only for assets and not required
 # in production environments by default.

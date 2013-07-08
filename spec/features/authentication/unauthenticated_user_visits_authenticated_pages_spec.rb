@@ -1,91 +1,58 @@
-######################
-
-# As an authenticated user
-# I want to be redirected to the sign in page when I visit pages which require me to be authenticated
-# so that I don't see things I'm not supposed to or cause errors
-
-# Acceptance Criteria
-# I cannot visit the claim, home, comment, or user/group info pages if I am not authenticated
-# I am redirected back to the welcome page
-
-######################
-
 require 'spec_helper'
 
-describe "an unauthenticated user visiting pages which need authentication" do
+feature 'an unauthenticated user visiting pages which need authentication', %q{
+  As an authenticated user
+  I want to be redirected to the sign in page when I visit pages which require me to be authenticated
+  so that I don't see things I'm not supposed to or cause errors
+} do
 
-  describe "claim pages" do
-    context "claims_path" do
-      it "redirects back to the sign in page" do
-        visit claims_path
-        expect(current_path).to eql(new_user_session_path)
-      end
-    end
+  # AC
+  # I cannot visit the claim, home, comment, or user/group info pages if I am not authenticated
+  # I am redirected back to the welcome page
+
+  scenario 'unauthenticated user visits claims index page' do
+    visit claims_path
+    expect(current_path).to eql(new_user_session_path)
   end
 
-  describe "group pages" do
-    context "group_path(group)" do
-      let!(:group) { FactoryGirl.create(:group) }
-      it "redirects back to the sign in page" do
-        visit group_path(group)
-        expect(current_path).to eql(new_user_session_path)
-      end
-    end
+  scenario 'unauthenticated user visits group page' do
+    group = FactoryGirl.create(:group)
+    visit group_path(group)
+    expect(current_path).to eql(new_user_session_path)
   end
 
-  describe "user pages" do
-    let!(:user) { FactoryGirl.create(:user) }
-    context "user_path" do
-      it "redirects back to the sign in page" do
-        visit user_path(user)
-        expect(current_path).to eql(new_user_session_path)
-      end
-    end
-
-    context "edit_user_path" do
-      before { visit edit_user_registration_path(user) }
-      it "displays a message telling the user they need to log in" do
-        visit edit_user_registration_path(user)
-        expect(page).to have_content('You need to sign in or sign up')
-      end
-      it "display content from the edit page" do
-        expect(page).not_to have_content('Edit User')
-      end
-    end
+  scenario 'unauthenticated user visits user profile page' do
+    user = FactoryGirl.create(:user)
+    visit user_path(user)
+    expect(current_path).to eql(new_user_session_path)
   end
 
-  describe "help page" do
-    it "redirects to the sign in page" do
-      visit help_page_path
-      expect(current_path).to eql(new_user_session_path)
-    end
+  scenario 'unauthenticated user visits edit user page' do
+    user = FactoryGirl.create(:user)
+    visit edit_user_registration_path(user)
+    expect(page).to have_content('You need to sign in or sign up')
   end
 
-  describe "chore pages" do
-    let!(:chore) { FactoryGirl.create(:chore)}
-    context "chores_path" do
-      it "redirects back to the sign in page" do
-        visit chores_path
-        expect(current_path).to eql(new_user_session_path)
-      end
-    end
-    context "edit_chore_path" do
-      it "redirects back to the sign in page" do
-        visit edit_chore_path(chore)
-        expect(current_path).to eql(new_user_session_path)
-      end
-    end
+  scenario 'unauthenticated user visits help page' do
+    visit help_page_path
+    expect(current_path).to eql(new_user_session_path)
   end
 
-  describe "redirection after sign in" do
-    let!(:user) { FactoryGirl.create(:user) }
-    it "redirects the user to the page they originally intended to visit" do
-      visit claims_path
-      fill_in 'user_email', with: user.email
-      fill_in 'user_password', with: user.password
-      click_button 'Sign in'
-      expect(current_path).to eql(claims_path)
-    end
+  scenario 'unauthenticated user visits chore pages' do
+    visit chores_path
+    expect(current_path).to eql(new_user_session_path)
+    chore = FactoryGirl.create(:chore)
+    visit edit_chore_path(chore)
+    expect(current_path).to eql(new_user_session_path)
+  end
+
+  scenario 'user signs in and is redirect to original target page' do
+    user = FactoryGirl.create(:user)
+    visit claims_path
+    fill_in 'user_email', with: user.email
+    fill_in 'user_password', with: user.password
+    click_button 'Sign in'
+    expect(current_path).to eql(claims_path)
   end
 
 end

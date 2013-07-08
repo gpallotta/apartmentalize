@@ -11,12 +11,9 @@ feature 'user viewing information', %q{
 
   given(:user) { FactoryGirl.create(:user) }
 
-  before do
+  scenario 'user visits profile page' do
     sign_in user
     visit user_path(user)
-  end
-
-  scenario 'user visits profile page' do
     expect(page).to have_content(user.name)
     expect(page).to have_content(user.email)
     expect(page).to have_content(user.group.identifier)
@@ -27,7 +24,6 @@ feature 'user viewing information', %q{
 
   scenario 'user visits profile page of another user' do
     user2 = FactoryGirl.create(:user)
-    sign_out user
     sign_in user2
     visit user_path(user)
     expect(current_path).to eql user_root_path

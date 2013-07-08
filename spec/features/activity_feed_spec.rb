@@ -7,22 +7,19 @@ feature 'activity feed', %q{
 } do
 
 
-# AC:
-# I see a feed of the most recent activity
-# The feed includes creating and deleting debts, marking paid, and commenting
-# I do not see my activity on the news feed
-# Items which are older are not displayed
-# I do not see items not related to me listed in the feed
-
+  # AC:
+  # I see a feed of the most recent activity
+  # The feed includes creating and deleting debts, marking paid, and commenting
+  # I do not see my activity on the news feed
+  # Items which are older are not displayed
+  # I do not see items not related to me listed in the feed
 
   let(:group) { FactoryGirl.create(:group) }
   let!(:user1) { FactoryGirl.create(:user, group: group) }
   let!(:user2) { FactoryGirl.create(:user, group: group) }
   let!(:user3) { FactoryGirl.create(:user, group: group) }
 
-  before(:each) {
-    sign_in user2
-  }
+  before(:each) { sign_in user2 }
 
   scenario 'activity not related to the user' do
     c = FactoryGirl.create(:claim, user_owed_to: user2, user_who_owes: user3)
@@ -85,8 +82,6 @@ feature 'activity feed', %q{
     expect(page).not_to have_content("#{user2.name} created a new claim for Title 0")
   end
 
-
-  # helpers
 
   def switch_to_user1
     sign_out user2

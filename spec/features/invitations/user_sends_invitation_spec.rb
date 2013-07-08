@@ -1,22 +1,24 @@
 require 'spec_helper'
 
-feature 'User sends invitation', %q{
+feature 'sending an invitation to the site', %q{
   As a user signing up
-  I want to be able to invite my roommates after I sign up
-  so I can invite then to use the site with me
+  I want to be able to send an invitation to the site to my roommates
+  so that I can streamline the joining process
 } do
 
-# AC:
-# I am taken to a page where I can enter my roommates emails after I sign up
+  # AC:
+  # I can send an email to my roommates inviting them to join the site
+  # They are automatically linked up to my group
 
-  let(:user) { FactoryGirl.create(:user) }
+  given(:user) { FactoryGirl.create(:user) }
+
   before do
     sign_in user
     visit user_path(user)
     click_link 'Send an invitation'
   end
 
-  scenario 'user enters valid info' do
+  scenario 'user sends valid invitation' do
     fill_in 'Name', with: 'Cool dude'
     fill_in 'Email', with: 'email@email.com'
     before_count = User.count
@@ -25,7 +27,7 @@ feature 'User sends invitation', %q{
     expect(current_path).to eql( user_path(user) )
   end
 
-  scenario 'user enters invalid info' do
+  scenario 'user sends invalid invitation' do
     before_count = User.count
     click_button 'Send an invitation'
     expect(User.count).to eql(before_count)

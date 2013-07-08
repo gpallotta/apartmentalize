@@ -1,15 +1,3 @@
-##############
-
-
-
-# AC:
-# I can edit my information
-# The new information is reflected in my account
-
-##############
-#
-
-
 require 'spec_helper'
 
 feature 'editing user information', %q{
@@ -17,6 +5,10 @@ feature 'editing user information', %q{
   I want to be able to edit my information
   so I can update it as necessary
 } do
+
+  # AC:
+  # I can edit my information
+  # The new information is reflected in my account
 
   given(:user) { FactoryGirl.create(:user) }
 

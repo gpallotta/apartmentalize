@@ -9,13 +9,14 @@ feature 'User receives invitation', %q{
 include EmailSpec::Helpers
 include EmailSpec::Matchers
 
-# AC
-# * I receive an email sent by my roommate to the specific email
-# * When I click a link in the email, I am automatically associated with my roommates
-# * I can specify a name and password after I click the link
+  # AC
+  # I receive an email sent by my roommate to the specific email
+  # When I click a link in the email, I am automatically associated with my roommates
+  # I can specify a name and password after I click the link
 
-  let(:inviter) { FactoryGirl.create(:user) }
-  let(:email) { 'room@room.com'}
+  given(:inviter) { FactoryGirl.create(:user) }
+  given(:email) { 'room@room.com'}
+
   before do
     sign_in inviter
     visit new_user_invitation_path

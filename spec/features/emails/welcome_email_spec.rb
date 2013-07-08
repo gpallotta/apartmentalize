@@ -1,23 +1,19 @@
-###############
-
-# As a user
-# I want to receive a welcome email when I sign up
-# so I know my signup was successful
-
-# AC:
-# I receive an email after I sign up for the site
-# The email is sent to the address I provide
-
-###############
-
 require 'spec_helper'
 
-describe "user receiving a welcome email" do
+feature 'welcome email', %q{
+  As a user
+  I want to receive a welcome email when I sign up
+  so I know my signup was successful
+} do
+
+  # AC:
+  # I receive an email after I sign up for the site
+  # The email is sent to the address I provide
 
   include EmailSpec::Helpers
   include EmailSpec::Matchers
 
-  it "emails the user after they sign up" do
+  scenario "user signs up and receives email" do
     visit new_group_path
     click_button 'Create New Group'
     fill_in 'Name', with: 'Greg'

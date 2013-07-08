@@ -12,4 +12,13 @@ describe Seeders::Users do
     expect(User.count).not_to eql(user_count)
   end
 
+  it 'can be run multiple times without duplication' do
+    seeder.seed
+    user_count = User.count
+    group_count = Group.count
+    seeder.seed
+    expect(User.count).to eq(user_count)
+    expect(Group.count).to eq(group_count)
+  end
+
 end

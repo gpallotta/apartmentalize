@@ -45,13 +45,13 @@
                 <th></th>
               </tr>
             </thead>
-            <tr>
               <% @group.managers.each do |m| %>
+                <tr>
                   <td><%= m.title %></td>
                   <td><%= m.name %></td>
                   <td><%= link_to 'View info', manager_path(m) %></td>
+                </tr>
               <% end %>
-            </tr>
           </table>
           <%= link_to 'Add', new_manager_path, class: 'btn' %>
 

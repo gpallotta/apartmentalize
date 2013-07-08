@@ -47,7 +47,8 @@ module Seeders
 
       def create_claim(user_owed_to, user_who_owes, amount, title,
           paid=false, description='')
-        c = Claim.new(title: title, amount: amount, description: description)
+        c = Claim.new(title: title, amount: amount, description: description,
+                        paid: paid)
         c.user_owed_to = user_owed_to
         c.user_who_owes = user_who_owes
         c.save

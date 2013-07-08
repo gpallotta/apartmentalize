@@ -9,3 +9,5 @@
 Seeders::Users.seed
 Seeders::Chores.seed
 Seeders::Claims.seed
+Seeders::Comments.seed
+Seeders::Managers.seed

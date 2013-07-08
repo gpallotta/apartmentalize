@@ -10,11 +10,12 @@
       <li><%= link_to 'Getting started', '#getting-started' %></li>
       <li><%= link_to 'Creating chores', '#creating-chores' %></li>
       <li><%= link_to 'Cycling chores', '#cycling-chores' %></li>
-      <li><%= link_to 'Creating claims', '#creatimg-claims' %></li>
+      <li><%= link_to 'Creating claims', '#creating-claims' %></li>
       <li><%= link_to 'Marking claims as paid', '#marking-claim-paid' %></li>
       <li><%= link_to 'Editing claims', '#editing-claims' %></li>
       <li><%= link_to 'Commenting on a claim', '#commenting-on-claim' %></li>
       <li><%= link_to 'Viewing claims', '#viewing-claims' %></li>
+      <li><%= link_to 'Viewing claim balances', '#viewing-balances' %></li>
       <li><%= link_to 'Searching claims', '#searching-claims' %></li>
       <li><%= link_to 'Sorting claims', '#sorting-claims' %></li>
       <li><%= link_to 'Email summaries', '#email-summaries' %></li>
@@ -138,6 +139,41 @@
       </p>
       <p>
         <%= link_to 'Back to top', '#top' %>
+      </p>
+    </div>
+
+    <div id="viewing-balances">
+      <h2>Viewing claim balances</h2>
+
+      <p>
+        Apartmentalize calculates the effective balance between you and a user.
+        The effective balance is simply the sum of the money that user owes you
+        minus the sum of the money that you owe that user. The balance is
+        displayed in two places, on the
+        <%= link_to 'home page', user_root_path %> and on the
+        <%= link_to'main claims page', claims_path %>. On the main claims page,
+        the balances are displayed in this format, visible in the top left
+        corner:
+      </p>
+
+      <p>
+        <%= image_tag 'balances.png' %>
+      </p>
+
+      <p>
+        A negative balance indicates that you owe that person money; a positive
+        balance indicates that the user owes money to you. In the example above,
+        user2 owes you a total of $45.01. Any new claims they create will cause
+        that number to become lower. The total balance is the sum of the
+        balances across all users.
+      </p>
+
+      <p>
+        Note that the balance on the claims page is calculated from the claims
+        that are currently being displayed. This means that if paid claims are
+        included in a search, they will factor into the balance displayed with
+        the results. The balances displayed on the home page only factor in
+        claims that have not been paid.
       </p>
     </div>
 

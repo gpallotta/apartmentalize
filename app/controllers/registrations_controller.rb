@@ -27,8 +27,6 @@ class RegistrationsController < Devise::RegistrationsController
   def destroy
     current_user.destroy
     redirect_to welcome_page_path
-    # puts 'hi'
-    # super
   end
 
   protected

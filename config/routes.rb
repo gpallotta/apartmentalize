@@ -22,7 +22,7 @@ Apartmentalize::Application.routes.draw do
   # match "/welcome" => 'front_page#welcome', :as => 'welcome_page'
   root :to => 'front_page#welcome', :as => 'welcome_page'
   match "/home" => 'front_page#home', :as => 'user_root'
-
   match "/about" => 'front_page#about', :as => 'about_page'
+  match "/help" => 'front_page#help', :as => 'help_page'
 
 end

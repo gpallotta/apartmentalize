@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-ApartmentV2::Application.load_tasks
+Apartmentalize::Application.load_tasks

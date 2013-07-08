@@ -9,7 +9,7 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
-module ApartmentV2
+module Apartmentalize
   class Application < Rails::Application
 
 

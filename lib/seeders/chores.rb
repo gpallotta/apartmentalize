@@ -13,6 +13,7 @@ module Seeders
           c.group = group
           c.user = u
           c.save
+          i += 1
         end
       end
 

@@ -1,405 +1,207 @@
-######################
-
-# As a user
-# I want to be able to search through debts
-# so I can look for specific information
-
-# AC:
-# I can search on debt title
-# I can search on debt amount
-# I can search on debt paid status
-# I can search on roommates
-# I can combine search filters
-
-######################
-
-
 require 'spec_helper'
 
-describe "searching claims" do
+feature "searching claims", %q{
+  As a user
+  I want to be able to search through debts
+  so I can look for specific information
+} do
+
+  # AC:
+  # I can search on debt title
+  # I can search on debt amount
+  # I can search on debt paid status
+  # I can search on roommates
+  # I can combine search filters
 
   extend ClaimsHarness
   create_factories_and_sign_in
 
-  before { visit claims_path }
+  before(:each) { visit claims_path }
 
-  let!(:cl3) { FactoryGirl.create(:claim, user_owed_to: user1,
-                user_who_owes: user2, paid: true)}
-  let!(:unrelated_cl) { FactoryGirl.create(:claim, user_owed_to: user2,
-                  user_who_owes: user3) }
-
-  describe "persisting searches between requests" do
-    before do
-      fill_in 'z_title_or_description_cont', with: 'match'
-      fill_in 'z_amount_min', with: 1
-      fill_in 'z_amount_max', with: 2
-      check("#{user3.name}-checkbox")
-      check("paid-checkbox")
-      check("unpaid-checkbox")
-      check("To receive")
-      check("To pay")
-      click_button 'Search Claims'
-      click_button 'Search Claims'
-    end
-    it "maintains form selections after search is performed" do
-      expect( find_field('z_title_or_description_cont').value).to eql 'match'
-      expect( find_field('z_amount_min').value).to eql '1'
-      expect( find_field('z_amount_max').value).to eql '2'
-      expect( find("##{user3.name}-checkbox") ).to be_checked
-      expect( find("#paid-checkbox") ).to be_checked
-      expect( find("#unpaid-checkbox") ).to be_checked
-      expect( find("#to-receive") ).to be_checked
-      expect( find("#to-pay") ).to be_checked
-    end
+  scenario 'user searches on title/description' do
+    cl3 = FactoryGirl.create(:claim, user_owed_to: user1,
+                      user_who_owes: user2, description: 'match')
+    cl2.update_attributes(title: 'match')
+    fill_in 'z_title_or_description_cont', with: 'match'
+    click_button 'Search Claims'
+    expect(page).to have_content(cl2.title)
+    expect(page).to have_content(cl3.title)
+    expect(page).not_to have_content(cl.title)
   end
 
-  describe "persisting search when sorting is changed" do
-    let!(:search_cl_1) { FactoryGirl.create(:claim, user_owed_to: user1,
-                  user_who_owes: user2, amount: 2) }
-    let!(:search_cl_2) { FactoryGirl.create(:claim, user_owed_to: user1,
-                  user_who_owes: user2, amount: 1) }
-    before do
-      visit claims_path
-      fill_in 'z_amount_max', with: 3
-      click_button 'Search Claims'
-    end
-
-    it "does not reset the search when a sort link is clicked" do
-      click_link 'Amount'
-      expect(page).not_to have_content(cl.title)
-      expect(page).not_to have_content(cl2.title)
-      expect(page.body.index(search_cl_2.title)).to be < page.body.index(search_cl_1.title)
-    end
-
+  scenario 'user searches on amount less than' do
+    cl.update_attributes(amount: 3)
+    fill_in 'z_amount_max', with: 5
+    click_button 'Search Claims'
+    expect(page).to have_content(cl.title)
   end
 
-  describe "resetting the search" do
-    before do
-      fill_in 'z_title_or_description_cont', with: 'sfsdsdfl'
-      click_button 'Search Claims'
-      click_link 'Clear'
-    end
-    it "resets the search to the default" do
-      expect(page).to have_content(cl.title)
-      expect(page).to have_content(cl2.title)
-    end
+  scenario 'user searches on amount greater than' do
+    cl.update_attributes(amount: 50)
+    fill_in 'z_amount_min', with: 44
+    click_button 'Search Claims'
+    expect(page).to have_content(cl.title)
   end
 
-  context "searching by title or description" do
-    let!(:cl_title) { FactoryGirl.create(:claim, user_owed_to: user1,
-                      user_who_owes: user2, title: 'match')}
-    let!(:cl_desc) { FactoryGirl.create(:claim, user_who_owes: user1,
-                      user_owed_to: user2, description: 'match')}
-    let!(:unrelated_cl) { FactoryGirl.create(:claim, user_owed_to: user2,
-                    user_who_owes: user3) }
-    before do
-      fill_in 'z_title_or_description_cont', with: 'match'
-      click_button 'Search Claims'
-    end
-
-    it "only returns results which match the string" do
-      expect(page).to have_content(cl_title.title)
-      expect(page).to have_content(cl_desc.title)
-      expect(page).not_to have_content(cl3.title)
-      expect_unrelated_claims_to_not_be_shown
-    end
+  scenario 'user searches for an amount between' do
+    cl.update_attributes(amount: 50)
+    fill_in 'z_amount_min', with: 49
+    fill_in 'z_amount_max', with: 51
+    click_button 'Search Claims'
+    expect(page).to have_content(cl.title)
   end
 
-  context "searching by amount" do
-    let!(:cl_amount) { FactoryGirl.create(:claim, user_owed_to: user1,
-                      user_who_owes: user2, amount: 3)}
-
-    context "less than" do
-      before do
-        fill_in 'z_amount_max', with: 5
-        click_button 'Search Claims'
-      end
-      it "only returns results which match the amounts" do
-        expect(page).to have_content(cl_amount.title)
-        expect(page).not_to have_content(cl.title)
-        expect_unrelated_claims_to_not_be_shown
-      end
-    end
-
-    context "greater than" do
-      let!(:cl_amount) { FactoryGirl.create(:claim, user_owed_to: user1,
-                      user_who_owes: user2, amount: 45)}
-      before do
-        fill_in 'z_amount_min', with: 44
-        click_button 'Search Claims'
-      end
-      it "only returns results which match the amounts" do
-        expect(page).to have_content(cl_amount.title)
-        expect(page).not_to have_content(cl.title)
-        expect_unrelated_claims_to_not_be_shown
-      end
-    end
+  scenario 'user searches for claims they owe' do
+    check('To pay')
+    click_button 'Search Claims'
+    expect(page).to have_content(cl2.title)
+    expect(page).not_to have_content(cl.title)
   end
 
-  context "paid status" do
-
-    context "including paid claims" do
-      before do
-        check('paid-checkbox')
-        click_button 'Search Claims'
-      end
-      it "includes only paid claims in the results" do
-        expect(page).to have_content(cl3.title)
-        expect(page).not_to have_content(cl.title)
-        expect_unrelated_claims_to_not_be_shown
-      end
-    end
-
-    context "including unpaid claims" do
-      before do
-        check('unpaid-checkbox')
-        click_button 'Search Claims'
-      end
-      it "includes only unpaid claims in the results" do
-        expect(page).to have_content(cl.title)
-        expect(page).not_to have_content(cl3.title)
-        expect_unrelated_claims_to_not_be_shown
-      end
-    end
-
-    context "including both" do
-      before do
-        check('paid-checkbox')
-        check('unpaid-checkbox')
-        click_button 'Search Claims'
-      end
-      it "includes both paid and unpaid claims in the results" do
-        expect(page).to have_content(cl.title)
-        expect(page).to have_content(cl3.title)
-        expect_unrelated_claims_to_not_be_shown
-      end
-    end
-
-  end # end for paid status
-
-  context "by user" do
-    let!(:cl4) { FactoryGirl.create(:claim, user_owed_to: user1,
-                  user_who_owes: user3)}
-    before { visit claims_path }
-
-    context "all other users" do
-      context "when all are checked" do
-        before do
-          check("#{user2.name}-checkbox")
-          check("#{user3.name}-checkbox")
-          click_button 'Search Claims'
-        end
-        it "displays claims for all users and you" do
-          expect(page).to have_content(cl.title)
-          expect(page).to have_content(cl2.title)
-          expect(page).to have_content(cl3.title)
-          expect(page).to have_content(cl4.title)
-          expect_unrelated_claims_to_not_be_shown
-        end
-      end
-
-      context "when none are checked" do
-        before do
-          click_button 'Search Claims'
-        end
-        it "displays claims for all users" do
-          expect(page).to have_content(cl.title)
-          expect(page).to have_content(cl2.title)
-          expect(page).to have_content(cl3.title)
-          expect(page).to have_content(cl4.title)
-          expect_unrelated_claims_to_not_be_shown
-        end
-      end
-    end
-
-    context "selecting a single user" do
-      before do
-        check("#{user3.name}-checkbox")
-        click_button 'Search Claims'
-      end
-      it "displays only claims for that user" do
-        expect(page).to have_content(cl4.title)
-        expect(page).not_to have_content(cl2.title)
-        expect(page).not_to have_content(cl3.title)
-        expect_unrelated_claims_to_not_be_shown
-      end
-    end
-
+  scenario 'user searches for claims they are owed' do
+    check('To receive')
+    click_button 'Search Claims'
+    expect(page).to have_content(cl.title)
+    expect(page).not_to have_content(cl2.title)
   end
 
-  context "by to receive or to pay" do
-    let!(:cl4) { FactoryGirl.create(:claim, user_owed_to: user1,
-                  user_who_owes: user3)}
-    before { visit claims_path }
-    context "claims you are owed" do
-      before do
-        check('To receive')
-      end
-
-      it "displays only claims you are to receive" do
-        click_button 'Search Claims'
-        expect(page).to have_content(cl.title)
-        expect(page).to have_content(cl3.title)
-        expect(page).not_to have_content(cl2.title)
-        expect_unrelated_claims_to_not_be_shown
-      end
-    end
-
-    context "claims you owe" do
-      before do
-        check('To pay')
-      end
-      it "displays only claims you are to pay" do
-        click_button 'Search Claims'
-        expect(page).not_to have_content(cl.title)
-        expect(page).not_to have_content(cl3.title)
-        expect(page).to have_content(cl2.title)
-        expect_unrelated_claims_to_not_be_shown
-      end
-    end
-
-    context "both claims you owe and are owed" do
-      context "when both are unchecked" do
-        it "displays both claims you owe and are owed" do
-          click_button 'Search Claims'
-          expect(page).to have_content(cl.title)
-          expect(page).to have_content(cl2.title)
-          expect(page).to have_content(cl3.title)
-          expect_unrelated_claims_to_not_be_shown
-        end
-      end
-
-      context "when both are checked" do
-        before do
-          check('To pay')
-          check('To receive')
-          click_button 'Search Claims'
-        end
-        it "displays both claims you owe and are owed" do
-          expect(page).to have_content(cl.title)
-          expect(page).to have_content(cl3.title)
-          expect(page).to have_content(cl2.title)
-          expect_unrelated_claims_to_not_be_shown
-        end
-      end
-    end
-
+  scenario 'user searches for both claims they owe and are owed' do
+    check('To pay')
+    check('To receive')
+    click_button 'Search Claims'
+    expect(page).to have_content(cl.title)
+    expect(page).to have_content(cl2.title)
   end
 
-  context "by date created" do
-
-    let!(:old_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
-        user_who_owes: user2, created_at: 5.days.ago, title: 'old_cl')}
-    let!(:older_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
-        user_who_owes: user2, created_at: 7.days.ago, title: 'older_cl')}
-
-    context "by min date" do
-      it "shows claims no older than the date selected" do
-        fill_in 'datepicker-created-min', with: 6.days.ago.strftime("%m/%d/%Y")
-        click_button 'Search Claims'
-        expect(page).to have_content(old_cl.title)
-        expect(page).not_to have_content(older_cl.title)
-      end
-    end
-
-    context "by max date" do
-      it "shows claims no newer than the date selected" do
-        fill_in 'datepicker-created-max', with: 6.days.ago.strftime("%m/%d/%Y")
-        click_button 'Search Claims'
-        expect(page).to have_content(older_cl.title)
-        expect(page).not_to have_content(old_cl.title)
-      end
-    end
-
-    context "between both min and max date" do
-      it "shows claims created between the dates" do
-        fill_in 'datepicker-created-min', with: 8.days.ago.strftime("%m/%d/%Y")
-        fill_in 'datepicker-created-max', with: 6.days.ago.strftime("%m/%d/%Y")
-        click_button 'Search Claims'
-        expect(page).to have_content(older_cl.title)
-        expect(page).not_to have_content(old_cl.title)
-      end
-    end
-
+  scenario 'user searches for claims related to a certain user' do
+    cl3 = FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user3)
+    within('.claim-search-form') { check user3.name }
+    click_button 'Search Claims'
+    expect(page).to have_content(cl3.title)
+    expect(page).not_to have_content(cl.title)
+    expect(page).not_to have_content(cl2.title)
   end
 
-  context "by date paid" do
-    let!(:old_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
-        user_who_owes: user2, paid_on: 5.days.ago, title: 'old_cl',
-        paid: true, created_at: 5.days.ago) }
-    let!(:older_cl) { FactoryGirl.create(:claim, user_owed_to: user1,
-        user_who_owes: user2, paid_on: 7.days.ago, title: 'older_cl',
-        paid: true, created_at: 7.days.ago) }
-
-    context "by min date" do
-      it "shows claims paid no earlier than the date selected" do
-        fill_in 'datepicker-paid-min', with: 6.days.ago.strftime("%m/%d/%Y")
-        click_button 'Search Claims'
-        expect(page).to have_content(old_cl.title)
-        expect(page).not_to have_content(older_cl.title)
-      end
-    end
-
-    context "by max date" do
-      it "shows claims paid no later than the date selected" do
-        fill_in 'datepicker-paid-max', with: 6.days.ago.strftime("%m/%d/%Y")
-        click_button 'Search Claims'
-        expect(page).to have_content(older_cl.title)
-        expect(page).not_to have_content(old_cl.title)
-      end
-    end
-
-    context "by both min and max date paid" do
-      it "shows claims paid between the specified dates" do
-        fill_in 'datepicker-paid-min', with: 8.days.ago.strftime("%m/%d/%Y")
-        fill_in 'datepicker-paid-max', with: 6.days.ago.strftime("%m/%d/%Y")
-        click_button 'Search Claims'
-        expect(page).to have_content(older_cl.title)
-        expect(page).not_to have_content(old_cl.title)
-      end
-    end
-
+  scenario 'user searches for paid claims' do
+    cl.update_attributes(paid: true)
+    check('paid-checkbox')
+    click_button 'Search Claims'
+    expect(page).to have_content(cl.title)
+    expect(page).not_to have_content(cl2.title)
   end
 
-  context "combining fields" do
-
-    context "searching for debts you are owed from a particular user" do
-      let!(:cl4) {  FactoryGirl.create(:claim, user_owed_to: user1,
-                user_who_owes: user3)}
-
-      before do
-        check 'To receive'
-        check "#{user3.name}-checkbox"
-        click_button 'Search Claims'
-      end
-      it "displays only claims which match all queries" do
-        expect(page).to have_content(cl4.title)
-        expect(page).not_to have_content(cl3.title, cl2.title, cl.title)
-      end
-    end
-
-    context "searching for claims that you owe multiple users" do
-      let!(:you_owe_user2) { FactoryGirl.create(:claim, user_owed_to: user2,
-                user_who_owes: user1) }
-      let!(:you_owe_user3) { FactoryGirl.create(:claim, user_owed_to: user3,
-                user_who_owes: user1) }
-      before do
-        check 'To pay'
-        check "#{user2.name}-checkbox"
-        check "#{user3.name}-checkbox"
-        click_button 'Search Claims'
-      end
-
-      it "displays only claims which match all queries" do
-        expect(page).to have_content(you_owe_user2.title, you_owe_user3.title, cl2.title)
-        expect(page).not_to have_content(cl3.title, cl.title)
-      end
-    end
-
+  scenario 'user searches for unpaid claims' do
+    cl.mark_as_paid
+    check('unpaid-checkbox')
+    click_button 'Search Claims'
+    expect(page).to have_content(cl2.title)
+    expect(page).not_to have_content(cl.title)
   end
 
-  def expect_unrelated_claims_to_not_be_shown
-    expect(page).not_to have_content(unrelated_cl.title)
+  scenario 'user searches for both paid and unpaid claims' do
+    cl.update_attributes(paid: true)
+    check('paid-checkbox')
+    check('unpaid-checkbox')
+    click_button 'Search Claims'
+    expect(page).to have_content(cl.title)
+    expect(page).to have_content(cl2.title)
+  end
+
+  scenario 'user searches by min date paid' do
+    cl2.paid_on, cl2.created_at, cl2.paid = 5.days.ago, 5.days.ago, true
+    cl2.save
+    cl3 = FactoryGirl.create(:claim, user_owed_to: user1, paid: true,
+        user_who_owes: user2, paid_on: 7.days.ago, created_at: 7.days.ago)
+    fill_in 'datepicker-paid-min', with: 6.days.ago.strftime("%m/%d/%Y")
+    click_button 'Search Claims'
+    expect(page).to have_content(cl2.title)
+    expect(page).not_to have_content(cl3.title)
+  end
+
+  scenario 'user searches by max date paid' do
+    cl2.paid_on, cl2.created_at, cl2.paid = 5.days.ago, 5.days.ago, true
+    cl2.save
+    cl3 = FactoryGirl.create(:claim, user_owed_to: user1, paid: true,
+        user_who_owes: user2, paid_on: 7.days.ago, created_at: 7.days.ago)
+    fill_in 'datepicker-paid-max', with: 6.days.ago.strftime("%m/%d/%Y")
+    click_button 'Search Claims'
+    expect(page).to have_content(cl3.title)
+    expect(page).not_to have_content(cl2.title)
+  end
+
+  scenario 'user searches by both min and max date paid' do
+    cl2.paid_on, cl2.created_at, cl2.paid = 5.days.ago, 5.days.ago, true
+    cl2.save
+    cl3 = FactoryGirl.create(:claim, user_owed_to: user1, paid: true,
+        user_who_owes: user2, paid_on: 7.days.ago, created_at: 7.days.ago)
+
+    fill_in 'datepicker-paid-min', with: 8.days.ago.strftime("%m/%d/%Y")
+    fill_in 'datepicker-paid-max', with: 6.days.ago.strftime("%m/%d/%Y")
+    click_button 'Search Claims'
+    expect(page).to have_content(cl3.title)
+    expect(page).not_to have_content(cl2.title)
+  end
+
+  scenario 'user searches on min date created' do
+    cl2.paid_on, cl2.created_at = 5.days.ago, 5.days.ago
+    cl2.save
+    cl3 = FactoryGirl.create(:claim, user_owed_to: user1,
+        user_who_owes: user2, created_at: 7.days.ago)
+    fill_in 'datepicker-created-min', with: 6.days.ago.strftime("%m/%d/%Y")
+    click_button 'Search Claims'
+    expect(page).to have_content(cl2.title)
+    expect(page).not_to have_content(cl3.title)
+  end
+
+  scenario 'user searches on max date created' do
+    cl2.paid_on, cl2.created_at = 5.days.ago, 5.days.ago
+    cl2.save
+    cl3 = FactoryGirl.create(:claim, user_owed_to: user1,
+        user_who_owes: user2, created_at: 7.days.ago)
+    fill_in 'datepicker-created-max', with: 6.days.ago.strftime("%m/%d/%Y")
+    click_button 'Search Claims'
+    expect(page).to have_content(cl3.title)
+    expect(page).not_to have_content(cl2.title)
+  end
+
+  scenario 'user searches on both min and max date created' do
+    cl2.paid_on, cl2.created_at = 5.days.ago, 5.days.ago
+    cl2.save
+    cl3 = FactoryGirl.create(:claim, user_owed_to: user1,
+        user_who_owes: user2, created_at: 7.days.ago)
+    fill_in 'datepicker-created-min', with: 8.days.ago.strftime("%m/%d/%Y")
+    fill_in 'datepicker-created-max', with: 6.days.ago.strftime("%m/%d/%Y")
+    click_button 'Search Claims'
+    expect(page).to have_content(cl3.title)
+    expect(page).not_to have_content(cl2.title)
+  end
+
+  scenario 'user resets a search' do
+    fill_in 'z_title_or_description_cont', with: 'sfsdsdfl'
+    click_button 'Search Claims'
+    click_link 'Clear'
+    expect(page).to have_content(cl.title)
+    expect(page).to have_content(cl2.title)
+  end
+
+  scenario 'user performs two searches consecutively' do
+    fill_in 'z_title_or_description_cont', with: 'match'
+    fill_in 'z_amount_min', with: 1
+    fill_in 'z_amount_max', with: 2
+    check("#{user3.name}-checkbox")
+    check("paid-checkbox")
+    check("unpaid-checkbox")
+    check("To receive")
+    check("To pay")
+    click_button 'Search Claims'
+    expect( find_field('z_title_or_description_cont').value).to eql 'match'
+    expect( find_field('z_amount_min').value).to eql '1'
+    expect( find_field('z_amount_max').value).to eql '2'
+    expect( find("##{user3.name}-checkbox") ).to be_checked
+    expect( find("#paid-checkbox") ).to be_checked
+    expect( find("#unpaid-checkbox") ).to be_checked
+    expect( find("#to-receive") ).to be_checked
+    expect( find("#to-pay") ).to be_checked
   end
 
 end

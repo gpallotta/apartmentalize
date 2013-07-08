@@ -27,8 +27,14 @@
 
       <%= simple_form_for(@chore, :html => {:class => 'form-inline'}) do |f| %>
         <div>
-          <%= f.input :title, label: false, placeholder: 'Title', error: false %>
-          <%= f.input :description, label: false, placeholder: 'Description', error: false %>
+          <%= f.input :title,
+                  label: false,
+                  placeholder: 'Title (required)',
+                  error: false %>
+          <%= f.input :description,
+                  label: false,
+                  placeholder: 'Description (required)',
+                  error: false %>
           <%= f.association :user, collection: current_user.group.users,
                       label: false, prompt: 'Select User' %>
         </div>

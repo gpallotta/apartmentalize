@@ -12,7 +12,9 @@
       <li><%= link_to 'Marking claims as paid', '#marking-claim-paid' %></li>
       <li><%= link_to 'Editing claims', '#editing-claims' %></li>
       <li><%= link_to 'Commenting on a claim', '#commenting-on-claim' %></li>
+      <li><%= link_to 'Viewing claims', '#viewing-claims' %></li>
       <li><%= link_to 'Searching claims', '#searching-claims' %></li>
+      <li><%= link_to 'Sorting claims', '#sorting-claims' %></li>
       <li><%= link_to 'Email summaries', '#email-summaries' %></li>
       <li><%= link_to 'Sending an invitation', '#sending-invitation' %></li>
       <li><%= link_to 'Activity feed', '#activity-feed' %></li>
@@ -24,9 +26,9 @@
   <div class="well help-topic-content">
 
     <div id="getting-started">
-      <h2>Getting Started</h2>
+      <h2>Getting started</h2>
       <p>
-        So you've signed up for the site - great! Now
+        So you've signed up for the site - great!
         The first order of business is to get your roommates on the site - it
         will be difficult to do anything without them. Your roommates will
         first need to join your group - this can be accomplished in two ways:
@@ -38,13 +40,26 @@
 
       <p>
         For 1, see the section on <%= link_to 'sending an email invitation',
-        '#sending-email-invitation' %>. For 2, your roommates will need to get
-        the group identifier from you - it can be found on your
-        <%= link_to 'profile', user_path(current_user) %> page. They'll enter
-        this during the signup process.
+        '#sending-email-invitation' %>.
       </p>
 
       <p>
+        For 2, your roommates will need to get the group identifier from you
+        - it can be found on your
+        <%= link_to 'profile', user_path(current_user) %> page. This identifier
+        uniquely identifies your apartment on the site, and is what allows you
+        and your roommates to be linked together. After they visit the home page
+        and click the 'Sign up' button, they'll need to enter this identifier
+        here on the following page:
+      </p>
+
+      <p>
+        <%= image_tag 'join-existing-group.png' %>
+      </p>
+
+      <p>
+        Note that the identifier must be entered exactly as displayed on the
+        profile page, including capital letters and spaces.
         Once your roommates have joined, you can begin using the application.
         See the other sections for information regarding specific functionality.
       </p>
@@ -79,6 +94,46 @@
         configurable, though there are plans for the future to allow more
         customization.
       </p>
+    </div>
+
+    <div id="viewing-claims">
+      <h2>Viewing claims</h2>
+      <p>
+        All claims can be viewed from the
+        <%= link_to 'main claims page', claims_path %>. By default, only unpaid
+        claims will be shown. To view paid claims, see the section on
+        <%= link_to 'sorting claims', '#sorting-claims' %>. Each claim is
+        displayed in the following format:
+      </p>
+
+      <p>
+        <%= image_tag 'viewing-claim-main-page.png' %>
+      </p>
+
+      <p>
+        To view more information about a claim and to see its comments, click
+        the 'View' link for an individual claim. That information is laid out
+        in the following format:
+      </p>
+
+      <p>
+        <%= image_tag 'viewing-single-claim.png' %>
+      </p>
+
+      <p>
+        Note that for claims you owe to someone else, there will be no
+        'Mark as paid' link on the main page, and the edit and mark paid buttons
+        on the view page will be disabled:
+      </p>
+
+      <p>
+        <%= image_tag 'disabled-buttons.png' %>
+      </p>
+
+      <p>
+        You cannot edit or mark paid claims that you owe to someone else.
+      </p>
+
     </div>
 
     <div id="creating-claims">
@@ -258,6 +313,41 @@
       <p>
         Cilck the 'Help' link at the bottom of the search form for a walkthrough
         on searching claims.
+      </p>
+
+    </div>
+
+    <div id="sorting-claims">
+      <h2>Sorting claims</h2>
+      <p>
+        It is possible to sort displayed claims by a number of criteria. Claims
+        can be sorted by:
+
+        <ul>
+          <li>Paid status</li>
+          <li>Name of user owed to</li>
+          <li>Name of user who owes</li>
+          <li>Title</li>
+          <li>Amount</li>
+          <li>Date created</li>
+        </ul>
+      </p>
+
+      <p>
+        Claims are sorted by descending date created by default. To sort by
+        a different criteria, click on the name of the column you wish to sort
+        on. An arrow will appear next to the column to indicate sort direction.
+      </p>
+
+      <p>
+        <%= image_tag 'sorting-claims.png' %>
+      </p>
+
+      <p>
+        A down arrow indicates a descending sort, while an up arrow indicates
+        that the claims are sorted in ascending order. To toggle the sort order,
+        click on the link again. Note that search results will be persisted
+        if the sort order is changed.
       </p>
 
     </div>

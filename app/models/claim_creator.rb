@@ -20,6 +20,7 @@ class ClaimCreator
 
   def split_amount_evenly
     amt = params[:claim][:amount].to_f / (other_users.count+1)
+    amt = "%0.2f" % amt # truncate to 2 decimals
     params[:claim][:amount] = amt.to_s
   end
 

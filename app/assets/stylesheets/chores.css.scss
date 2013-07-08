@@ -44,7 +44,6 @@
 .select-wrapper .controls {
   display: inline-block;
   overflow: hidden;
-  border: 1px solid #ccc;
   border-radius: 5px;
   background: #27AE60 url(asset-path('select/toggle.png', image)) no-repeat right center;
   margin-bottom: 15px;
@@ -57,7 +56,6 @@
   width: 145px;
   height: 40px;
   font-size: 14px;
-  border: 1px solid #ccc;
   border-radius: 5px;
   -webkit-appearance: none;
 }

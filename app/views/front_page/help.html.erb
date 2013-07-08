@@ -1,0 +1,555 @@
+<% page_title 'Apartmentalize - Help' %>
+
+<a name="top"></a>
+
+<div class="row">
+<div class="span3 offset1">
+  <div class="well help-topic-links">
+    <h4>Get help with...</h4>
+    <ul id="help-link-list">
+      <li><%= link_to 'Getting started', '#getting-started' %></li>
+      <li><%= link_to 'Creating chores', '#creating-chores' %></li>
+      <li><%= link_to 'Cycling chores', '#cycling-chores' %></li>
+      <li><%= link_to 'Creating claims', '#creating-claims' %></li>
+      <li><%= link_to 'Marking claims as paid', '#marking-claim-paid' %></li>
+      <li><%= link_to 'Editing claims', '#editing-claims' %></li>
+      <li><%= link_to 'Commenting on a claim', '#commenting-on-claim' %></li>
+      <li><%= link_to 'Viewing claims', '#viewing-claims' %></li>
+      <li><%= link_to 'Viewing claim balances', '#viewing-balances' %></li>
+      <li><%= link_to 'Searching claims', '#searching-claims' %></li>
+      <li><%= link_to 'Sorting claims', '#sorting-claims' %></li>
+      <li><%= link_to 'Email summaries', '#email-summaries' %></li>
+      <li><%= link_to 'Sending an invitation', '#sending-invitation' %></li>
+      <li><%= link_to 'Activity feed', '#activity-feed' %></li>
+      <li><%= link_to 'Adding important people', '#important-people' %></li>
+    </ul>
+  </div>
+</div>
+
+<div class="span7">
+  <div class="well help-topic-content">
+
+    <div id="getting-started">
+      <h2>Getting started</h2>
+      <p>
+        So you've signed up for the site - great!
+        The first order of business is to get your roommates on the site - it
+        will be difficult to do anything without them. Your roommates will
+        first need to join your group - this can be accomplished in two ways:
+        <ol>
+          <li>Sending an email invitation</li>
+          <li>Manually entering the group identifier during signup</li>
+        </ol>
+      </p>
+
+      <p>
+        For 1, see the section on <%= link_to 'sending an email invitation',
+        '#sending-email-invitation' %>.
+      </p>
+
+      <p>
+        For 2, your roommates will need to get the group identifier from you
+        - it can be found on your
+        <%= link_to 'profile', user_path(current_user) %> page. This identifier
+        uniquely identifies your apartment on the site, and is what allows you
+        and your roommates to be linked together. After they visit the home page
+        and click the 'Sign up' button, they'll need to enter this identifier
+        here on the following page:
+      </p>
+
+      <p>
+        <%= image_tag 'join-existing-group.png' %>
+      </p>
+
+      <p>
+        Note that the identifier must be entered exactly as displayed on the
+        profile page, including capital letters and spaces.
+        Once your roommates have joined, you can begin using the application.
+        See the other sections for information regarding specific functionality.
+      </p>
+
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
+    </div>
+
+    <div id="creating-chores">
+      <h2>Creating chores</h2>
+      <p>
+        Apartmentalize provides the capability to create chores, which are then
+        assigned to a user. Chores represent tasks which are to be completed
+        regularly throughout an apartment - taking out the trash, cleaning the
+        bathroom, etc.
+      </p>
+      <p>
+        Chores can be created on the <%= link_to 'chores page', chores_path %>.
+        There are 3 fields required when creating a new chore - title,
+        description, and the user who the chore is initially assigned to. While
+        chores can be edited, the idea is that they will be mostly static
+        throughout their existence. The user selected when creating the chore
+        will not remain constant - read more in the
+        <%= link_to 'next section', '#cycling-chores' %>.
+      </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
+    </div>
+
+    <div id="cycling-chores">
+      <h2>Cycling chores</h2>
+      <p>
+        As mentioned in the previous section, each chore is assigned to a user.
+        While the title and description are expected to remian fairly constant,
+        the user assigned to is not. All chores automatically cycle between
+        users every Sunday at midnight. This behavior is currently not
+        configurable, though there are plans for the future to allow more
+        customization.
+      </p>
+
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
+    </div>
+
+    <div id="viewing-claims">
+      <h2>Viewing claims</h2>
+      <p>
+        All claims can be viewed from the
+        <%= link_to 'main claims page', claims_path %>. By default, only unpaid
+        claims will be shown. To view paid claims, see the section on
+        <%= link_to 'sorting claims', '#sorting-claims' %>. Each claim is
+        displayed in the following format:
+      </p>
+      <p>
+        <%= image_tag 'viewing-claim-main-page.png' %>
+      </p>
+      <p>
+        To view more information about a claim and to see its comments, click
+        the 'View' link for an individual claim. That information is laid out
+        in the following format:
+      </p>
+      <p>
+        <%= image_tag 'viewing-single-claim.png' %>
+      </p>
+      <p>
+        Note that for claims you owe to someone else, there will be no
+        'Mark as paid' link on the main page, and the edit and mark paid buttons
+        on the view page will be disabled:
+      </p>
+      <p>
+        <%= image_tag 'disabled-buttons.png' %>
+      </p>
+      <p>
+        You cannot edit or mark paid claims that you owe to someone else.
+      </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
+    </div>
+
+    <div id="viewing-balances">
+      <h2>Viewing claim balances</h2>
+
+      <p>
+        Apartmentalize calculates the effective balance between you and a user.
+        The effective balance is simply the sum of the money that user owes you
+        minus the sum of the money that you owe that user. The balance is
+        displayed in two places, on the
+        <%= link_to 'home page', user_root_path %> and on the
+        <%= link_to'main claims page', claims_path %>. On the main claims page,
+        the balances are displayed in this format, visible in the top left
+        corner:
+      </p>
+
+      <p>
+        <%= image_tag 'balances.png' %>
+      </p>
+
+      <p>
+        A negative balance indicates that you owe that person money; a positive
+        balance indicates that the user owes money to you. In the example above,
+        user2 owes you a total of $45.01. Any new claims they create will cause
+        that number to become lower. The total balance is the sum of the
+        balances across all users.
+      </p>
+
+      <p>
+        Note that the balance on the claims page is calculated from the claims
+        that are currently being displayed. This means that if paid claims are
+        included in a search, they will factor into the balance displayed with
+        the results. The balances displayed on the home page only factor in
+        claims that have not been paid.
+      </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
+    </div>
+
+    <div id="creating-claims">
+      <h2>Creating claims</h2>
+      <p>
+        One of the features of the site is the ability to track
+        amounts of money that your roommates owe you for certain things -
+        referred to hereafter as claims. Claims can be created on the
+        <%= link_to 'main claims page', claims_path %>. The new claim form,
+        displayed by default on the claims page, looks like this:
+
+        <%= image_tag 'claim-form.png' %>
+
+      </p>
+
+      <p>
+         There are several pieces of information to keep in mind when
+         creating a claim:
+
+        <ol>
+          <li>
+            There must be others users in the group for a claim to be created
+          </li>
+          <li>It is possible to create the same claim for multiple users at
+            once - be aware that all other users in the group are selected
+            by default</li>
+          <li>Other users will be notified via the activity feed when a claim
+            is created for them</li>
+          <li>
+            The 'split evenly' button includes you in the calculation. In the
+            above photo, entering a claim amoutn of 60 and opting to split
+            evenly will create two claims in the amount of 20, one for each
+            roommate.
+          </li>
+        </ol>
+
+        See the 'help' link at the bottom of the form for a walkthrough on
+        creating a claim.
+      </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
+    </div>
+
+    <div id="marking-claim-paid">
+      <h2>Marking claims as paid</h2>
+
+      <p>
+        Claims can either be paid or unpaid. Upon creation, a claim is marked
+        as unpaid. An unpaid claim represents money
+        that the other user has yet to pay. When that user pays you back
+        for the amount of the claim, the claim should be marked as paid to
+        indicate to both of you that the debt is complete. The user who owes
+        the claim will receive a notification in their activity feed that the
+        claim was marked as paid
+      </p>
+
+        <ol>
+          <li>
+            The main claims page, via the 'Mark paid' link
+            <p><%= image_tag 'main-page-single-claim.png' %></p>
+          </li>
+          <li>
+            The view page for an individual claim, accessible via the 'view'
+            link in the above image. Once on the view page, the link appears here:
+            <p><%= image_tag 'claim-show-page.png' %></p>
+          </li>
+        </ol>
+
+      </p>
+
+      <p>
+        Once a claim has been marked as paid, it cannot be changed back to
+        unpaid. While this may cause some inconvenience, marking a claim as
+        paid in theory represents the actual transfer of money between two
+        people - if needed, the claim can simply be recreated.
+      </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
+
+    </div>
+
+    <div id="editing-claims">
+      <h2>Editing claims</h2>
+
+      <p>
+        If an error is made when creating a claim (or you wish to update
+        any properties), the claim can be edited via the 'Edit' button on the
+        view page for a single claim. Note that the same restrictions apply -
+        a title and valid amount are required.
+      </p>
+
+      <p>
+        <%= image_tag 'edit-claim.png' %>
+      </p>
+
+      <p>
+        The claim can also be deleted from the edit page. This action is
+        permanent and will remove all traces of the claim from the site.
+        Any activity feed items related to the deleted claim will be updated
+        to reflect the deletion.
+      </p>
+
+      <p>
+        After a claim has been marked as paid, the edit link will be disabled
+        and the claim cannot be edited. This is to ensure that the claim
+        reflects the state at the time it was paid.
+      </p>
+
+      <p>
+        <%= image_tag 'disabled-button.png' %>
+      </p>
+
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
+    </div>
+
+    <div id="commenting-on-claim">
+      <h2>Commenting on a claim</h2>
+
+      <p>
+        It is possible to comment on individual claims. This functionality
+        encourages discussion and allows any questions to be cleared up
+        inline. Comments will be shown in chronological order, with the oldest
+        comments displayed at the top. The content of the comment can be
+        entered in the provided text box. The only restriction on comment content
+        is that it must exist - attempting to create a blank comment will fail.
+      </p>
+
+      <p>
+        <%= image_tag 'comment.png' %>
+      </p>
+
+      <p>
+        When a comment is posted on a claim, the other user will be
+        notified via the activity feed. Comments can also be edited or deleted,
+        and can be posted after a claim has been marked as paid.
+      </p>
+
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
+
+    </div>
+
+    <div id="searching-claims">
+      <h2>Searching claims</h2>
+
+      <p>
+        Apartmentalize provides a robust search feature to look back through
+        old claims. All searching occurs on the <%= link_to 'main claims page',
+        claims_path %>. The search form, hidden by default, can be shown by
+        clicking on the 'Search' button.
+      </p>
+
+      <p>
+        <%= image_tag 'search-button.png' %>
+      </p>
+
+      <p>
+        The form looks like this:
+      </p>
+
+      <p>
+        <%= image_tag 'search-form.png' %>
+      </p>
+
+      <p>
+        There are a few things to keep in mind when searching through claims:
+        <ol>
+          <li>
+            Nothing is required to perform a search - a search with no
+            parameters will simply return all claims related to you.
+          </li>
+          <li>
+            Checking one button in a section does not preclude you from
+            checking the other - for example, both 'Paid' and 'Unpaid' can be
+            checked. That particular search would return both paid and unpaid
+            claims, effectively not filtering on that particular criteria.
+          </li>
+          <li>
+            You cannot search for claims that are not related to you - i.e.,
+            claims that you either do not owe or are not owed.
+          </li>
+        </ol>
+      </p>
+
+      <p>
+        Cilck the 'Help' link at the bottom of the search form for a walkthrough
+        on searching claims.
+      </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
+
+    </div>
+
+    <div id="sorting-claims">
+      <h2>Sorting claims</h2>
+      <p>
+        It is possible to sort displayed claims by a number of criteria. Claims
+        can be sorted by:
+
+        <ul>
+          <li>Paid status</li>
+          <li>Name of user owed to</li>
+          <li>Name of user who owes</li>
+          <li>Title</li>
+          <li>Amount</li>
+          <li>Date created</li>
+        </ul>
+      </p>
+
+      <p>
+        Claims are sorted by descending date created by default. To sort by
+        a different criteria, click on the name of the column you wish to sort
+        on. An arrow will appear next to the column to indicate sort direction.
+      </p>
+
+      <p>
+        <%= image_tag 'sorting-claims.png' %>
+      </p>
+
+      <p>
+        A down arrow indicates a descending sort, while an up arrow indicates
+        that the claims are sorted in ascending order. To toggle the sort order,
+        click on the link again. Note that search results will be persisted
+        if the sort order is changed.
+      </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
+
+    </div>
+
+    <div id="email-summaries">
+      <h2>Email summaries</h2>
+
+      <p>
+        There are two types of email summaries you can receive:
+      </p>
+
+      <p>
+        <ol>
+          <li>
+            <h5>Daily</h5>
+            <p>Daily email summaries are sent out at the end of each day.
+              They contain a list of claims you owe created on that day.
+          </li>
+
+          <li>
+            <h5>Weekly</h5>
+            <p>
+              Weekly email summaries are sent out every Sunday. They contain
+              balances between you and each roommate, the total balance between
+              you and all roommates, and your chores for the week.
+            </p>
+          </li>
+        </ol>
+      </p>
+      <p>
+        You are NOT subscribed to these alerts by default. Subscription can be
+        enabled by <%= link_to 'editing your account information',
+        edit_user_registration_path(current_user) %>.
+      </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
+    </div>
+
+  <div id="sending-invitation">
+    <h2>Sending an email invitation</h2>
+    <p>
+      To streamline the signup process, it is possible to send email
+      invitation to people you would like to join your group on the site. This
+      allows one user to efficiently complete setup. Invitations can be sent
+      via your <%= link_to 'profile page', user_path(current_user) %>.
+    </p>
+
+    <p>
+      <%= image_tag 'sending-invitation.png' %>
+    </p>
+
+    <p>
+      You'll provide a name for the user (displayed on the site) and the email
+      to send the invitation to. They will be able to edit both of these after
+      they accept the invitation.
+    </p>
+
+    <p>
+      You'll notice after the invitation is sent that the new account is visible
+      to you. If the user does not accept the invitation within a week, their
+      account will be deleted.
+    </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
+  </div>
+
+  <div id="activity-feed">
+    <h2>Activity feed</h2>
+    <p>
+      The activity feed shows the 10 most recent selected activities relevant
+      to you. It can be viewed on the <%= link_to 'home page', user_root_path %>.
+      Activities which appears on the feed are:
+    </p>
+
+    <p>
+      <ul>
+        <li>A user creates a claim you owe</li>
+        <li>A user marks a claim you owe as paid</li>
+        <li>A user edits an existing claim</li>
+        <li>A user comments on a claim related to you</li>
+      </ul>
+    </p>
+
+    <p>The feed looks like:</p>
+    <p>
+      <%= image_tag 'activity-feed.png' %>
+    </p>
+
+    <p>
+      Your own activity will not show up on your activity feed. It is currently
+      not possible to configure the size of the feed or look back through items
+      which are not the 10 most recent.
+    </p>
+    <p>
+      <%= link_to 'Back to top', '#top' %>
+    </p>
+  </div>
+
+  <div id="important-people">
+    <h2>Adding important people</h2>
+    <p>
+      Apartmentalize provides the capability to enter information regarding
+      individuals who are important to apartment life. This allows for a
+      centralized location where information about landlords and property
+      managers can be stored.
+      These entries are visible to everyone in the group, and can be created and
+      accessed through your <%= link_to 'profile page', user_path(current_user) %>.
+    </p>
+
+    <p>
+      An abridged version of the available information is visible on your
+      profile page. To view all information, click the 'View info' link for
+      a particular entry:
+    </p>
+
+    <p>
+      <%= image_tag 'important-people-short.png' %>
+    </p>
+
+    <p>
+      The full display appears as such:
+    </p>
+
+    <p>
+      <%= image_tag 'important-people-long.png' %>
+    </p>
+
+    <p>
+      <%= link_to 'Back to top', '#top' %>
+    </p>
+  </div>
+
+</div>
+
+</div>

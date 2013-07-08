@@ -9,10 +9,6 @@ $form-background: #BDC3C7;
   width: 49%;
 }
 
-.btn.active {
-  // background-color: #16A085;
-}
-
 .hidden {
   display: none;
 }
@@ -56,12 +52,23 @@ $form-background: #BDC3C7;
   }
 }
 
+#new-claim-intro {
+  margin-top: 10px;
+  color: #27AE60;
+  &:hover {
+    color: #1ABC9C;
+    cursor: hand;
+    cursor: pointer;
+  }
+}
+
 .claim-search-form {
   padding: 15px 3px;
   .btn {
     padding: 10px 9px;
   }
   #clear-button {
+    display: inline-block;
     margin: 10px 0;
   }
   .search-button-wrapper {
@@ -85,6 +92,23 @@ $form-background: #BDC3C7;
   }
   .submit-search-button {
     width: 100%;
+  }
+}
+
+#claim-search-intro {
+  display: inline-block;
+  color: #27AE60;
+  p {
+    display: inline-block;
+  }
+  span {
+    display: inline-block;
+    margin: 0 5px;
+  }
+  p:hover {
+    color: #1ABC9C;
+    cursor: hand;
+    cursor: pointer;
   }
 }
 

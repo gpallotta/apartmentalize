@@ -2,4 +2,31 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  claim-title: 'Title of the claim. It is required.'
+  claim-description: 'Short description of the claim. It is optional.'
+  claim-amount: 'Amount of the claim. Must be a number with between
+                 0 and 2 decimal places. It is required.'
+  owe-buttons: 'These buttons select whether to search for claims you
+                  owe to others or claims that others owe to you. They can be
+                  checked at the same time.'
+  user-buttons: 'These buttons select which users will be included in the search.
+                  For example, if "To pay" is checked and a username is selected,
+                  claims that you owe that user will be included in the search.'
+  paid-status: 'These buttons indicate what the paid status of the claims returned
+                will be.'
+  title-desc-cont: 'Enter text into this field to search for claims whose title
+                    or description contains the inputted text.'
+  amount-between: 'Enter an integer amount into either box. The left box will
+                  filter out claims with amounts less than the input, the right
+                  box will filter out claims with amounts greater than the
+                  input. It is not required to fill out both boxes to perform a
+                  search.'
+  created-between: 'Select a date in either box. The left box filters out claims
+                    created earlier than the selected date. The right box filters
+                    out claims created later than the selected date. It is not
+                    required to fill out both boxes to perform a search.'
+  paid-between: 'Select a date in either box. The left box filters out claims
+                paid earlier than the selected date. The right box filters
+                claims created later than the selected date. It is not required
+                to fill out both boxes to perform a search.'
+  clear-button: 'This button will clear the results of the current search.'

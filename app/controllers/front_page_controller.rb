@@ -1,7 +1,7 @@
 class FrontPageController < ApplicationController
 
   before_filter :redirect_if_authenticated, only: [:welcome]
-  before_filter :authenticate_user!, only: [:home]
+  before_filter :authenticate_user!, only: [:home, :help]
 
   def home
     c = ClaimBalance.new(current_user, current_user.unpaid_claims)
@@ -14,6 +14,9 @@ class FrontPageController < ApplicationController
   end
 
   def about
+  end
+
+  def help
   end
 
 end

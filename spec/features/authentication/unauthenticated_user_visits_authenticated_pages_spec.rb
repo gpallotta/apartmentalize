@@ -54,6 +54,13 @@ describe "an unauthenticated user visiting pages which need authentication" do
     end
   end
 
+  describe "help page" do
+    it "redirects to the sign in page" do
+      visit help_page_path
+      expect(current_path).to eql(new_user_session_path)
+    end
+  end
+
   describe "chore pages" do
     let!(:chore) { FactoryGirl.create(:chore)}
     context "chores_path" do

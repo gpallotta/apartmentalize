@@ -10,5 +10,6 @@
  *
  *= require libraries
  *= require_self
+ *= require introjs
  *= require_tree .
  */

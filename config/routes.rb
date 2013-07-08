@@ -1,4 +1,4 @@
-ApartmentV2::Application.routes.draw do
+Apartmentalize::Application.routes.draw do
 
   resources :activities
 

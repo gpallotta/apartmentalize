@@ -6,10 +6,10 @@
   <%= hidden_field_tag :direction, params[:direction] %>
   <%= hidden_field_tag :sort, params[:sort] %>
 
-  <div class="search-intro" data-intro="test" data-step="1">
+  <div data-intro="<%= t('owe-buttons')%>" data-step="1">
     <%= label_tag "to-receive",
                   "To receive from",
-                  class: 'user-label btn search-intro'
+                  class: 'user-label btn'
     %>
 
     <%= check_box_tag "z[to_receive]", true, @search.include_to_receive,
@@ -22,7 +22,9 @@
   </div>
 
 
-  <div class="search-button-wrapper search-intro" data-intro="test2" data-step="2">
+  <div class="search-button-wrapper"
+        data-intro="<%= t('user-buttons') %>"
+        data-step="2">
     <% other_users(current_user).each do |u| %>
         <%= label_tag "#{u.name}-checkbox", "#{u.name}", class: 'user-label btn' %>
         <%= check_box_tag "z[user_name][]", u.name, user_checkbox_checked?(u.name, @search),
@@ -31,7 +33,9 @@
   </div>
 
 
-  <div class="search-button-wrapper">
+  <div class="search-button-wrapper"
+        data-intro="<%= t('paid-status') %>"
+        data-step="3">
       <%= label_tag 'unpaid-checkbox', 'Unpaid', class: 'include-paid btn' %>
       <%= check_box_tag 'z[paid_status][]', false, @search.include_unpaid,
                 {:id => "unpaid-checkbox", :hidden => true} %>
@@ -42,14 +46,14 @@
   </div>
 
 
-  <div class="field">
+  <div class="field" data-intro="<%= t('title-desc-cont') %>" data-step="4">
     <%= text_field_tag 'z[title_or_description_cont]', @search.title_desc,
             placeholder: 'Title or description contains...',
             class: 'title-desc-cont' %>
   </div>
 
 
-  <div class="field">
+  <div class="field" data-intro="<%= t('amount-between') %>" data-step="5">
     <%= label_tag 'z[amount_min]', 'Amount between'%>
     <%= text_field_tag 'z[amount_min]', @search.amount_min,
           class: 'between-search' %>
@@ -58,7 +62,7 @@
           class: 'between-search' %>
   </div>
 
-  <div class="field">
+  <div class="field" data-intro="<%= t('created-between') %>" data-step="6">
     <%= label_tag 'z[date_created_min]', 'Created between' %>
     <%= text_field_tag 'z[date_created_min]', @search.date_created_min,
           id: 'datepicker-created-min', class: 'between-search' %>
@@ -67,7 +71,7 @@
           id: 'datepicker-created-max', class: 'between-search' %>
   </div>
 
-  <div class="field">
+  <div class="field" data-intro="<%= t('paid-between') %>" data-step="7">
     <%= label_tag 'z[date_paid_min]', 'Paid between' %>
     <%= text_field_tag 'z[date_paid_min]', @search.date_paid_min,
           id: 'datepicker-paid-min', class: 'between-search' %>
@@ -79,7 +83,7 @@
   <div class="actions"><%= submit_tag "Search Claims",
               class: 'btn submit-search-button' %></div>
 
-  <div id="clear-button">
+  <div id="clear-button" data-intro="<%= t('clear-button') %>" data-step="8">
     <%= link_to 'Clear', claims_path %>
   </div>
 

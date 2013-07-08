@@ -21,6 +21,7 @@
       <li><%= link_to 'Email summaries', '#email-summaries' %></li>
       <li><%= link_to 'Sending an invitation', '#sending-invitation' %></li>
       <li><%= link_to 'Activity feed', '#activity-feed' %></li>
+      <li><%= link_to 'Adding important people', '#important-people' %></li>
     </ul>
   </div>
 </div>
@@ -104,6 +105,10 @@
         configurable, though there are plans for the future to allow more
         customization.
       </p>
+
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
     </div>
 
     <div id="viewing-claims">
@@ -174,6 +179,9 @@
         included in a search, they will factor into the balance displayed with
         the results. The balances displayed on the home page only factor in
         claims that have not been paid.
+      </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
       </p>
     </div>
 
@@ -503,6 +511,40 @@
       not possible to configure the size of the feed or look back through items
       which are not the 10 most recent.
     </p>
+    <p>
+      <%= link_to 'Back to top', '#top' %>
+    </p>
+  </div>
+
+  <div id="important-people">
+    <h2>Adding important people</h2>
+    <p>
+      Apartmentalize provides the capability to enter information regarding
+      individuals who are important to apartment life. This allows for a
+      centralized location where information about landlords and property
+      managers can be stored.
+      These entries are visible to everyone in the group, and can be created and
+      accessed through your <%= link_to 'profile page', user_path(current_user) %>.
+    </p>
+
+    <p>
+      An abridged version of the available information is visible on your
+      profile page. To view all information, click the 'View info' link for
+      a particular entry:
+    </p>
+
+    <p>
+      <%= image_tag 'important-people-short.png' %>
+    </p>
+
+    <p>
+      The full display appears as such:
+    </p>
+
+    <p>
+      <%= image_tag 'important-people-long.png' %>
+    </p>
+
     <p>
       <%= link_to 'Back to top', '#top' %>
     </p>

@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
     activity.save
   end
 
-  def recipient_for_activity obj
+  def recipient_for_activity(obj)
     if obj.user_owed_to.id == current_user.id
       obj.user_who_owes
     else

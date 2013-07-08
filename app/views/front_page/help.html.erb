@@ -1,5 +1,7 @@
 <% page_title 'Apartmentalize - Help' %>
 
+<a name="top"></a>
+
 <div class="row">
 <div class="span3 offset1">
   <div class="well help-topic-links">
@@ -63,6 +65,10 @@
         Once your roommates have joined, you can begin using the application.
         See the other sections for information regarding specific functionality.
       </p>
+
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
     </div>
 
     <div id="creating-chores">
@@ -81,6 +87,9 @@
         throughout their existence. The user selected when creating the chore
         will not remain constant - read more in the
         <%= link_to 'next section', '#cycling-chores' %>.
+      </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
       </p>
     </div>
 
@@ -105,35 +114,31 @@
         <%= link_to 'sorting claims', '#sorting-claims' %>. Each claim is
         displayed in the following format:
       </p>
-
       <p>
         <%= image_tag 'viewing-claim-main-page.png' %>
       </p>
-
       <p>
         To view more information about a claim and to see its comments, click
         the 'View' link for an individual claim. That information is laid out
         in the following format:
       </p>
-
       <p>
         <%= image_tag 'viewing-single-claim.png' %>
       </p>
-
       <p>
         Note that for claims you owe to someone else, there will be no
         'Mark as paid' link on the main page, and the edit and mark paid buttons
         on the view page will be disabled:
       </p>
-
       <p>
         <%= image_tag 'disabled-buttons.png' %>
       </p>
-
       <p>
         You cannot edit or mark paid claims that you owe to someone else.
       </p>
-
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
     </div>
 
     <div id="creating-claims">
@@ -173,6 +178,9 @@
         See the 'help' link at the bottom of the form for a walkthrough on
         creating a claim.
       </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
     </div>
 
     <div id="marking-claim-paid">
@@ -208,6 +216,9 @@
         paid in theory represents the actual transfer of money between two
         people - if needed, the claim can simply be recreated.
       </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
 
     </div>
 
@@ -242,6 +253,9 @@
         <%= image_tag 'disabled-button.png' %>
       </p>
 
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
     </div>
 
     <div id="commenting-on-claim">
@@ -264,6 +278,10 @@
         When a comment is posted on a claim, the other user will be
         notified via the activity feed. Comments can also be edited or deleted,
         and can be posted after a claim has been marked as paid.
+      </p>
+
+      <p>
+        <%= link_to 'Back to top', '#top' %>
       </p>
 
     </div>
@@ -314,6 +332,9 @@
         Cilck the 'Help' link at the bottom of the search form for a walkthrough
         on searching claims.
       </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
 
     </div>
 
@@ -349,6 +370,9 @@
         click on the link again. Note that search results will be persisted
         if the sort order is changed.
       </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
 
     </div>
 
@@ -382,6 +406,9 @@
         enabled by <%= link_to 'editing your account information',
         edit_user_registration_path(current_user) %>.
       </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
     </div>
 
   <div id="sending-invitation">
@@ -408,6 +435,9 @@
       to you. If the user does not accept the invitation within a week, their
       account will be deleted.
     </p>
+      <p>
+        <%= link_to 'Back to top', '#top' %>
+      </p>
   </div>
 
   <div id="activity-feed">
@@ -436,6 +466,9 @@
       Your own activity will not show up on your activity feed. It is currently
       not possible to configure the size of the feed or look back through items
       which are not the 10 most recent.
+    </p>
+    <p>
+      <%= link_to 'Back to top', '#top' %>
     </p>
   </div>
 

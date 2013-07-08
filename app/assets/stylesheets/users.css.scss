@@ -4,6 +4,7 @@
     border-bottom: 1px solid black;
   }
   .btn-large {
+    background-color: #27AE60;
     margin-top: 10px;
   }
   .contact-info {
@@ -19,21 +20,17 @@
   }
 }
 
-#group-info {
-  h1 {
-    padding-bottom: 5px;
-    border-bottom: 1px solid black;
-  }
-  .identifier {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    p {
-      margin-left: 8px;
-      display: inline-block;
-      font-size: 15px;
-    }
-  }
-  .invitations {
-    margin: 10px 0;
-  }
+#edit_user .btn {
+  background-color: #27AE60;
+}
+
+.receive-email-checkbox {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+#cancel-wrapper {
+  background-color: white;
+  padding: 10px;
+  margin-bottom: 10px;
 }

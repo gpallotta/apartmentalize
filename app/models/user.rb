@@ -21,11 +21,18 @@ class User < ActiveRecord::Base
   has_many :activities_as_recipient,
             class_name: 'Activity',
             foreign_key: 'recipient_id',
-            inverse_of: :recipient
+            inverse_of: :recipient,
+            dependent: :destroy
 
-  has_many :comments, inverse_of: :user
-  has_many :chores, inverse_of: :user
-  belongs_to :group, inverse_of: :users
+  has_many :comments,
+            inverse_of: :user,
+            dependent: :destroy
+
+  has_many :chores,
+            inverse_of: :user
+
+  belongs_to :group,
+            inverse_of: :users
 
   validates_presence_of :name
   validates_presence_of :group
@@ -40,6 +47,10 @@ class User < ActiveRecord::Base
 
   def claims
     Claim.where("user_who_owes_id = ? or user_owed_to_id = ?", id, id)
+  end
+
+  def unpaid_claims
+    Claim.where("(user_who_owes_id = ? or user_owed_to_id = ?) and paid = false", id, id)
   end
 
   def register

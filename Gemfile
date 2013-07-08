@@ -11,7 +11,6 @@ gem 'devise_invitable'
 gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'faker'
-gem 'whenever', require: false
 gem 'kaminari'
 gem 'active_model_serializers'
 gem 'roadie'
@@ -20,6 +19,7 @@ gem 'draper', '~> 1.0'
 gem 'timecop'
 gem 'resque'
 gem 'resque_mailer'
+gem 'newrelic_rpm'
 
 # Gems used only for assets and not required
 # in production environments by default.

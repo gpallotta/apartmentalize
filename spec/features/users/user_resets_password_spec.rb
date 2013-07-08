@@ -12,7 +12,7 @@ describe "user resetting password" do
     visit welcome_page_path
     click_link 'Forgot your password?'
     fill_in 'user_email', with: user.email
-    click_button 'Send me reset password instructions'
+    click_button 'Send reset instructions'
   end
 
   it "sends the user an email with a reset password link" do

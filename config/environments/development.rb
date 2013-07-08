@@ -1,4 +1,4 @@
-ApartmentV2::Application.configure do
+Apartmentalize::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on
@@ -38,8 +38,7 @@ ApartmentV2::Application.configure do
 
   config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
 
-
-  # config.action_mailer.default_url_options = { host: "railscasts.com" }
+  # config.action_mailer.default_url_options = { host: "localhost:3000" }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: "localhost",

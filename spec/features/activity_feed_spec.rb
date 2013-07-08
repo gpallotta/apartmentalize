@@ -37,7 +37,7 @@ feature 'activity feed', %q{
     title = 'My own activity'
     visit claims_path
     create_claim(title, 5)
-    visit home_page_path
+    visit user_root_path
     expect(page).not_to have_content("#{user2.name} created a new claim for #{title}")
   end
 

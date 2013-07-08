@@ -1,9 +1,16 @@
+<% page_title 'Apartmentalize - Roommate Management System' %>
+
 <div class="row">
   <div class="span6 offset1">
     <div class="intro-message">
-      <h1 class="apartment-title">Apartment</h1>
-      <p>An app you can use to keep track of money <br />
-            your roommates owe you.</p>
+      <h1 class="apartment-title">Apartmentalize</h1>
+      <p>
+        An expense and chore tracking system <br />
+        you can use with your roommates
+     </p>
+     <p>
+        <%= link_to 'About', about_page_path, class: 'about' %>
+      </p>
     </div>
   </div>
 
@@ -26,10 +33,6 @@
       <button class="btn btn-large">
         <%= link_to 'Sign up', new_group_path %>
       </button>
-    </div>
-
-    <div class="front-page-links-wrapper">
-      <%= link_to 'About', about_page_path %>
     </div>
 
   </div>

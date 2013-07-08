@@ -27,42 +27,35 @@
             <% end %>
           </table>
         </div>
-      </div>
 
-      <div class="invitations">
-        <h3>Invite someone</h3>
-        <p><%= link_to 'Send an invitation',
-                 new_user_invitation_path %></p>
-      </div>
+        <div class="invitations">
+          <h3>Invite someone</h3>
+          <p><%= link_to 'Send an invitation',
+                   new_user_invitation_path, class: 'btn' %></p>
+        </div>
 
-      <div class="important-people">
-        <h3>Important People</h3>
+        <div class="important-people">
+          <h3>Important People</h3>
 
-        <table class="table">
-          <thead>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Name</th>
+                <th></th>
+              </tr>
+            </thead>
             <tr>
-              <th>Title</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Address</th>
-              <th>Phone Number</th>
-              <th></th>
+              <% @group.managers.each do |m| %>
+                  <td><%= m.title %></td>
+                  <td><%= m.name %></td>
+                  <td><%= link_to 'View info', manager_path(m) %></td>
+              <% end %>
             </tr>
-          </thead>
-          <tr>
-            <% @group.managers.each do |m| %>
-                <td><%= m.title %></td>
-                <td><%= m.name %></td>
-                <td><%= m.email %></td>
-                <td><%= m.address %></td>
-                <td><%= m.phone_number %></td>
-                <td><%= link_to 'Edit', edit_manager_path(m) %></td>
-            <% end %>
-          </tr>
-        </table>
-        <%= link_to 'Add', new_manager_path %>
+          </table>
+          <%= link_to 'Add', new_manager_path, class: 'btn' %>
 
+        </div>
       </div>
-
     </div>
   </div>

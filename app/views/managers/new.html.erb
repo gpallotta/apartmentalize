@@ -1,8 +1,14 @@
-<%= simple_form_for(@manager, :html => {:class => 'form-inline'}) do |f| %>
-  <%= f.input :title, placeholder: 'Title', error: false %>
-  <%= f.input :name, placeholder: 'Name', error: false %>
-  <%= f.input :email, placeholder: 'Email', error: false %>
-  <%= f.input :address, placeholder: 'Address', error: false %>
-  <%= f.input :phone_number, placeholder: 'Phone Number', error: false %>
-  <%= f.button :submit, 'Create' %>
-<% end %>
+<% page_title 'Apartmentalize - Add an important person' %>
+
+<div class="span4 offset4">
+  <div class="well">
+    <%= simple_form_for(@manager, :html => {:class => 'form-inline'}) do |f| %>
+      <%= f.input :title, placeholder: 'Title (required)', error: false, required: false %>
+      <%= f.input :name, placeholder: 'Name (required)', error: false, required: false %>
+      <%= f.input :email, placeholder: 'Email', error: false %>
+      <%= f.input :address, placeholder: 'Address', error: false %>
+      <%= f.input :phone_number, placeholder: 'Phone Number (required)', error: false %>
+      <%= f.button :submit, 'Create', class: 'green-btn' %>
+    <% end %>
+  </div>
+</div>

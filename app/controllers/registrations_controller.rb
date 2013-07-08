@@ -10,7 +10,7 @@ class RegistrationsController < Devise::RegistrationsController
     @user = current_group.users.build( params[:user] )
     if @user.register
       sign_in @user
-      redirect_to home_page_path
+      redirect_to user_root_path
     else
       render 'new'
     end
@@ -22,6 +22,13 @@ class RegistrationsController < Devise::RegistrationsController
 
   def update
     super
+  end
+
+  def destroy
+    current_user.destroy
+    redirect_to welcome_page_path
+    # puts 'hi'
+    # super
   end
 
   protected

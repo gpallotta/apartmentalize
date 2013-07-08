@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   protected
 
   def other_user_profile
-    redirect_to home_page_path if params[:id] != current_user.id.to_s
+    redirect_to user_root_path if params[:id] != current_user.id.to_s
   end
 
 end

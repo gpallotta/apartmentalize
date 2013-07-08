@@ -8,7 +8,7 @@ class GroupsController < ApplicationController
 
   def new
     if user_signed_in?
-      redirect_to home_page_path
+      redirect_to user_root_path
     else
       @group = Group.new
     end

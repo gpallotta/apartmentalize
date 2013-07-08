@@ -10,7 +10,9 @@ class Claim < ActiveRecord::Base
               foreign_key: "user_who_owes_id",
               inverse_of: :claims_to_pay
 
-  has_many :comments, dependent: :destroy, inverse_of: :claim
+  has_many :comments,
+            dependent: :destroy,
+            inverse_of: :claim
 
   validates_presence_of :title
   validates_presence_of :amount

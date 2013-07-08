@@ -13,6 +13,10 @@ class ManagersController < ApplicationController
     end
   end
 
+  def show
+    @manager = Manager.find(params[:id])
+  end
+
   def edit
     @manager = Manager.find_by_id(params[:id])
   end
@@ -20,7 +24,7 @@ class ManagersController < ApplicationController
   def update
     @manager = Manager.find_by_id(params[:id])
     if @manager.update_attributes(params[:manager])
-      redirect_to user_path(current_user)
+      redirect_to manager_path(@manager)
     else
       render 'edit'
     end

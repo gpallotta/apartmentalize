@@ -1,7 +1,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: apartment_v2_development
+  database: apartmentalize_development
   pool: 5
   username:
   password:
@@ -12,7 +12,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: apartment_v2_test
+  database: apartmentalize_test
   pool: 5
   username:
   password:
@@ -20,7 +20,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: apartment_v2_production
+  database: apartmentalize_production
   pool: 5
   username:
   password:

@@ -24,6 +24,14 @@ describe User do
       end
     end
 
+    describe ".unpaid_claims" do
+      it "returns unpaid claims related to the user" do
+        c2.update_attributes(paid: true)
+        expect(user1.unpaid_claims).to include(c1)
+        expect(user1.unpaid_claims).not_to include(c2)
+      end
+    end
+
     describe '.claims_to_receive' do
       it "returns claims that are owed to you" do
         expect(user1.claims_to_receive).to include(c1)
@@ -94,7 +102,7 @@ describe User do
       end
 
       context "activities_as_recipient" do
-        it { should have_many(:activities_as_recipient)}
+        it { should have_many(:activities_as_recipient).dependent(:destroy) }
       end
     end
 
@@ -120,7 +128,7 @@ describe User do
     context "comments" do
       let(:com1) { FactoryGirl.create(:comment, claim: c1, user: user1) }
       let(:com2) { FactoryGirl.create(:comment, claim: c1, user: user2) }
-      it { should have_many(:comments) }
+      it { should have_many(:comments).dependent(:destroy) }
       it "returns comments which belong to the user" do
         expect(user1.comments).to include(com1)
         expect(user1.comments).not_to include(com2)

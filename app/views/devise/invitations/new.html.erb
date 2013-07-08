@@ -1,3 +1,5 @@
+<% page_title 'Apartmentalize - Send an Invitation' %>
+
 <div class="span4 offset4">
   <div class="well">
     <h2><%= t "devise.invitations.new.header" %></h2>
@@ -14,7 +16,7 @@
       <% end -%>
 
       <%= f.submit t("devise.invitations.new.submit_button"),
-          class: 'btn' %>
+          class: 'btn', id: "invitation-button" %>
 
     <% end %>
     </div>

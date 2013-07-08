@@ -1,4 +1,9 @@
 .chore-box {
+  #chore-week {
+    display: inline-block;
+    margin-left: 10px;
+    color: #27AE60;
+  }
   .control-group {
     display: inline-block;
     #chore_title {
@@ -11,5 +16,48 @@
   .chore_user {
     margin-bottom: 0;
   }
+}
 
+#chores-table {
+  th {
+    font-size: 20px;
+  }
+}
+
+#new_chore {
+  input {
+    margin-right: 10px;
+  }
+  input.btn {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #27AE60;
+  }
+}
+
+.edit_chore {
+  input {
+    display: inline-block;
+  }
+}
+
+.select-wrapper .controls {
+  display: inline-block;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #27AE60 url(asset-path('select/toggle.png', image)) no-repeat right center;
+  margin-bottom: 15px;
+}
+
+#chore_user_id {
+  color: white;
+  margin-bottom: 0;
+  background: transparent;
+  width: 145px;
+  height: 40px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  -webkit-appearance: none;
 }

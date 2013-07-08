@@ -1,3 +1,5 @@
+<% page_title 'Apartmentalize - Claims' %>
+
 <div class="row">
 
   <div class="span3">
@@ -54,11 +56,11 @@
       $('.search-wrapper').hide();
       $('#claim-form-errors').hide();
       $('.create-button').addClass('active');
+      window.formManipulations();
       $('#datepicker-created-min').datepicker();
       $('#datepicker-created-max').datepicker();
       $('#datepicker-paid-min').datepicker();
       $('#datepicker-paid-max').datepicker();
-      window.formManipulations();
       var claimColor = new ClaimColor();
       claimColor.addColorToClaims();
 

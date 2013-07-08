@@ -26,7 +26,7 @@ describe "user receiving a welcome email" do
     fill_in 'Password confirmation', with: 'password'
     click_button 'Sign up'
     expect(last_email).to deliver_to('dude@dude.com')
-    expect(last_email).to have_subject('Welcome to Apartment')
+    expect(last_email).to have_subject('Welcome to Apartmentalize')
   end
 
 end

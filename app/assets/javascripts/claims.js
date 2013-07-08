@@ -80,7 +80,8 @@ function ClaimView() {
       $('.claims-table tr:last').hide().fadeIn();
       $('#claim-form-errors').hide();
     }
-    $('#new_claim').find('input:text, input[type="number"]').val('');
+    $('#new_claim').
+        find('input:text, input[type="number"], textarea').val('');
     that.claimColor.addColorToClaims();
   };
 

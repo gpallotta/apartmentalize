@@ -12,8 +12,13 @@
               :html => { :method => :put }) do |f| %>
         <%= devise_error_messages! %>
 
+        <div>
+          <%= f.label :name %>
+          <%= f.text_field :name, :autofocus => true %>
+        </div>
+
         <div><%= f.label :email %>
-        <%= f.email_field :email, :autofocus => true %></div>
+        <%= f.email_field :email %></div>
 
         <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
           <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>

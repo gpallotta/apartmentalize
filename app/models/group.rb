@@ -20,12 +20,14 @@ class Group < ActiveRecord::Base
   attr_accessible :identifier
 
   def cycle_chores
+    ordered_chores = chores.order("created_at DESC")
     users_arr = []
-    chores.each { |c| users_arr << c.user}
+    ordered_chores.each { |c| users_arr << c.user}
     users_arr << users_arr.shift
-    chores.count.times do |i|
-      chores[i].user = users_arr[i]
-      chores[i].save
+    i = 0
+    ordered_chores.each do |chore|
+      chore.update_attributes(user_id: users_arr[i].id)
+      i += 1
     end
   end
 

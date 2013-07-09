@@ -5,17 +5,21 @@ task :remove_empty_groups => :environment do
 end
 
 task :cycle_chores => :environment do
-  puts 'Cycling chores...'
-  Group.all.each do |g|
-    g.cycle_chores
+  if Time.now.sunday?
+    puts 'Cycling chores...'
+    Group.all.each do |g|
+      g.cycle_chores
+    end
+    puts 'Finished cycling chores'
   end
-  puts 'Finished cycling chores'
 end
 
 task :send_weekly_summaries => :environment do
-  puts 'Sending weekly summaries...'
-  SummaryDispatcher::WeeklySummaries.send_weekly_summary
-  puts 'Finished sending weekly summaries'
+  if Time.now.sunday?
+    puts 'Sending weekly summaries...'
+    SummaryDispatcher::WeeklySummaries.send_weekly_summary
+    puts 'Finished sending weekly summaries'
+  end
 end
 
 task :send_daily_summaries => :environment do

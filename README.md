@@ -35,9 +35,9 @@ A set of test credentials have been provided to allow users to get a feel for ho
 - Password: password
 
 
-+ Email: test2@test2.com
-+ Password: password
+-  Email: test2@test2.com
+-  Password: password
 
 
-* Email: test3@test3.com
-* Password: password
+-   Email: test3@test3.com
+-   Password: password

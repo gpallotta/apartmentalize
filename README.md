@@ -30,13 +30,14 @@ Claims
 
 A set of test credentials have been provided to allow users to get a feel for how the application works. Three users are provided:
 
+
 - Email: test1@test1.com
 - Password: password
 
 
-- Email: test2@test2.com
-- Password: password
++ Email: test2@test2.com
++ Password: password
 
 
-- Email: test3@test3.com
-- Password: password
+* Email: test3@test3.com
+* Password: password

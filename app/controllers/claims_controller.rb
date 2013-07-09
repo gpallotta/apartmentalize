@@ -89,10 +89,10 @@ class ClaimsController < ApplicationController
     if params[:z]
       @claims = @search.search
     else
-      params[:z] = {user_name: {}}
+      params[:z] = {user_id: {}}
       @claims = current_user.unpaid_claims
     end
-    params[:z][:user_name] = {} if !params[:z][:user_name] # fix this
+    params[:z][:user_id] = {} if !params[:z][:user_id] # fix this
     sort_claims
   end
 

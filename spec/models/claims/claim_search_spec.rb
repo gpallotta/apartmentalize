@@ -128,7 +128,7 @@ describe ClaimSearch do
       let!(:cl3) { FactoryGirl.create(:claim, user_who_owes: user3,
                   user_owed_to: user1) }
       it "filters by claims related to a user" do
-        params[:z][:user_name] = [user3.id]
+        params[:z][:user_id] = [user3.id]
         cs = ClaimSearch.new(user1, params)
         result = cs.search
         expect(result).to include(cl3)

@@ -17,7 +17,7 @@ class ClaimSearch
     add_title_desc
     add_amount
     add_paid_status
-    add_users if @params[:z][:user_name]
+    add_users if @params[:z][:user_id]
     add_owed_status
     add_date_created
     add_date_paid
@@ -62,7 +62,7 @@ class ClaimSearch
   end
 
   def add_users
-    @params[:z][:user_name].each do |other|
+    @params[:z][:user_id].each do |other|
       @query = @query.where("user_who_owes_id = ? or user_owed_to_id = ?",
           other.to_i, other.to_i).joins(:user_owed_to, :user_who_owes)
     end

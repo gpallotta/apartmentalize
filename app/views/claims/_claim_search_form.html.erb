@@ -27,7 +27,7 @@
         data-step="2">
     <% other_users(current_user).each do |u| %>
         <%= label_tag "#{u.id}-checkbox", "#{u.name}", class: 'user-label btn' %>
-        <%= check_box_tag "z[user_name][]", u.id, params[:z][:user_name].include?(u.id.to_s),
+        <%= check_box_tag "z[user_id][]", u.id, params[:z][:user_id].include?(u.id.to_s),
                   { :id => "#{u.id}-checkbox", :hidden => true } %>
     <% end %>
   </div>

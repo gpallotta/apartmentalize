@@ -79,10 +79,18 @@ function ClaimView() {
       $('.claims-table').append(html);
       $('.claims-table tr:last').hide().fadeIn();
       $('#claim-form-errors').hide();
+      that.updateBalances(claim);
     }
-    $('#new_claim').
-        find('input:text, input[type="number"], textarea').val('');
+    $('#new_claim').find('input:text, input[type="number"], textarea').val('');
     that.claimColor.addColorToClaims();
+  };
+
+  this.updateBalances = function(claim) {
+    var totalBalance = parseFloat( $('#total-balance').html() );
+    $('#total-balance').html(totalBalance + parseFloat(claim.amount));
+    var userHTML = $('#' + claim.user_who_owes.name + '-balance');
+    var userBalance = parseFloat(userHTML.html());
+    userHTML.html(userBalance + parseFloat(claim.amount) );
   };
 
   this.displayMarkPaidErrors = function() {

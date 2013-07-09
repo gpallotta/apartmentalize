@@ -7,13 +7,13 @@
     <table class="table">
       <thead>
         <th>Total Balance</th>
-        <th><%= @claim_balance.total %></th>
+        <th id="total-balance"><%= @claim_balance.total %></th>
       </thead>
 
       <% @claim_balance.user_balances.each do |name, balance| %>
         <tr>
           <td><%= name %></td>
-          <td><%= balance %></td>
+          <td id="<%= name %>-balance"><%= balance %></td>
         </tr>
 
       <% end %>

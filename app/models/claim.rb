@@ -1,14 +1,15 @@
 class Claim < ActiveRecord::Base
 
+  belongs_to :user_who_owes,
+              class_name: 'User',
+              foreign_key: "user_who_owes_id",
+              inverse_of: :claims_to_pay
+
   belongs_to :user_owed_to,
               class_name: 'User',
               foreign_key: "user_owed_to_id",
               inverse_of: :claims_to_receive
 
-  belongs_to :user_who_owes,
-              class_name: 'User',
-              foreign_key: "user_who_owes_id",
-              inverse_of: :claims_to_pay
 
   has_many :comments,
             dependent: :destroy,

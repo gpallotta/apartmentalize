@@ -46,13 +46,12 @@ class User < ActiveRecord::Base
         :remember_me, :group_id, :receives_weekly_email, :receives_daily_email
 
   def claims
-    Claim.where("user_who_owes_id = ? or user_owed_to_id = ?", id, id).
-          joins(:user_owed_to, :user_who_owes)
+    Claim.where("user_who_owes_id = ? or user_owed_to_id = ?", id, id)
   end
 
   def unpaid_claims
     Claim.where("(user_who_owes_id = ? or user_owed_to_id = ?) and paid = false",
-        id, id).joins(:user_owed_to, :user_who_owes)
+        id, id)
   end
 
   def register

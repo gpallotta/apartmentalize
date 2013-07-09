@@ -54,10 +54,12 @@ describe Group do
   describe "class methods" do
     context ".delete_empty" do
       let!(:empty_group) { FactoryGirl.create(:group)}
+      let!(:user) { FactoryGirl.create(:user) }
       it "deletes groups that have no users" do
         before_count = Group.count
         Group.delete_empty
         expect(Group.count).to eql(before_count-1)
+        expect(user.group.reload).not_to be_nil
       end
     end
 

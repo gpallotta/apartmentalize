@@ -98,8 +98,6 @@ class ClaimsController < ApplicationController
 
   def sort_claims
     if params[:sort] == 'owed_by'
-      # @claims = @claims.joins("INNER JOIN users on users.id = claims.user_who_owes_id").
-      # order("users.name #{sort_direction}")
       @claims = @claims.joins(:user_who_owes).order("users.name #{sort_direction}")
     elsif params[:sort] == 'owed_to'
       @claims = @claims.joins(:user_owed_to).order("users.name #{sort_direction}")

@@ -26,3 +26,15 @@ Claims
 - Search through historical data by various criteria (title, amount, date paid, etc.)
 - Comment on individual claims to clear up any questions
 - Receive an electric bill for $47.34? Automatically split up the amount evenly between you and your roommates
+
+
+A set of test credentials have been provided to allow users to get a feel for how the application works. Three users are provided:
+
+Email: test1@test1.com
+Password: password
+
+Email: test2@test2.com
+Password: password
+
+Email: test3@test3.com
+Password: password

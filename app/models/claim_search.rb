@@ -1,182 +1,90 @@
 class ClaimSearch
-  attr_reader :user, :claims, :params, :amount_min, :amount_max,
-              :title_desc, :checked_users, :include_paid, :include_unpaid,
-              :include_to_pay, :include_to_receive, :date_created_min,
-              :date_created_max, :date_paid_min, :date_paid_max
 
-  def initialize user, claims, params
+  def initialize(user, params)
     @user = user
     @params = params
-    @claims = sort(claims)
-    set_search_instance_vars
+    @query = user.claims
   end
 
-  def set_search_instance_vars
-    if params[:z]
-      @amount_min = params[:z][:amount_min]
-      @amount_max = params[:z][:amount_max]
-      @title_desc = params[:z][:title_or_description_cont]
-      @checked_users = params[:z][:user_name]
-      set_date_instance_variables
-      if params[:z][:paid_status]
-        @include_paid = params[:z][:paid_status].include? 'true'
-        @include_unpaid = params[:z][:paid_status].include? 'false'
-      end
-      @include_to_receive = params[:z][:to_receive]
-      @include_to_pay = params[:z][:to_pay]
+  def search
+    build_query
+  end
+
+
+  protected
+
+  def build_query
+    add_title_desc
+    add_amount
+    add_paid_status
+    add_users if @params[:z][:user_name]
+    add_owed_status
+    add_date_created
+    add_date_paid
+    return @query
+  end
+
+  def add_title_desc
+    phrase = @params[:z][:title_or_description_cont]
+    if phrase != ''
+      phrase = "%#{phrase}%"
+      @query = @query.where("title LIKE ? or description LIKE ?", phrase, phrase)
     end
   end
 
-  def set_date_instance_variables
-    @date_created_min = params[:z][:date_created_min]
-    @date_created_max = params[:z][:date_created_max]
-    @date_paid_min = params[:z][:date_paid_min]
-    @date_paid_max = params[:z][:date_paid_max]
+  def add_amount
+    min = @params[:z][:amount_min]
+    max = @params[:z][:amount_max]
+    @query = @query.where("amount >= ?", min) if min != ''
+    @query = @query.where("amount <= ?", max) if max != ''
   end
 
-  def results
-    if params[:z]
-      owed_user_index
-      title_or_description_contains
-      amount_between
-      paid_or_unpaid
-      filter_dates
-    else
-      @claims.select! { |c| c.paid == false }
+  def add_paid_status
+    paid = @params[:z][:include_paid]
+    unpaid = @params[:z][:include_unpaid]
+    if paid && !unpaid
+      @query = @query.where("paid = ?", true)
+    elsif !paid && unpaid
+      @query = @query.where("paid = ?", false)
     end
-    @claims
+    # do nothing if both or none are selected
   end
 
-  def sort claims
-    if params[:sort] == "owed_by"
-      claims.find(:all, :joins =>
-            "left join users on claims.user_who_owes_id = users.id",
-        :order => "users.name #{params[:direction]}")
-    elsif params[:sort] == "owed_to"
-      claims.find(:all, :joins =>
-            "left join users on claims.user_owed_to_id = users.id",
-        :order => "users.name #{params[:direction]}")
-    else
-      claims.order("#{sort_column} #{sort_direction}")
+  def add_owed_status
+    to_receive = @params[:z][:to_receive]
+    to_pay = @params[:z][:to_pay]
+    if to_receive && !to_pay
+      @query = @query.where("user_owed_to_id = ?", @user.id).joins(:user_owed_to)
+    elsif !to_receive && to_pay
+      @query = @query.where("user_who_owes_id = ?", @user.id).joins(:user_who_owes)
     end
+    # do nothing if both or none are selected
   end
 
-  def owed_user_index
-    to_receive_present, to_pay_present =
-        params[:z][:to_receive], params[:z][:to_pay]
-    if (to_receive_present && to_pay_present) ||
-        (!to_receive_present && !to_pay_present)
-      to_receive_and_pay
-    elsif to_receive_present
-      to_receive
-    else
-      to_pay
+  def add_users
+    @params[:z][:user_name].each do |other|
+      @query = @query.where("user_who_owes_id = ? or user_owed_to_id = ?",
+          other.to_i, other.to_i).joins(:user_owed_to, :user_who_owes)
     end
   end
 
-  def to_receive_and_pay
-    if params[:z][:user_name]
-      name_list = params[:z][:user_name]
-      @claims.select! { |c|  (name_list.include?(c.user_who_owes.name)) ||
-          (name_list.include?(c.user_owed_to.name)) }
-    else
-      @claims.select! { |c| (c.user_owed_to.id == user.id) ||
-          (c.user_who_owes.id == user.id) }
-    end
+  def add_date_created
+    min = @params[:z][:date_created_min]
+    max = @params[:z][:date_created_max]
+    @query = @query.where("claims.created_at >= ?", format_date(min)) if min != ''
+    @query = @query.where("claims.created_at <= ?", format_date(max)) if max != ''
   end
 
-  def to_receive
-    if params[:z][:user_name]
-      @claims.select! { |c| c.user_owed_to.id == user.id &&
-          params[:z][:user_name].include?(c.user_who_owes.name) }
-    else
-      @claims.select! { |c| c.user_owed_to.id == user.id }
-    end
+  def add_date_paid
+    min = @params[:z][:date_paid_min]
+    max = @params[:z][:date_paid_max]
+    @query = @query.where("paid_on >= ?", format_date(min)) if min != ''
+    @query = @query.where("paid_on <= ?", format_date(max)) if max != ''
   end
 
-  def to_pay
-    if params[:z][:user_name]
-      @claims.select! { |c| c.user_who_owes.id ==
-          user.id && params[:z][:user_name].include?(c.user_owed_to.name) }
-    else
-      @claims.select! { |c| c.user_who_owes.id == user.id }
-    end
-  end
-
-  def paid_or_unpaid
-    if params[:z][:paid_status]
-      @claims.select! do |c|
-        params[:z][:paid_status].include? c.paid.to_s
-      end
-    end
-  end
-
-  def amount_between
-    if params[:z][:amount_min] != '' && params[:z][:amount_min] != nil
-      filter_claims_by_min_amount if params[:z][:amount_min]
-    end
-    if params[:z][:amount_max] != '' && params[:z][:amount_max] != nil
-      filter_claims_by_max_amount if params[:z][:amount_max]
-    end
-  end
-
-  def filter_dates
-    filter_on_min_date(@date_created_min) unless @date_created_min == ''
-    filter_on_max_date(@date_created_max) unless @date_created_max == ''
-    filter_by_paid_date
-  end
-
-  def filter_by_paid_date
-    if @date_paid_min != ''
-      @claims.select! { |c| c.paid &&
-            c.created_at.strftime("%m/%d/%Y") >= @date_paid_min }
-    end
-    if @date_paid_max != ''
-      @claims.select! { |c| c.paid &&
-            c.created_at.strftime("%m/%d/%Y") <= @date_paid_max }
-    end
-  end
-
-  def filter_on_min_date(date)
-    @claims.select! { |c| c.created_at.strftime("%m/%d/%Y") >= date }
-  end
-
-  def filter_on_max_date(date)
-    @claims.select! { |c| c.created_at.strftime("%m/%d/%Y") <= date }
-  end
-
-  def filter_claims_by_min_amount
-    @claims.select! { |c| c.amount >= params[:z][:amount_min].to_f }
-  end
-
-  def filter_claims_by_max_amount
-    @claims.select! { |c| c.amount <= params[:z][:amount_max].to_f }
-  end
-
-  def title_or_description_contains
-    phrase = params[:z][:title_or_description_cont]
-    if phrase != '' && phrase != nil
-      @claims.select! do |c|
-        string_nil(c.title).include?(phrase) ||
-            string_nil(c.description).include?(phrase)
-      end
-    end
-  end
-
-  def string_nil str
-    if str.nil?
-      ''
-    else
-      str
-    end
-  end
-
-  def sort_column
-    Claim.column_names.include?(params[:sort]) ? params[:sort] : "created_at"
-  end
-
-  def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
+  def format_date(d)
+    d += ' 00:00:00'
+    DateTime.strptime(d, "%m/%d/%Y %H:%M:%S")
   end
 
 end

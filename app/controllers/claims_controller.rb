@@ -9,7 +9,7 @@ class ClaimsController < ApplicationController
     @claim = Claim.new
     set_up_search_results
     @claim_balance = ClaimBalance.new(current_user, @claims)
-    decorate_claims
+    decorate_and_paginate_claims
   end
 
   def show
@@ -33,7 +33,7 @@ class ClaimsController < ApplicationController
         format.html do
           set_up_search_results
           @claim_balance = ClaimBalance.new(current_user, @claims)
-          decorate_claims
+          decorate_and_paginate_claims
           render 'index'
         end
       end
@@ -73,7 +73,7 @@ class ClaimsController < ApplicationController
 
   private
 
-  def decorate_claims
+  def decorate_and_paginate_claims
     @claims = PaginatingDecorator.decorate(Kaminari.paginate_array(@claims).
           page(params[:page]))
   end
@@ -85,9 +85,33 @@ class ClaimsController < ApplicationController
   end
 
   def set_up_search_results
-    @unfiltered_claims = current_user.claims
-    @search = ClaimSearch.new(current_user, @unfiltered_claims, params)
-    @claims = @search.results
+    @search = ClaimSearch.new(current_user, params)
+    if params[:z]
+      @claims = @search.search
+    else
+      params[:z] = {user_name: {}}
+      @claims = current_user.unpaid_claims
+    end
+    params[:z][:user_name] = {} if !params[:z][:user_name] # fix this
+    sort_claims
+  end
+
+  def sort_claims
+    if params[:sort] == 'owed_by'
+      @claims = @claims.joins(:user_who_owes).order("users.name #{sort_direction}")
+    elsif params[:sort] == 'owed_to'
+      @claims = @claims.joins(:user_owed_to).order("users.name #{sort_direction}")
+    else
+      @claims = @claims.order("#{sort_column} #{sort_direction}")
+    end
+  end
+
+  def sort_column
+    Claim.column_names.include?(params[:sort]) ? params[:sort] : "created_at"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
   end
 
   def authorize_claim_collaborator

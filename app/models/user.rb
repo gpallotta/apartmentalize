@@ -46,11 +46,13 @@ class User < ActiveRecord::Base
         :remember_me, :group_id, :receives_weekly_email, :receives_daily_email
 
   def claims
-    Claim.where("user_who_owes_id = ? or user_owed_to_id = ?", id, id)
+    Claim.where("user_who_owes_id = ? or user_owed_to_id = ?", id, id).
+          joins(:user_owed_to, :user_who_owes)
   end
 
   def unpaid_claims
-    Claim.where("(user_who_owes_id = ? or user_owed_to_id = ?) and paid = false", id, id)
+    Claim.where("(user_who_owes_id = ? or user_owed_to_id = ?) and paid = false",
+        id, id).joins(:user_owed_to, :user_who_owes)
   end
 
   def register
@@ -62,7 +64,7 @@ class User < ActiveRecord::Base
   end
 
   def claims_owed_and_created_today
-    claims.where("DATE(created_at) = DATE(?) and user_who_owes_id = ?",
+    claims.where("DATE(claims.created_at) = DATE(?) and user_who_owes_id = ?",
         Time.now, id)
   end
 

@@ -20,8 +20,8 @@ feature "searching claims", %q{
 
   scenario 'user searches on title/description' do
     cl3 = FactoryGirl.create(:claim, user_owed_to: user1,
-                      user_who_owes: user2, description: 'match')
-    cl2.update_attributes(title: 'match')
+                      user_who_owes: user2, description: 'match desc')
+    cl2.update_attributes(title: 'match title')
     fill_in 'z_title_or_description_cont', with: 'match'
     click_button 'Search Claims'
     expect(page).to have_content(cl2.title)
@@ -49,6 +49,7 @@ feature "searching claims", %q{
     fill_in 'z_amount_max', with: 51
     click_button 'Search Claims'
     expect(page).to have_content(cl.title)
+    expect(page).not_to have_content(cl2.title)
   end
 
   scenario 'user searches for claims they owe' do
@@ -75,7 +76,7 @@ feature "searching claims", %q{
 
   scenario 'user searches for claims related to a certain user' do
     cl3 = FactoryGirl.create(:claim, user_owed_to: user1, user_who_owes: user3)
-    within('.claim-search-form') { check user3.name }
+    within('.claim-search-form') { check "#{user3.id}-checkbox" }
     click_button 'Search Claims'
     expect(page).to have_content(cl3.title)
     expect(page).not_to have_content(cl.title)
@@ -188,7 +189,7 @@ feature "searching claims", %q{
     fill_in 'z_title_or_description_cont', with: 'match'
     fill_in 'z_amount_min', with: 1
     fill_in 'z_amount_max', with: 2
-    check("#{user3.name}-checkbox")
+    check("#{user3.id}-checkbox")
     check("paid-checkbox")
     check("unpaid-checkbox")
     check("To receive")
@@ -197,7 +198,7 @@ feature "searching claims", %q{
     expect( find_field('z_title_or_description_cont').value).to eql 'match'
     expect( find_field('z_amount_min').value).to eql '1'
     expect( find_field('z_amount_max').value).to eql '2'
-    expect( find("##{user3.name}-checkbox") ).to be_checked
+    expect( find("##{user3.id}-checkbox") ).to be_checked
     expect( find("#paid-checkbox") ).to be_checked
     expect( find("#unpaid-checkbox") ).to be_checked
     expect( find("#to-receive") ).to be_checked

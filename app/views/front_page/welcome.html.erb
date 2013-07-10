@@ -26,6 +26,9 @@
           <%= f.label :remember_me, class: "remember-me" %>
           <%= f.submit 'Sign in', class: 'sign-in btn' %>
           <%= link_to "Forgot your password?", new_password_path('user') %>
+          <p id="test-credentials" data-toggle="modal" data-target="#myModal">
+            Test credentials
+          </p>
         <% end %>
     </div>
 
@@ -33,5 +36,40 @@
       <%= link_to 'Sign up', new_group_path, class: 'btn btn-large' %>
     </div>
 
+  </div>
+</div>
+
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+    </button>
+    <h3 id="myModalLabel">Test Credentials</h3>
+  </div>
+  <div class="modal-body">
+
+    <p>
+    A set of users are provided for demoing the application. All users are part
+    of the same group and can interact on the site. Credentials are as follows:
+
+      <ul>
+        <li>Email: test1@test1.com</li>
+        <li>Password: password</li>
+      </ul>
+
+      <ul>
+        <li>Email: test2@test2.com</li>
+        <li>Password: password</li>
+      </ul>
+
+      <ul>
+        <li>Email: test3@test3.com</li>
+        <li>Password: password</li>
+      </ul>
+    <p>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
   </div>
 </div>

@@ -85,3 +85,14 @@ $unauth-box-shadow: inset 0px 0px 85px rgba(0,0,0,.5);
     line-height: 1.5em;
   }
 }
+
+#test-credentials {
+  margin-top: 5px;
+  color: #20ae60;
+  &:hover {
+    cursor: hand;
+    cursor: pointer;
+    color: #1ABC9C;
+    transition: 0.25s;
+  }
+}

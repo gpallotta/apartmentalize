@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.datepicker
+//= require bootstrap
 //= require flat-ui
 //= require handlebars
 //= require intro

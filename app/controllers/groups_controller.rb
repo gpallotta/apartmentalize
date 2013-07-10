@@ -21,15 +21,15 @@ class GroupsController < ApplicationController
       @lookup_error = true
       render 'new'
     else
-      set_current_group_before_login(@lookup)
+      set_current_group_id_before_login(@lookup.id)
       redirect_to new_user_registration_path
     end
   end
 
   def create
-    @group = Group.new params[:group]
+    @group = Group.new( params[:group] )
     if @group.save
-      set_current_group_before_login(@group)
+      set_current_group_id_before_login(@group.id)
       redirect_to new_user_registration_path
     else
       render 'new'

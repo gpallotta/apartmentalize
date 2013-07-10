@@ -1,7 +1,7 @@
 module SessionsHelper
 
-  def set_current_group_before_login(group)
-    cookies.permanent[:current_group] = group.identifier
+  def set_current_group_id_before_login(id)
+    cookies[:current_group_id] = id
   end
 
   def current_group=(group)
@@ -9,7 +9,7 @@ module SessionsHelper
   end
 
   def current_group
-    @current_group ||= Group.find_by_identifier(cookies[:current_group])
+    @current_group ||= Group.find(cookies[:current_group_id])
   end
 
 end

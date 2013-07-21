@@ -7,7 +7,6 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def create
-    # current_group = Group.find_by_identifier( cookies[:current_group_id] )
     @user = current_group.users.build( params[:user] )
     if @user.register
       sign_in @user
